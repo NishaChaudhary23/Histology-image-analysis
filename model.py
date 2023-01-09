@@ -54,14 +54,14 @@ datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.2)
 train_generator = datagen_train.flow_from_directory(
         train_large,
         target_size=(300, 300),
-        batch_size=60,
+        batch_size=100,
         class_mode='categorical',
         subset = 'training')
 #Validation Data
 valid_generator = datagen_train.flow_from_directory(
         train_large,
         target_size=(300, 300),
-        batch_size=60,
+        batch_size=100,
         class_mode='categorical',
         subset = 'validation',
         shuffle=False)
@@ -86,10 +86,9 @@ x = layers.Dense(1024, activation = 'relu')(x)
 x = layers.Dropout(0.2)(x)
 x = layers.Dense(3, activation = 'softmax')(x)
 model = Model(densenet.input, x)
-model.to.device('/gpu:0')
 
 model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-# model.summary()
+model.summary()
 #TF_CPP_MIN_LOG_LEVEL=2
-history = model.fit(train_generator, validation_data = valid_generator, epochs=40)
+history = model.fit(train_generator, validation_data = valid_generator, epochs=50)
