@@ -27,7 +27,7 @@ from tensorflow.keras.optimizers import RMSprop
 
 #checking tensorflow version
 print(tf.__version__)
-
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
 train_large = '/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/original/'
 
@@ -54,14 +54,14 @@ datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.2)
 train_generator = datagen_train.flow_from_directory(
         train_large,
         target_size=(300, 300),
-        batch_size=200,
+        batch_size=60,
         class_mode='categorical',
         subset = 'training')
 #Validation Data
 valid_generator = datagen_train.flow_from_directory(
         train_large,
         target_size=(300, 300),
-        batch_size=200,
+        batch_size=60,
         class_mode='categorical',
         subset = 'validation',
         shuffle=False)
@@ -86,9 +86,10 @@ x = layers.Dense(1024, activation = 'relu')(x)
 x = layers.Dropout(0.2)(x)
 x = layers.Dense(3, activation = 'softmax')(x)
 model = Model(densenet.input, x)
+model.to.device('/gpu:0')
 
-model.compile(optimizer = RMSprop(lr = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-model.summary()
+# model.summary()
 #TF_CPP_MIN_LOG_LEVEL=2
 history = model.fit(train_generator, validation_data = valid_generator, epochs=40)
