@@ -84,35 +84,7 @@ path = '/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/origina
 
 #(trainX, testX, trainY, testY) = train_test_split(data, train_large.target, test_size=0.25)
 
-models = [
-        'DenseNet121',
-        'DenseNet169',
-        'DenseNet201',
-        'MobileNetV3Large',
-        'MobileNetV3Small',
-        'EfficientNetB0',
-        'EfficientNetB1',
-        'EfficientNetB2',
-        'EfficientNetB3',
-        'EfficientNetB4',
-        'EfficientNetB5',
-        'EfficientNetB6',
-        'EfficientNetB7',
-        'InceptionResNetV2'
-        'InceptionV3',
-        'MobileNetV2',
-        'NASNetLarge',
-        'NASNetMobile',
-        'ResNet101',
-        'ResNet101V2',
-        'ResNet152',
-        'ResNet152V2',
-        'ResNet50',
-        'ResNet50V2',
-        'VGG16',
-        'VGG19',
-        'Xception'
-        ]
+models = ['DenseNet121'] # 'DenseNet169','DenseNet201','MobileNetV3Large','MobileNetV3Small','EfficientNetB0','EfficientNetB1','EfficientNetB2','EfficientNetB3','EfficientNetB4','EfficientNetB5','EfficientNetB6','EfficientNetB7','InceptionResNetV2''InceptionV3','MobileNetV2','NASNetLarge','NASNetMobile','ResNet101','ResNet101V2','ResNet152','ResNet152V2','ResNet50','ResNet50V2','VGG16','VGG19','Xception']
 # ImageDataGenerator
 # color images
 
