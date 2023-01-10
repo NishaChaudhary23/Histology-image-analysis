@@ -92,3 +92,5 @@ model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_c
 model.summary()
 #TF_CPP_MIN_LOG_LEVEL=2
 history = model.fit(train_generator, validation_data = valid_generator, epochs=50)
+
+model.save('/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/dense121_01.h5')

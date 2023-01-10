@@ -1,0 +1,8 @@
+# Models
+*.h
+
+# Images
+*.tiff
+*.tif
+*.png
+*.jpg
