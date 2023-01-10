@@ -8,16 +8,16 @@ import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
+import os
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, confusion_matrix
+import keras
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.layers import Conv2D,Dense,Flatten,GlobalAveragePooling2D,MaxPooling2D
 from tensorflow.keras.models import Sequential,Model
 from tensorflow.keras.models import load_model
-import os
-import cv2
-import keras.backend as K
-from sklearn.model_selection import train_test_split
 from tensorflow.keras.applications import DenseNet121
 from tensorflow.keras.applications import DenseNet169
 from tensorflow.keras.applications import DenseNet201
@@ -64,7 +64,6 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras.models import Sequential
-from sklearn.metrics import classification_report, confusion_matrix
 from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.metrics import kl_divergence
 from tensorflow.keras.metrics import mean_squared_error
