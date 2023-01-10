@@ -80,12 +80,6 @@ train_large = '/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/
 #reading & displaying an image
 a = np.random.choice(['wdoscc','mdoscc','pdoscc'])
 path = '/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/original/{}/'.format(a)
-ip = np.random.choice(os.listdir(path))
-
-image = cv2.imread(path+ip,0)
-plt.imshow(image)
-plt.title(a)
-plt.show()
 
 
 #(trainX, testX, trainY, testY) = train_test_split(data, train_large.target, test_size=0.25)
