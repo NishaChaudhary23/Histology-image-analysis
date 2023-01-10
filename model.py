@@ -727,9 +727,6 @@ for model_type in models:
         if not os.path.exists(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}'):
                 os.makedirs(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}')
         # Model Summary
-        summary = model.summary()
-        with open(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}/summary.txt', 'w+') as f:
-                f.write(summary)
 
 
         #TF_CPP_MIN_LOG_LEVEL=2
