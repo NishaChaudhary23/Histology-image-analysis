@@ -2,6 +2,7 @@
 # coding: utf-8
 
 #Importing necessary packages
+from tensorflow import keras
 import pandas as pd
 import tensorflow as tf
 import seaborn as sns
