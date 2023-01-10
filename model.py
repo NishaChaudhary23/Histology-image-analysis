@@ -3,11 +3,11 @@
 
 #Importing necessary packages
 import pandas as pd
-import fire
 import tensorflow as tf
 import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras.preprocessing.image import img_to_array
@@ -773,6 +773,5 @@ def train_model(
 
 
 if __name__ == '__main__':
-    fire.Fire(dict(
-        train_model=train_model
-    ))
+    model_type = sys.argv[1]
+    train_model(model_type)
