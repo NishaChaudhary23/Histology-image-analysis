@@ -4,7 +4,7 @@
 #Importing necessary packages
 import pandas as pd
 import tensorflow as tf
-from tensorflow import keras
+# from tensorflow import keras
 import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
