@@ -12,6 +12,7 @@ from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.layers import Conv2D,Dense,Flatten,GlobalAveragePooling2D,MaxPooling2D
 from tensorflow.keras.models import Sequential,Model
+from tensorflow.keras.models import load_model
 import os
 import cv2
 import keras.backend as K
@@ -64,7 +65,6 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras.models import Sequential
 from sklearn.metrics import classification_report, confusion_matrix
 from tensorflow.keras.optimizers import RMSprop
-
 from tensorflow.keras.metrics import kl_divergence
 from tensorflow.keras.metrics import mean_squared_error
 from tensorflow.keras.metrics import poisson
@@ -76,40 +76,38 @@ print(tf.__version__)
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
 
-train_large = '/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/original/'
+train_large = '/storage/bic/data/oscc/data/working/train'
 
 
 #reading & displaying an image
 a = np.random.choice(['wdoscc','mdoscc','pdoscc'])
-path = '/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/original/{}/'.format(a)
+path = '/storage/bic/data/oscc/data/working/train/{}/'.format(a)
 
 
 #(trainX, testX, trainY, testY) = train_test_split(data, train_large.target, test_size=0.25)
 
-models = ['DenseNet121'] # 'DenseNet169','DenseNet201','MobileNetV3Large','MobileNetV3Small','EfficientNetB0','EfficientNetB1','EfficientNetB2','EfficientNetB3','EfficientNetB4','EfficientNetB5','EfficientNetB6','EfficientNetB7','InceptionResNetV2''InceptionV3','MobileNetV2','NASNetLarge','NASNetMobile','ResNet101','ResNet101V2','ResNet152','ResNet152V2','ResNet50','ResNet50V2','VGG16','VGG19','Xception']
+# models = ['DenseNet121','DenseNet169','DenseNet201','MobileNetV3Large','MobileNetV3Small','EfficientNetB0','EfficientNetB1','EfficientNetB2','EfficientNetB3','EfficientNetB4','EfficientNetB5','EfficientNetB6','EfficientNetB7','InceptionResNetV2''InceptionV3','MobileNetV2','NASNetLarge','NASNetMobile','ResNet101','ResNet101V2','ResNet152','ResNet152V2','ResNet50','ResNet50V2','VGG16','VGG19','Xception']
 # ImageDataGenerator
 # color images
 
-for model_type in models:
-        datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.2)
-        # Training Data
-        train_generator = datagen_train.flow_from_directory(
-                train_large,
-                target_size=(300, 300),
-                batch_size=100,
-                class_mode='categorical',
-                subset = 'training')
-        #Validation Data
-        valid_generator = datagen_train.flow_from_directory(
-                train_large,
-                target_size=(300, 300),
-                batch_size=100,
-                class_mode='categorical',
-                subset = 'validation',
-                shuffle=False)
+datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.2)
+# Training Data
+train_generator = datagen_train.flow_from_directory(
+        train_large,
+        target_size=(300, 300),
+        batch_size=100,
+        class_mode='categorical',
+        subset = 'training')
+#Validation Data
+valid_generator = datagen_train.flow_from_directory(
+        train_large,
+        target_size=(300, 300),
+        batch_size=100,
+        class_mode='categorical',
+        subset = 'validation',
+        shuffle=False)
 
-
-
+def model_creator(model_type):
         # Creating the model
         if model_type == 'DenseNet121':
                 densenet = DenseNet121(
@@ -698,8 +696,8 @@ for model_type in models:
 
 
 
-        if not os.path.exists(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}'):
-                os.makedirs(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}')
+        if not os.path.exists(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}'):
+                os.makedirs(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}')
         # Model Summary
 
 
@@ -717,10 +715,11 @@ for model_type in models:
         # Creating a directory to save the model paths 
 
         # Saving the model
-        model.save(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}/dense121_01.h5')
+        model.save(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/dense121_01.h5')
         print("------------------------------------------")
         print(f'Model saved')
         print("------------------------------------------")
+
 
         #plotting the accuracy and loss
         print("------------------------------------------")
@@ -732,9 +731,10 @@ for model_type in models:
         plt.title('Training and Validation Accuracy')
         plt.legend(['train', 'test'], loc='upper left')
         plt.tight_layout()
-        plt.savefig(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}/Accuracy.jpg')
+        plt.savefig(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Accuracy.jpg')
 
-        outcomes = model.predict(valid_generator)
+        loaded_model = load_model(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/dense121_01.h5')
+        outcomes = loaded_model.predict(valid_generator)
         y_pred = np.argmax(outcomes, axis=1)
         # confusion matrix
         confusion = confusion_matrix(valid_generator.classes, y_pred)
@@ -744,7 +744,7 @@ for model_type in models:
         plt.xlabel('Predicted Label')
         plt.ylabel('True Label')
         plt.tight_layout()
-        plt.savefig(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}/Confusion_matrix.jpg')
+        plt.savefig(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Confusion_matrix.jpg')
 
         # classification report
 
@@ -761,7 +761,7 @@ for model_type in models:
                         row['support'] = float(row_data[4])
                         report_data.append(row)
                 dataframe = pd.DataFrame.from_dict(report_data)
-                dataframe.to_csv(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}/Classification_report.csv', index = False)
+                dataframe.to_csv(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Classification_report.csv', index = False)
         target_names = ['wdoscc', 'mdoscc', 'pdoscc']
         report = classification_report(valid_generator.classes, y_pred, target_names=target_names)
         classification_report_csv(report)
@@ -771,7 +771,7 @@ for model_type in models:
         mse = mean_squared_error(valid_generator.classes, y_pred)
         pois = poisson(valid_generator.classes, y_pred)
 
-        with open(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}/Other_metrics.txt', 'w+') as f:
+        with open(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Other_metrics.txt', 'w+') as f:
                 f.write(f'KLD: {str(kldiv)}\n')
                 f.write(f'MSE: {str(mse)}\n')
                 f.write(f'POISSON: {str(pois)}\n')
@@ -779,3 +779,8 @@ for model_type in models:
         print("------------------------------------------")
         print(f'Supplimentary Data Saved')
         print("------------------------------------------")
+
+if __name__ == '__main__':
+        model_type = 'DenseNet121'
+        model_creator   (model_type)
+        confusion_matrix(model_type)
