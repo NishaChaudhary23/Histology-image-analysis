@@ -2,6 +2,7 @@
 # coding: utf-8
 
 #Importing necessary packages
+import pandas as pd
 import tensorflow as tf
 import seaborn as sns
 import numpy as np
@@ -73,6 +74,7 @@ from tensorflow.keras.metrics import poisson
 #checking tensorflow version
 print(tf.__version__)
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+
 
 train_large = '/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/original/'
 
@@ -745,10 +747,24 @@ for model_type in models:
         plt.savefig(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}/Confusion_matrix.jpg')
 
         # classification report
+
+        def classification_report_csv(report):
+                report_data = []
+                lines = report.split('\n')
+                for line in lines[2:-3]:
+                        row = {}
+                        row_data = line.split('      ')
+                        row['class'] = row_data[0]
+                        row['precision'] = float(row_data[1])
+                        row['recall'] = float(row_data[2])
+                        row['f1_score'] = float(row_data[3])
+                        row['support'] = float(row_data[4])
+                        report_data.append(row)
+                dataframe = pd.DataFrame.from_dict(report_data)
+                dataframe.to_csv(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}/Classification_report.csv', index = False)
         target_names = ['wdoscc', 'mdoscc', 'pdoscc']
         report = classification_report(valid_generator.classes, y_pred, target_names=target_names)
-        with open(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}/Classification_report.txt', 'w+') as f:
-                f.write(report)
+        classification_report_csv(report)
 
         # Other metrics
         kldiv = kl_divergence(valid_generator.classes, y_pred)
@@ -756,9 +772,9 @@ for model_type in models:
         pois = poisson(valid_generator.classes, y_pred)
 
         with open(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}/Other_metrics.txt', 'w+') as f:
-                f.write(f'KLD: {kldiv}\n')
-                f.write(f'MSE: {mse}\n')
-                f.write(f'POISSON: {pois}\n')
+                f.write(f'KLD: {str(kldiv)}\n')
+                f.write(f'MSE: {str(mse)}\n')
+                f.write(f'POISSON: {str(pois)}\n')
         
         print("------------------------------------------")
         print(f'Supplimentary Data Saved')
