@@ -9,67 +9,67 @@ import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
-from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.python.keras.preprocessing.image import load_img
-from tensorflow.python.keras.preprocessing.image import img_to_array
-from tensorflow.python.keras.layers import Conv2D,Dense,Flatten,GlobalAveragePooling2D,MaxPooling2D
-from tensorflow.python.keras.models import Sequential,Model
-from tensorflow.python.keras.models import load_model
+from tensorflow.contrib.keras.python.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.contrib.keras.python.keras.preprocessing.image import load_img
+from tensorflow.contrib.keras.python.keras.preprocessing.image import img_to_array
+from tensorflow.contrib.keras.python.keras.layers import Conv2D,Dense,Flatten,GlobalAveragePooling2D,MaxPooling2D
+from tensorflow.contrib.keras.python.keras.models import Sequential,Model
+from tensorflow.contrib.keras.python.keras.models import load_model
 import os
 import cv2
-import tensorflow.python.keras.backend as K
+import tensorflow.contrib.keras.python.keras.backend as K
 from sklearn.model_selection import train_test_split
-from tensorflow.python.keras.applications import DenseNet121
-from tensorflow.python.keras.applications import DenseNet169
-from tensorflow.python.keras.applications import DenseNet201
-from tensorflow.python.keras.applications import MobileNetV3Large
-from tensorflow.python.keras.applications import MobileNetV3Small
-# from tensorflow.python.keras.applications import ConvNeXtBase
-# from tensorflow.python.keras.applications import ConvNeXtLarge
-# from tensorflow.python.keras.applications import ConvNeXtSmall
-# from tensorflow.python.keras.applications import ConvNeXtTiny
-# from tensorflow.python.keras.applications import ConvNeXtXLarge
-from tensorflow.python.keras.applications import EfficientNetB0
-from tensorflow.python.keras.applications import EfficientNetB1
-from tensorflow.python.keras.applications import EfficientNetB2
-from tensorflow.python.keras.applications import EfficientNetB3
-from tensorflow.python.keras.applications import EfficientNetB4
-from tensorflow.python.keras.applications import EfficientNetB5
-from tensorflow.python.keras.applications import EfficientNetB6
-from tensorflow.python.keras.applications import EfficientNetB7
-# from tensorflow.python.keras.applications import efficientnet_v2
-# from tensorflow.python.keras.applications import EfficientNetV2B0
-# from tensorflow.python.keras.applications import EfficientNetV2B1
-# from tensorflow.python.keras.applications import EfficientNetV2B2
-# from tensorflow.python.keras.applications import EfficientNetV2B3
-# from tensorflow.python.keras.applications import EfficientNetV2L
-# from tensorflow.python.keras.applications import EfficientNetV2M
-# from tensorflow.python.keras.applications import EfficientNetV2S
-from tensorflow.python.keras.applications import InceptionResNetV2
-from tensorflow.python.keras.applications import InceptionV3
-from tensorflow.python.keras.applications import MobileNetV2
-from tensorflow.python.keras.applications import NASNetLarge
-from tensorflow.python.keras.applications import NASNetMobile
-from tensorflow.python.keras.applications import ResNet101
-from tensorflow.python.keras.applications import ResNet101V2
-from tensorflow.python.keras.applications import ResNet152
-from tensorflow.python.keras.applications import ResNet152V2
-from tensorflow.python.keras.applications import ResNet50
-from tensorflow.python.keras.applications import ResNet50V2
-from tensorflow.python.keras.applications import VGG16
-from tensorflow.python.keras.applications import VGG19
-from tensorflow.python.keras.applications import Xception
+from tensorflow.contrib.keras.python.keras.applications import DenseNet121
+from tensorflow.contrib.keras.python.keras.applications import DenseNet169
+from tensorflow.contrib.keras.python.keras.applications import DenseNet201
+from tensorflow.contrib.keras.python.keras.applications import MobileNetV3Large
+from tensorflow.contrib.keras.python.keras.applications import MobileNetV3Small
+# from tensorflow.contrib.keras.python.keras.applications import ConvNeXtBase
+# from tensorflow.contrib.keras.python.keras.applications import ConvNeXtLarge
+# from tensorflow.contrib.keras.python.keras.applications import ConvNeXtSmall
+# from tensorflow.contrib.keras.python.keras.applications import ConvNeXtTiny
+# from tensorflow.contrib.keras.python.keras.applications import ConvNeXtXLarge
+from tensorflow.contrib.keras.python.keras.applications import EfficientNetB0
+from tensorflow.contrib.keras.python.keras.applications import EfficientNetB1
+from tensorflow.contrib.keras.python.keras.applications import EfficientNetB2
+from tensorflow.contrib.keras.python.keras.applications import EfficientNetB3
+from tensorflow.contrib.keras.python.keras.applications import EfficientNetB4
+from tensorflow.contrib.keras.python.keras.applications import EfficientNetB5
+from tensorflow.contrib.keras.python.keras.applications import EfficientNetB6
+from tensorflow.contrib.keras.python.keras.applications import EfficientNetB7
+# from tensorflow.contrib.keras.python.keras.applications import efficientnet_v2
+# from tensorflow.contrib.keras.python.keras.applications import EfficientNetV2B0
+# from tensorflow.contrib.keras.python.keras.applications import EfficientNetV2B1
+# from tensorflow.contrib.keras.python.keras.applications import EfficientNetV2B2
+# from tensorflow.contrib.keras.python.keras.applications import EfficientNetV2B3
+# from tensorflow.contrib.keras.python.keras.applications import EfficientNetV2L
+# from tensorflow.contrib.keras.python.keras.applications import EfficientNetV2M
+# from tensorflow.contrib.keras.python.keras.applications import EfficientNetV2S
+from tensorflow.contrib.keras.python.keras.applications import InceptionResNetV2
+from tensorflow.contrib.keras.python.keras.applications import InceptionV3
+from tensorflow.contrib.keras.python.keras.applications import MobileNetV2
+from tensorflow.contrib.keras.python.keras.applications import NASNetLarge
+from tensorflow.contrib.keras.python.keras.applications import NASNetMobile
+from tensorflow.contrib.keras.python.keras.applications import ResNet101
+from tensorflow.contrib.keras.python.keras.applications import ResNet101V2
+from tensorflow.contrib.keras.python.keras.applications import ResNet152
+from tensorflow.contrib.keras.python.keras.applications import ResNet152V2
+from tensorflow.contrib.keras.python.keras.applications import ResNet50
+from tensorflow.contrib.keras.python.keras.applications import ResNet50V2
+from tensorflow.contrib.keras.python.keras.applications import VGG16
+from tensorflow.contrib.keras.python.keras.applications import VGG19
+from tensorflow.contrib.keras.python.keras.applications import Xception
 from keras import layers
-from tensorflow.python.keras.callbacks import Callback, ModelCheckpoint
-from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.python.keras.layers import Dense, Dropout, Activation, Flatten
-from tensorflow.python.keras.layers import Conv2D, MaxPooling2D
-from tensorflow.python.keras.models import Sequential
+from tensorflow.contrib.keras.python.keras.callbacks import Callback, ModelCheckpoint
+from tensorflow.contrib.keras.python.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.contrib.keras.python.keras.layers import Dense, Dropout, Activation, Flatten
+from tensorflow.contrib.keras.python.keras.layers import Conv2D, MaxPooling2D
+from tensorflow.contrib.keras.python.keras.models import Sequential
 from sklearn.metrics import classification_report, confusion_matrix
-from tensorflow.python.keras.optimizers import RMSprop
-from tensorflow.python.keras.metrics import kl_divergence
-from tensorflow.python.keras.metrics import mean_squared_error
-from tensorflow.python.keras.metrics import poisson
+from tensorflow.contrib.keras.python.keras.optimizers import RMSprop
+from tensorflow.contrib.keras.python.keras.metrics import kl_divergence
+from tensorflow.contrib.keras.python.keras.metrics import mean_squared_error
+from tensorflow.contrib.keras.python.keras.metrics import poisson
 
 
 
