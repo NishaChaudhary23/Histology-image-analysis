@@ -61,7 +61,6 @@ psutil==5.9.4
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.21
-pydensecrf @ git+https://github.com/lucasb-eyer/pydensecrf.git@0d53acbcf5123d4c88040fe68fbb9805fc5b2fb9
 PyMatting==1.1.8
 pyparsing==3.0.9
 PyPDF2==2.11.1

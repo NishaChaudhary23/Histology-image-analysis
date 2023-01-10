@@ -2,73 +2,72 @@
 # coding: utf-8
 
 #Importing necessary packages
-import keras
 import pandas as pd
 import tensorflow as tf
 import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
-import sys
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.preprocessing.image import load_img
+from tensorflow.keras.preprocessing.image import img_to_array
+from tensorflow.keras.layers import Conv2D,Dense,Flatten,GlobalAveragePooling2D,MaxPooling2D
+from tensorflow.keras.models import Sequential,Model
+from tensorflow.keras.models import load_model
 import os
+import cv2
+import keras.backend as K
 from sklearn.model_selection import train_test_split
+from tensorflow.keras.applications import DenseNet121
+from tensorflow.keras.applications import DenseNet169
+from tensorflow.keras.applications import DenseNet201
+from tensorflow.keras.applications import MobileNetV3Large
+from tensorflow.keras.applications import MobileNetV3Small
+# from tensorflow.keras.applications import ConvNeXtBase
+# from tensorflow.keras.applications import ConvNeXtLarge
+# from tensorflow.keras.applications import ConvNeXtSmall
+# from tensorflow.keras.applications import ConvNeXtTiny
+# from tensorflow.keras.applications import ConvNeXtXLarge
+from tensorflow.keras.applications import EfficientNetB0
+from tensorflow.keras.applications import EfficientNetB1
+from tensorflow.keras.applications import EfficientNetB2
+from tensorflow.keras.applications import EfficientNetB3
+from tensorflow.keras.applications import EfficientNetB4
+from tensorflow.keras.applications import EfficientNetB5
+from tensorflow.keras.applications import EfficientNetB6
+from tensorflow.keras.applications import EfficientNetB7
+# from tensorflow.keras.applications import efficientnet_v2
+# from tensorflow.keras.applications import EfficientNetV2B0
+# from tensorflow.keras.applications import EfficientNetV2B1
+# from tensorflow.keras.applications import EfficientNetV2B2
+# from tensorflow.keras.applications import EfficientNetV2B3
+# from tensorflow.keras.applications import EfficientNetV2L
+# from tensorflow.keras.applications import EfficientNetV2M
+# from tensorflow.keras.applications import EfficientNetV2S
+from tensorflow.keras.applications import InceptionResNetV2
+from tensorflow.keras.applications import InceptionV3
+from tensorflow.keras.applications import MobileNetV2
+from tensorflow.keras.applications import NASNetLarge
+from tensorflow.keras.applications import NASNetMobile
+from tensorflow.keras.applications import ResNet101
+from tensorflow.keras.applications import ResNet101V2
+from tensorflow.keras.applications import ResNet152
+from tensorflow.keras.applications import ResNet152V2
+from tensorflow.keras.applications import ResNet50
+from tensorflow.keras.applications import ResNet50V2
+from tensorflow.keras.applications import VGG16
+from tensorflow.keras.applications import VGG19
+from tensorflow.keras.applications import Xception
+from tensorflow.keras import layers
+from tensorflow.keras.callbacks import Callback, ModelCheckpoint
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
+from tensorflow.keras.layers import Conv2D, MaxPooling2D
+from tensorflow.keras.models import Sequential
 from sklearn.metrics import classification_report, confusion_matrix
-import keras
-from keras.preprocessing.image import ImageDataGenerator
-from keras.preprocessing.image import load_img
-from keras.preprocessing.image import img_to_array
-from keras.layers import Conv2D,Dense,Flatten,GlobalAveragePooling2D,MaxPooling2D
-from keras.models import Sequential,Model
-from keras.models import load_model
-from keras.applications import DenseNet121
-from keras.applications import DenseNet169
-from keras.applications import DenseNet201
-from keras.applications import MobileNetV3Large
-from keras.applications import MobileNetV3Small
-# from keras.applications import ConvNeXtBase
-# from keras.applications import ConvNeXtLarge
-# from keras.applications import ConvNeXtSmall
-# from keras.applications import ConvNeXtTiny
-# from keras.applications import ConvNeXtXLarge
-from keras.applications import EfficientNetB0
-from keras.applications import EfficientNetB1
-from keras.applications import EfficientNetB2
-from keras.applications import EfficientNetB3
-from keras.applications import EfficientNetB4
-from keras.applications import EfficientNetB5
-from keras.applications import EfficientNetB6
-from keras.applications import EfficientNetB7
-# from keras.applications import efficientnet_v2
-# from keras.applications import EfficientNetV2B0
-# from keras.applications import EfficientNetV2B1
-# from keras.applications import EfficientNetV2B2
-# from keras.applications import EfficientNetV2B3
-# from keras.applications import EfficientNetV2L
-# from keras.applications import EfficientNetV2M
-# from keras.applications import EfficientNetV2S
-from keras.applications import InceptionResNetV2
-from keras.applications import InceptionV3
-from keras.applications import MobileNetV2
-from keras.applications import NASNetLarge
-from keras.applications import NASNetMobile
-from keras.applications import ResNet101
-from keras.applications import ResNet101V2
-from keras.applications import ResNet152
-from keras.applications import ResNet152V2
-from keras.applications import ResNet50
-from keras.applications import ResNet50V2
-from keras.applications import VGG16
-from keras.applications import VGG19
-from keras.applications import Xception
-from keras import layers
-from keras.callbacks import Callback, ModelCheckpoint
-from keras.preprocessing.image import ImageDataGenerator
-from keras.layers import Dense, Dropout, Activation, Flatten
-from keras.layers import Conv2D, MaxPooling2D
-from keras.models import Sequential
-from keras.optimizers import RMSprop
-from keras.metrics import kl_divergence
-from keras.metrics import mean_squared_error
-from keras.metrics import poisson
+from tensorflow.keras.optimizers import RMSprop
+from tensorflow.keras.metrics import kl_divergence
+from tensorflow.keras.metrics import mean_squared_error
+from tensorflow.keras.metrics import poisson
 
 
 
@@ -91,687 +90,677 @@ path = '/storage/bic/data/oscc/data/working/train/{}/'.format(a)
 # ImageDataGenerator
 # color images
 
-def train_model(
-        model_type: str='DenseNet121',
-):
+model_type = 'DenseNet121'
 
-        datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.2)
-        # Training Data
-        train_generator = datagen_train.flow_from_directory(
-                train_large,
-                target_size=(300, 300),
-                batch_size=100,
-                class_mode='categorical',
-                subset = 'training')
-        #Validation Data
-        valid_generator = datagen_train.flow_from_directory(
-                train_large,
-                target_size=(300, 300),
-                batch_size=100,
-                class_mode='categorical',
-                subset = 'validation',
-                shuffle=False)
+datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.2)
+# Training Data
+train_generator = datagen_train.flow_from_directory(
+        train_large,
+        target_size=(300, 300),
+        batch_size=100,
+        class_mode='categorical',
+        subset = 'training')
+#Validation Data
+valid_generator = datagen_train.flow_from_directory(
+        train_large,
+        target_size=(300, 300),
+        batch_size=100,
+        class_mode='categorical',
+        subset = 'validation',
+        shuffle=False)
 
 
-        # Creating the model
-        if model_type == 'DenseNet121':
-                densenet = DenseNet121(
+# Creating the model
+if model_type == 'DenseNet121':
+        densenet = DenseNet121(
+        weights='imagenet',
+        include_top=False,
+        input_shape=(300,300,3)
+        )
+        for layer in densenet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(densenet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(densenet.input, x)
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+
+if model_type == 'DenseNet169':
+        densenet = DenseNet169(
                 weights='imagenet',
                 include_top=False,
                 input_shape=(300,300,3)
                 )
-                for layer in densenet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(densenet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(densenet.input, x)
-                model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        for layer in densenet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(densenet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(densenet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'DenseNet169':
-                densenet = DenseNet169(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in densenet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(densenet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(densenet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'DenseNet201':
+        densenet = DenseNet201(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in densenet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(densenet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(densenet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'DenseNet201':
-                densenet = DenseNet201(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in densenet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(densenet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(densenet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+# if model_type == 'ConvNeXtBase':
+#         convnext = ConvNeXtBase(
+#                 weights='imagenet',
+#                 include_top=False,
+#                 input_shape=(300,300,3)
+#                 )
+#         for layer in convnext.layers:
+#                 layer.trainable = False
+#         x = layers.Flatten()(convnext.output)
+#         x = layers.Dense(1024, activation = 'relu')(x)
+#         x = layers.Dropout(0.2)(x)
+#         x = layers.Dense(3, activation = 'softmax')(x)
+#         model = Model(convnext.input, x)
+#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        # if model_type == 'ConvNeXtBase':
-        #         convnext = ConvNeXtBase(
-        #                 weights='imagenet',
-        #                 include_top=False,
-        #                 input_shape=(300,300,3)
-        #                 )
-        #         for layer in convnext.layers:
-        #                 layer.trainable = False
-        #         x = layers.Flatten()(convnext.output)
-        #         x = layers.Dense(1024, activation = 'relu')(x)
-        #         x = layers.Dropout(0.2)(x)
-        #         x = layers.Dense(3, activation = 'softmax')(x)
-        #         model = Model(convnext.input, x)
-        #         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+# if model_type == 'ConvNeXtSmall':
+#         convnext = ConvNeXtSmall(
+#                 weights='imagenet',
+#                 include_top=False,
+#                 input_shape=(300,300,3)
+#                 )
+#         for layer in convnext.layers:
+#                 layer.trainable = False
+#         x = layers.Flatten()(convnext.output)
+#         x = layers.Dense(1024, activation = 'relu')(x)
+#         x = layers.Dropout(0.2)(x)
+#         x = layers.Dense(3, activation = 'softmax')(x)
+#         model = Model(convnext.input, x)
+#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        # if model_type == 'ConvNeXtSmall':
-        #         convnext = ConvNeXtSmall(
-        #                 weights='imagenet',
-        #                 include_top=False,
-        #                 input_shape=(300,300,3)
-        #                 )
-        #         for layer in convnext.layers:
-        #                 layer.trainable = False
-        #         x = layers.Flatten()(convnext.output)
-        #         x = layers.Dense(1024, activation = 'relu')(x)
-        #         x = layers.Dropout(0.2)(x)
-        #         x = layers.Dense(3, activation = 'softmax')(x)
-        #         model = Model(convnext.input, x)
-        #         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+# if model_type == 'ConvNeXtLarge':
+#         convnext = ConvNeXtLarge(
+#                 weights='imagenet',
+#                 include_top=False,
+#                 input_shape=(300,300,3)
+#                 )
+#         for layer in convnext.layers:
+#                 layer.trainable = False
+#         x = layers.Flatten()(convnext.output)
+#         x = layers.Dense(1024, activation = 'relu')(x)
+#         x = layers.Dropout(0.2)(x)
+#         x = layers.Dense(3, activation = 'softmax')(x)
+#         model = Model(convnext.input, x)
+#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        # if model_type == 'ConvNeXtLarge':
-        #         convnext = ConvNeXtLarge(
-        #                 weights='imagenet',
-        #                 include_top=False,
-        #                 input_shape=(300,300,3)
-        #                 )
-        #         for layer in convnext.layers:
-        #                 layer.trainable = False
-        #         x = layers.Flatten()(convnext.output)
-        #         x = layers.Dense(1024, activation = 'relu')(x)
-        #         x = layers.Dropout(0.2)(x)
-        #         x = layers.Dense(3, activation = 'softmax')(x)
-        #         model = Model(convnext.input, x)
-        #         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+# if model_type == 'ConvNeXtXLarge':
+#         convnext = ConvNeXtXLarge(
+#                 weights='imagenet',
+#                 include_top=False,
+#                 input_shape=(300,300,3)
+#                 )
+#         for layer in convnext.layers:
+#                 layer.trainable = False
+#         x = layers.Flatten()(convnext.output)
+#         x = layers.Dense(1024, activation = 'relu')(x)
+#         x = layers.Dropout(0.2)(x)
+#         x = layers.Dense(3, activation = 'softmax')(x)
+#         model = Model(convnext.input, x)
+#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        # if model_type == 'ConvNeXtXLarge':
-        #         convnext = ConvNeXtXLarge(
-        #                 weights='imagenet',
-        #                 include_top=False,
-        #                 input_shape=(300,300,3)
-        #                 )
-        #         for layer in convnext.layers:
-        #                 layer.trainable = False
-        #         x = layers.Flatten()(convnext.output)
-        #         x = layers.Dense(1024, activation = 'relu')(x)
-        #         x = layers.Dropout(0.2)(x)
-        #         x = layers.Dense(3, activation = 'softmax')(x)
-        #         model = Model(convnext.input, x)
-        #         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+# if model_type == 'ConvNeXtTiny':
+#         convnext = ConvNeXtTiny(
+#                 weights='imagenet',
+#                 include_top=False,
+#                 input_shape=(300,300,3)
+#                 )
+#         for layer in convnext.layers:
+#                 layer.trainable = False
+#         x = layers.Flatten()(convnext.output)
+#         x = layers.Dense(1024, activation = 'relu')(x)
+#         x = layers.Dropout(0.2)(x)
+#         x = layers.Dense(3, activation = 'softmax')(x)
+#         model = Model(convnext.input, x)
+#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        # if model_type == 'ConvNeXtTiny':
-        #         convnext = ConvNeXtTiny(
-        #                 weights='imagenet',
-        #                 include_top=False,
-        #                 input_shape=(300,300,3)
-        #                 )
-        #         for layer in convnext.layers:
-        #                 layer.trainable = False
-        #         x = layers.Flatten()(convnext.output)
-        #         x = layers.Dense(1024, activation = 'relu')(x)
-        #         x = layers.Dropout(0.2)(x)
-        #         x = layers.Dense(3, activation = 'softmax')(x)
-        #         model = Model(convnext.input, x)
-        #         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'EfficientNetB0':
+        effnet = EfficientNetB0(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in effnet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(effnet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(effnet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'EfficientNetB0':
-                effnet = EfficientNetB0(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in effnet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(effnet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(effnet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'EfficientNetB1':
+        effnet = EfficientNetB1(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in effnet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(effnet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(effnet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'EfficientNetB1':
-                effnet = EfficientNetB1(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in effnet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(effnet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(effnet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'EfficientNetB2':
+        effnet = EfficientNetB2(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in effnet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(effnet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(effnet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'EfficientNetB2':
-                effnet = EfficientNetB2(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in effnet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(effnet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(effnet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'EfficientNetB3':
+        effnet = EfficientNetB3(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in effnet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(effnet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(effnet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'EfficientNetB3':
-                effnet = EfficientNetB3(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in effnet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(effnet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(effnet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'EfficientNetB4':
+        effnet = EfficientNetB4(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in effnet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(effnet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(effnet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'EfficientNetB4':
-                effnet = EfficientNetB4(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in effnet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(effnet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(effnet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'EfficientNetB5':
+        effnet = EfficientNetB5(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in effnet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(effnet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(effnet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'EfficientNetB5':
-                effnet = EfficientNetB5(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in effnet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(effnet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(effnet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'EfficientNetB6':
+        effnet = EfficientNetB6(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in effnet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(effnet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(effnet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'EfficientNetB6':
-                effnet = EfficientNetB6(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in effnet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(effnet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(effnet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'EfficientNetB7':
+        effnet = EfficientNetB7(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in effnet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(effnet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(effnet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'EfficientNetB7':
-                effnet = EfficientNetB7(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in effnet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(effnet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(effnet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+# if model_type == 'EfficientNetV2B0':
+#         effnet = EfficientNetV2B0(
+#                 weights='imagenet',
+#                 include_top=False,
+#                 input_shape=(300,300,3)
+#                 )
+#         for layer in effnet.layers:
+#                 layer.trainable = False
+#         x = layers.Flatten()(effnet.output)
+#         x = layers.Dense(1024, activation = 'relu')(x)
+#         x = layers.Dropout(0.2)(x)
+#         x = layers.Dense(3, activation = 'softmax')(x)
+#         model = Model(effnet.input, x)
+#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        # if model_type == 'EfficientNetV2B0':
-        #         effnet = EfficientNetV2B0(
-        #                 weights='imagenet',
-        #                 include_top=False,
-        #                 input_shape=(300,300,3)
-        #                 )
-        #         for layer in effnet.layers:
-        #                 layer.trainable = False
-        #         x = layers.Flatten()(effnet.output)
-        #         x = layers.Dense(1024, activation = 'relu')(x)
-        #         x = layers.Dropout(0.2)(x)
-        #         x = layers.Dense(3, activation = 'softmax')(x)
-        #         model = Model(effnet.input, x)
-        #         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+# if model_type == 'EfficientNetV2B1':
+#         effnet = EfficientNetV2B1(
+#                 weights='imagenet',
+#                 include_top=False,
+#                 input_shape=(300,300,3)
+#                 )
+#         for layer in effnet.layers:
+#                 layer.trainable = False
+#         x = layers.Flatten()(effnet.output)
+#         x = layers.Dense(1024, activation = 'relu')(x)
+#         x = layers.Dropout(0.2)(x)
+#         x = layers.Dense(3, activation = 'softmax')(x)
+#         model = Model(effnet.input, x)
+#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        # if model_type == 'EfficientNetV2B1':
-        #         effnet = EfficientNetV2B1(
-        #                 weights='imagenet',
-        #                 include_top=False,
-        #                 input_shape=(300,300,3)
-        #                 )
-        #         for layer in effnet.layers:
-        #                 layer.trainable = False
-        #         x = layers.Flatten()(effnet.output)
-        #         x = layers.Dense(1024, activation = 'relu')(x)
-        #         x = layers.Dropout(0.2)(x)
-        #         x = layers.Dense(3, activation = 'softmax')(x)
-        #         model = Model(effnet.input, x)
-        #         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+# if model_type == 'EfficientNetV2B2':
+#         effnet = EfficientNetV2B2(
+#                 weights='imagenet',
+#                 include_top=False,
+#                 input_shape=(300,300,3)
+#                 )
+#         for layer in effnet.layers:
+#                 layer.trainable = False
+#         x = layers.Flatten()(effnet.output)
+#         x = layers.Dense(1024, activation = 'relu')(x)
+#         x = layers.Dropout(0.2)(x)
+#         x = layers.Dense(3, activation = 'softmax')(x)
+#         model = Model(effnet.input, x)
+#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        # if model_type == 'EfficientNetV2B2':
-        #         effnet = EfficientNetV2B2(
-        #                 weights='imagenet',
-        #                 include_top=False,
-        #                 input_shape=(300,300,3)
-        #                 )
-        #         for layer in effnet.layers:
-        #                 layer.trainable = False
-        #         x = layers.Flatten()(effnet.output)
-        #         x = layers.Dense(1024, activation = 'relu')(x)
-        #         x = layers.Dropout(0.2)(x)
-        #         x = layers.Dense(3, activation = 'softmax')(x)
-        #         model = Model(effnet.input, x)
-        #         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+# if model_type == 'EfficientNetV2B3':
+#         effnet = EfficientNetV2B3(
+#                 weights='imagenet',
+#                 include_top=False,
+#                 input_shape=(300,300,3)
+#                 )
+#         for layer in effnet.layers:
+#                 layer.trainable = False
+#         x = layers.Flatten()(effnet.output)
+#         x = layers.Dense(1024, activation = 'relu')(x)
+#         x = layers.Dropout(0.2)(x)
+#         x = layers.Dense(3, activation = 'softmax')(x)
+#         model = Model(effnet.input, x)
+#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        # if model_type == 'EfficientNetV2B3':
-        #         effnet = EfficientNetV2B3(
-        #                 weights='imagenet',
-        #                 include_top=False,
-        #                 input_shape=(300,300,3)
-        #                 )
-        #         for layer in effnet.layers:
-        #                 layer.trainable = False
-        #         x = layers.Flatten()(effnet.output)
-        #         x = layers.Dense(1024, activation = 'relu')(x)
-        #         x = layers.Dropout(0.2)(x)
-        #         x = layers.Dense(3, activation = 'softmax')(x)
-        #         model = Model(effnet.input, x)
-        #         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+# if model_type == 'EfficientNetV2L':
+#         effnet = EfficientNetV2L(
+#                 weights='imagenet',
+#                 include_top=False,
+#                 input_shape=(300,300,3)
+#                 )
+#         for layer in effnet.layers:
+#                 layer.trainable = False
+#         x = layers.Flatten()(effnet.output)
+#         x = layers.Dense(1024, activation = 'relu')(x)
+#         x = layers.Dropout(0.2)(x)
+#         x = layers.Dense(3, activation = 'softmax')(x)
+#         model = Model(effnet.input, x)
+#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        # if model_type == 'EfficientNetV2L':
-        #         effnet = EfficientNetV2L(
-        #                 weights='imagenet',
-        #                 include_top=False,
-        #                 input_shape=(300,300,3)
-        #                 )
-        #         for layer in effnet.layers:
-        #                 layer.trainable = False
-        #         x = layers.Flatten()(effnet.output)
-        #         x = layers.Dense(1024, activation = 'relu')(x)
-        #         x = layers.Dropout(0.2)(x)
-        #         x = layers.Dense(3, activation = 'softmax')(x)
-        #         model = Model(effnet.input, x)
-        #         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+# if model_type == 'EfficientNetV2M':
+#         effnet = EfficientNetV2M(
+#                 weights='imagenet',
+#                 include_top=False,
+#                 input_shape=(300,300,3)
+#                 )
+#         for layer in effnet.layers:
+#                 layer.trainable = False
+#         x = layers.Flatten()(effnet.output)
+#         x = layers.Dense(1024, activation = 'relu')(x)
+#         x = layers.Dropout(0.2)(x)
+#         x = layers.Dense(3, activation = 'softmax')(x)
+#         model = Model(effnet.input, x)
+#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        # if model_type == 'EfficientNetV2M':
-        #         effnet = EfficientNetV2M(
-        #                 weights='imagenet',
-        #                 include_top=False,
-        #                 input_shape=(300,300,3)
-        #                 )
-        #         for layer in effnet.layers:
-        #                 layer.trainable = False
-        #         x = layers.Flatten()(effnet.output)
-        #         x = layers.Dense(1024, activation = 'relu')(x)
-        #         x = layers.Dropout(0.2)(x)
-        #         x = layers.Dense(3, activation = 'softmax')(x)
-        #         model = Model(effnet.input, x)
-        #         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+# if model_type == 'EfficientNetV2S':
+#         effnet = EfficientNetV2S(
+#                 weights='imagenet',
+#                 include_top=False,
+#                 input_shape=(300,300,3)
+#                 )
+#         for layer in effnet.layers:
+#                 layer.trainable = False
+#         x = layers.Flatten()(effnet.output)
+#         x = layers.Dense(1024, activation = 'relu')(x)
+#         x = layers.Dropout(0.2)(x)
+#         x = layers.Dense(3, activation = 'softmax')(x)
+#         model = Model(effnet.input, x)
+#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        # if model_type == 'EfficientNetV2S':
-        #         effnet = EfficientNetV2S(
-        #                 weights='imagenet',
-        #                 include_top=False,
-        #                 input_shape=(300,300,3)
-        #                 )
-        #         for layer in effnet.layers:
-        #                 layer.trainable = False
-        #         x = layers.Flatten()(effnet.output)
-        #         x = layers.Dense(1024, activation = 'relu')(x)
-        #         x = layers.Dropout(0.2)(x)
-        #         x = layers.Dense(3, activation = 'softmax')(x)
-        #         model = Model(effnet.input, x)
-        #         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'InceptionResNetV2':
+        inception = InceptionResNetV2(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in inception.layers:
+                layer.trainable = False
+        x = layers.Flatten()(inception.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(inception.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'InceptionResNetV2':
-                inception = InceptionResNetV2(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in inception.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(inception.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(inception.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'InceptionV3':
+        inception = InceptionV3(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in inception.layers:
+                layer.trainable = False
+        x = layers.Flatten()(inception.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(inception.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'InceptionV3':
-                inception = InceptionV3(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in inception.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(inception.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(inception.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'MobileNetV2':
+        mobilenet = MobileNetV2(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in mobilenet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(mobilenet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(mobilenet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'MobileNetV2':
-                mobilenet = MobileNetV2(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in mobilenet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(mobilenet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(mobilenet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'MobileNetV3Large':
+        mobilenet = MobileNetV3Large(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in mobilenet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(mobilenet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(mobilenet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'MobileNetV3Large':
-                mobilenet = MobileNetV3Large(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in mobilenet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(mobilenet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(mobilenet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'MobileNetV3Small':
+        mobilenet = MobileNetV3Small(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in mobilenet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(mobilenet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(mobilenet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'MobileNetV3Small':
-                mobilenet = MobileNetV3Small(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in mobilenet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(mobilenet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(mobilenet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'NASNetLarge':
+        nasnet = NASNetLarge(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in nasnet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(nasnet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(nasnet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])        
 
-        if model_type == 'NASNetLarge':
-                nasnet = NASNetLarge(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in nasnet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(nasnet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(nasnet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])        
+if model_type == 'NASNetMobile':
+        nasnet = NASNetMobile(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in nasnet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(nasnet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(nasnet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'NASNetMobile':
-                nasnet = NASNetMobile(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in nasnet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(nasnet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(nasnet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'ResNet50V2':
+        resnet = ResNet50V2(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in resnet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(resnet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(resnet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'ResNet50V2':
-                resnet = ResNet50V2(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in resnet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(resnet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(resnet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'ResNet101V2':
+        resnet = ResNet101V2(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in resnet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(resnet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(resnet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'ResNet101V2':
-                resnet = ResNet101V2(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in resnet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(resnet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(resnet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'ResNet152V2':
+        resnet = ResNet152V2(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in resnet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(resnet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(resnet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'ResNet152V2':
-                resnet = ResNet152V2(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in resnet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(resnet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(resnet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'ResNet50':
+        resnet = ResNet50(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in resnet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(resnet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(resnet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'ResNet50':
-                resnet = ResNet50(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in resnet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(resnet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(resnet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'ResNet101':
+        resnet = ResNet101(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in resnet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(resnet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(resnet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'ResNet101':
-                resnet = ResNet101(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in resnet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(resnet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(resnet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'ResNet152':
+        resnet = ResNet152(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in resnet.layers:
+                layer.trainable = False
+        x = layers.Flatten()(resnet.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(resnet.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'ResNet152':
-                resnet = ResNet152(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in resnet.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(resnet.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(resnet.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'VGG16':
+        vgg16 = VGG16(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in vgg16.layers:
+                layer.trainable = False
+        x = layers.Flatten()(vgg16.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(vgg16.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'VGG16':
-                vgg16 = VGG16(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in vgg16.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(vgg16.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(vgg16.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'VGG19':
+        vgg19 = VGG19(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in vgg19.layers:
+                layer.trainable = False
+        x = layers.Flatten()(vgg19.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(vgg19.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-        if model_type == 'VGG19':
-                vgg19 = VGG19(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in vgg19.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(vgg19.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(vgg19.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
-
-        if model_type == 'Xception':
-                xception = Xception(
-                        weights='imagenet',
-                        include_top=False,
-                        input_shape=(300,300,3)
-                        )
-                for layer in xception.layers:
-                        layer.trainable = False
-                x = layers.Flatten()(xception.output)
-                x = layers.Dense(1024, activation = 'relu')(x)
-                x = layers.Dropout(0.2)(x)
-                x = layers.Dense(3, activation = 'softmax')(x)
-                model = Model(vgg19.input, x)
-                model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+if model_type == 'Xception':
+        xception = Xception(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in xception.layers:
+                layer.trainable = False
+        x = layers.Flatten()(xception.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(vgg19.input, x)
+        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 
 
-        if not os.path.exists(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}'):
-                os.makedirs(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}')
-        # Model Summary
+if not os.path.exists(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}'):
+        os.makedirs(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}')
+# Model Summary
 
 
-        #TF_CPP_MIN_LOG_LEVEL=2
-        # Training the model
+#TF_CPP_MIN_LOG_LEVEL=2
+# Training the model
 
-        print("------------------------------------------")
-        print(f'Training the model {model_type}')
-        print("------------------------------------------")
-        history = model.fit(train_generator, validation_data = valid_generator, epochs=50)
+print("------------------------------------------")
+print(f'Training the model {model_type}')
+print("------------------------------------------")
+history = model.fit(train_generator, validation_data = valid_generator, epochs=50)
 
-        print("------------------------------------------")
-        print(f'Training Complete')
-        print("------------------------------------------")
-        # Creating a directory to save the model paths 
+print("------------------------------------------")
+print(f'Training Complete')
+print("------------------------------------------")
+# Creating a directory to save the model paths 
 
-        # Saving the model
-        model.save(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/dense121_01.h5')
-        print("------------------------------------------")
-        print(f'Model saved')
-        print("------------------------------------------")
-
-
-        #plotting the accuracy and loss
-        print("------------------------------------------")
-        print(f'Plotting and supplimentary data')
-        print("------------------------------------------")
-        plt.figure(figsize=(10, 10))
-        plt.lineplot(history.history['acc'], label='Training Accuracy')
-        plt.lineplot(history.history['val_acc'], label='Validation Accuracy')
-        plt.title('Training and Validation Accuracy')
-        plt.legend(['train', 'test'], loc='upper left')
-        plt.tight_layout()
-        plt.savefig(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Accuracy.jpg')
-
-        loaded_model = load_model(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/dense121_01.h5')
-        outcomes = loaded_model.predict(valid_generator)
-        y_pred = np.argmax(outcomes, axis=1)
-        # confusion matrix
-        confusion = confusion_matrix(valid_generator.classes, y_pred)
-        plt.figure(figsize=(10, 10))
-        sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
-        plt.title('Confusion Matrix')
-        plt.xlabel('Predicted Label')
-        plt.ylabel('True Label')
-        plt.tight_layout()
-        plt.savefig(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Confusion_matrix.jpg')
-
-        # classification report
-        target_names = ['wdoscc','mdoscc','pdoscc']
-        report = classification_report(valid_generator.classes, y_pred, target_names=target_names,output_dict=True)
-        df = pd.DataFrame(report).transpose()
-        df.to_csv(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Classification_report.csv')
-
-        # Other metrics
-        kldiv = kl_divergence(valid_generator.classes, y_pred)
-        mse = mean_squared_error(valid_generator.classes, y_pred)
-        pois = poisson(valid_generator.classes, y_pred)
-
-        with open(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Other_metrics.txt', 'w+') as f:
-                f.write(f'KLD: {str(kldiv)}\n')
-                f.write(f'MSE: {str(mse)}\n')
-                f.write(f'POISSON: {str(pois)}\n')
-
-        print("------------------------------------------")
-        print(f'Supplimentary Data Saved')
-        print("------------------------------------------")
+# Saving the model
+model.save(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/dense121_01.h5')
+print("------------------------------------------")
+print(f'Model saved')
+print("------------------------------------------")
 
 
-if __name__ == '__main__':
-    model_type = sys.argv[1]
-    train_model(model_type)
+#plotting the accuracy and loss
+print("------------------------------------------")
+print(f'Plotting and supplimentary data')
+print("------------------------------------------")
+plt.figure(figsize=(10, 10))
+plt.lineplot(history.history['acc'], label='Training Accuracy')
+plt.lineplot(history.history['val_acc'], label='Validation Accuracy')
+plt.title('Training and Validation Accuracy')
+plt.legend(['train', 'test'], loc='upper left')
+plt.tight_layout()
+plt.savefig(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Accuracy.jpg')
+
+loaded_model = load_model(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/dense121_01.h5')
+outcomes = loaded_model.predict(valid_generator)
+y_pred = np.argmax(outcomes, axis=1)
+# confusion matrix
+confusion = confusion_matrix(valid_generator.classes, y_pred)
+plt.figure(figsize=(10, 10))
+sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
+plt.title('Confusion Matrix')
+plt.xlabel('Predicted Label')
+plt.ylabel('True Label')
+plt.tight_layout()
+plt.savefig(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Confusion_matrix.jpg')
+
+# classification report
+report = classification_report(valid_generator.classes, y_pred, target_names=target_names)
+
+# Other metrics
+kldiv = kl_divergence(valid_generator.classes, y_pred)
+mse = mean_squared_error(valid_generator.classes, y_pred)
+pois = poisson(valid_generator.classes, y_pred)
+
+with open(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Other_metrics.txt', 'w+') as f:
+        f.write(f'KLD: {str(kldiv)}\n')
+        f.write(f'MSE: {str(mse)}\n')
+        f.write(f'POISSON: {str(pois)}\n')
+
+print("------------------------------------------")
+print(f'Supplimentary Data Saved')
+print("------------------------------------------")
