@@ -90,7 +90,7 @@ path = '/storage/bic/data/oscc/data/working/train/{}/'.format(a)
 # ImageDataGenerator
 # color images
 
-model_type = 'EfficientNetB6'
+model_type = 'EfficientNetB5'
 
 datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.2)
 # Training Data
