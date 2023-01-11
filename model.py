@@ -90,7 +90,7 @@ path = '/storage/bic/data/oscc/data/working/train/{}/'.format(a)
 # ImageDataGenerator
 # color images
 
-model_type = 'DenseNet201'
+model_type = 'DenseNet121'
 
 datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.2)
 # Training Data
@@ -118,7 +118,7 @@ if model_type == 'DenseNet121':
         input_shape=(300,300,3)
         )
         for layer in densenet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(densenet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -133,7 +133,7 @@ if model_type == 'DenseNet169':
                 input_shape=(300,300,3)
                 )
         for layer in densenet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(densenet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -148,7 +148,7 @@ if model_type == 'DenseNet201':
                 input_shape=(300,300,3)
                 )
         for layer in densenet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(densenet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -163,7 +163,7 @@ if model_type == 'DenseNet201':
 #                 input_shape=(300,300,3)
 #                 )
 #         for layer in convnext.layers:
-#                 layer.trainable = False
+#                 layer.trainable = True
 #         x = layers.Flatten()(convnext.output)
 #         x = layers.Dense(1024, activation = 'relu')(x)
 #         x = layers.Dropout(0.2)(x)
@@ -178,7 +178,7 @@ if model_type == 'DenseNet201':
 #                 input_shape=(300,300,3)
 #                 )
 #         for layer in convnext.layers:
-#                 layer.trainable = False
+#                 layer.trainable = True
 #         x = layers.Flatten()(convnext.output)
 #         x = layers.Dense(1024, activation = 'relu')(x)
 #         x = layers.Dropout(0.2)(x)
@@ -193,7 +193,7 @@ if model_type == 'DenseNet201':
 #                 input_shape=(300,300,3)
 #                 )
 #         for layer in convnext.layers:
-#                 layer.trainable = False
+#                 layer.trainable = True
 #         x = layers.Flatten()(convnext.output)
 #         x = layers.Dense(1024, activation = 'relu')(x)
 #         x = layers.Dropout(0.2)(x)
@@ -208,7 +208,7 @@ if model_type == 'DenseNet201':
 #                 input_shape=(300,300,3)
 #                 )
 #         for layer in convnext.layers:
-#                 layer.trainable = False
+#                 layer.trainable = True
 #         x = layers.Flatten()(convnext.output)
 #         x = layers.Dense(1024, activation = 'relu')(x)
 #         x = layers.Dropout(0.2)(x)
@@ -223,7 +223,7 @@ if model_type == 'DenseNet201':
 #                 input_shape=(300,300,3)
 #                 )
 #         for layer in convnext.layers:
-#                 layer.trainable = False
+#                 layer.trainable = True
 #         x = layers.Flatten()(convnext.output)
 #         x = layers.Dense(1024, activation = 'relu')(x)
 #         x = layers.Dropout(0.2)(x)
@@ -238,7 +238,7 @@ if model_type == 'EfficientNetB0':
                 input_shape=(300,300,3)
                 )
         for layer in effnet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(effnet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -253,7 +253,7 @@ if model_type == 'EfficientNetB1':
                 input_shape=(300,300,3)
                 )
         for layer in effnet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(effnet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -268,7 +268,7 @@ if model_type == 'EfficientNetB2':
                 input_shape=(300,300,3)
                 )
         for layer in effnet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(effnet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -283,7 +283,7 @@ if model_type == 'EfficientNetB3':
                 input_shape=(300,300,3)
                 )
         for layer in effnet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(effnet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -298,7 +298,7 @@ if model_type == 'EfficientNetB4':
                 input_shape=(300,300,3)
                 )
         for layer in effnet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(effnet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -313,7 +313,7 @@ if model_type == 'EfficientNetB5':
                 input_shape=(300,300,3)
                 )
         for layer in effnet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(effnet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -328,7 +328,7 @@ if model_type == 'EfficientNetB6':
                 input_shape=(300,300,3)
                 )
         for layer in effnet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(effnet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -343,7 +343,7 @@ if model_type == 'EfficientNetB7':
                 input_shape=(300,300,3)
                 )
         for layer in effnet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(effnet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -358,7 +358,7 @@ if model_type == 'EfficientNetB7':
 #                 input_shape=(300,300,3)
 #                 )
 #         for layer in effnet.layers:
-#                 layer.trainable = False
+#                 layer.trainable = True
 #         x = layers.Flatten()(effnet.output)
 #         x = layers.Dense(1024, activation = 'relu')(x)
 #         x = layers.Dropout(0.2)(x)
@@ -373,7 +373,7 @@ if model_type == 'EfficientNetB7':
 #                 input_shape=(300,300,3)
 #                 )
 #         for layer in effnet.layers:
-#                 layer.trainable = False
+#                 layer.trainable = True
 #         x = layers.Flatten()(effnet.output)
 #         x = layers.Dense(1024, activation = 'relu')(x)
 #         x = layers.Dropout(0.2)(x)
@@ -388,7 +388,7 @@ if model_type == 'EfficientNetB7':
 #                 input_shape=(300,300,3)
 #                 )
 #         for layer in effnet.layers:
-#                 layer.trainable = False
+#                 layer.trainable = True
 #         x = layers.Flatten()(effnet.output)
 #         x = layers.Dense(1024, activation = 'relu')(x)
 #         x = layers.Dropout(0.2)(x)
@@ -403,7 +403,7 @@ if model_type == 'EfficientNetB7':
 #                 input_shape=(300,300,3)
 #                 )
 #         for layer in effnet.layers:
-#                 layer.trainable = False
+#                 layer.trainable = True
 #         x = layers.Flatten()(effnet.output)
 #         x = layers.Dense(1024, activation = 'relu')(x)
 #         x = layers.Dropout(0.2)(x)
@@ -418,7 +418,7 @@ if model_type == 'EfficientNetB7':
 #                 input_shape=(300,300,3)
 #                 )
 #         for layer in effnet.layers:
-#                 layer.trainable = False
+#                 layer.trainable = True
 #         x = layers.Flatten()(effnet.output)
 #         x = layers.Dense(1024, activation = 'relu')(x)
 #         x = layers.Dropout(0.2)(x)
@@ -433,7 +433,7 @@ if model_type == 'EfficientNetB7':
 #                 input_shape=(300,300,3)
 #                 )
 #         for layer in effnet.layers:
-#                 layer.trainable = False
+#                 layer.trainable = True
 #         x = layers.Flatten()(effnet.output)
 #         x = layers.Dense(1024, activation = 'relu')(x)
 #         x = layers.Dropout(0.2)(x)
@@ -448,7 +448,7 @@ if model_type == 'EfficientNetB7':
 #                 input_shape=(300,300,3)
 #                 )
 #         for layer in effnet.layers:
-#                 layer.trainable = False
+#                 layer.trainable = True
 #         x = layers.Flatten()(effnet.output)
 #         x = layers.Dense(1024, activation = 'relu')(x)
 #         x = layers.Dropout(0.2)(x)
@@ -463,7 +463,7 @@ if model_type == 'InceptionResNetV2':
                 input_shape=(300,300,3)
                 )
         for layer in inception.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(inception.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -478,7 +478,7 @@ if model_type == 'InceptionV3':
                 input_shape=(300,300,3)
                 )
         for layer in inception.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(inception.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -493,7 +493,7 @@ if model_type == 'MobileNetV2':
                 input_shape=(300,300,3)
                 )
         for layer in mobilenet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(mobilenet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -508,7 +508,7 @@ if model_type == 'MobileNetV3Large':
                 input_shape=(300,300,3)
                 )
         for layer in mobilenet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(mobilenet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -523,7 +523,7 @@ if model_type == 'MobileNetV3Small':
                 input_shape=(300,300,3)
                 )
         for layer in mobilenet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(mobilenet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -538,7 +538,7 @@ if model_type == 'NASNetLarge':
                 input_shape=(300,300,3)
                 )
         for layer in nasnet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(nasnet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -553,7 +553,7 @@ if model_type == 'NASNetMobile':
                 input_shape=(300,300,3)
                 )
         for layer in nasnet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(nasnet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -568,7 +568,7 @@ if model_type == 'ResNet50V2':
                 input_shape=(300,300,3)
                 )
         for layer in resnet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(resnet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -583,7 +583,7 @@ if model_type == 'ResNet101V2':
                 input_shape=(300,300,3)
                 )
         for layer in resnet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(resnet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -598,7 +598,7 @@ if model_type == 'ResNet152V2':
                 input_shape=(300,300,3)
                 )
         for layer in resnet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(resnet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -613,7 +613,7 @@ if model_type == 'ResNet50':
                 input_shape=(300,300,3)
                 )
         for layer in resnet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(resnet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -628,7 +628,7 @@ if model_type == 'ResNet101':
                 input_shape=(300,300,3)
                 )
         for layer in resnet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(resnet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -643,7 +643,7 @@ if model_type == 'ResNet152':
                 input_shape=(300,300,3)
                 )
         for layer in resnet.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(resnet.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -658,7 +658,7 @@ if model_type == 'VGG16':
                 input_shape=(300,300,3)
                 )
         for layer in vgg16.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(vgg16.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -673,7 +673,7 @@ if model_type == 'VGG19':
                 input_shape=(300,300,3)
                 )
         for layer in vgg19.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(vgg19.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
@@ -688,7 +688,7 @@ if model_type == 'Xception':
                 input_shape=(300,300,3)
                 )
         for layer in xception.layers:
-                layer.trainable = False
+                layer.trainable = True
         x = layers.Flatten()(xception.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
