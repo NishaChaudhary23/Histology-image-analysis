@@ -1,9 +1,9 @@
 #! /bin/bash
-#PBS -N histology23
-#PBS -o model23_out.log
-#PBS -e model23_err.log
-#PBS -l ncpus=10
-#PBS -q gpu
+#PBS -N histology
+#PBS -o model_out.log
+#PBS -e model_err.log
+#PBS -l ncpus=100
+#PBS -q cpu
 
 module load compiler/anaconda3
 
