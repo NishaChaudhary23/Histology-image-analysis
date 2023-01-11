@@ -90,7 +90,7 @@ path = '/storage/bic/data/oscc/data/working/train/{}/'.format(a)
 # ImageDataGenerator
 # color images
 
-model_type = 'DenseNet169'
+model_type = 'DenseNet201'
 
 datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.2)
 # Training Data
@@ -154,7 +154,7 @@ if model_type == 'DenseNet201':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(densenet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 # if model_type == 'ConvNeXtBase':
 #         convnext = ConvNeXtBase(
@@ -169,7 +169,7 @@ if model_type == 'DenseNet201':
 #         x = layers.Dropout(0.2)(x)
 #         x = layers.Dense(3, activation = 'softmax')(x)
 #         model = Model(convnext.input, x)
-#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+#         model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 # if model_type == 'ConvNeXtSmall':
 #         convnext = ConvNeXtSmall(
@@ -184,7 +184,7 @@ if model_type == 'DenseNet201':
 #         x = layers.Dropout(0.2)(x)
 #         x = layers.Dense(3, activation = 'softmax')(x)
 #         model = Model(convnext.input, x)
-#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+#         model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 # if model_type == 'ConvNeXtLarge':
 #         convnext = ConvNeXtLarge(
@@ -199,7 +199,7 @@ if model_type == 'DenseNet201':
 #         x = layers.Dropout(0.2)(x)
 #         x = layers.Dense(3, activation = 'softmax')(x)
 #         model = Model(convnext.input, x)
-#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+#         model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 # if model_type == 'ConvNeXtXLarge':
 #         convnext = ConvNeXtXLarge(
@@ -214,7 +214,7 @@ if model_type == 'DenseNet201':
 #         x = layers.Dropout(0.2)(x)
 #         x = layers.Dense(3, activation = 'softmax')(x)
 #         model = Model(convnext.input, x)
-#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+#         model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 # if model_type == 'ConvNeXtTiny':
 #         convnext = ConvNeXtTiny(
@@ -229,7 +229,7 @@ if model_type == 'DenseNet201':
 #         x = layers.Dropout(0.2)(x)
 #         x = layers.Dense(3, activation = 'softmax')(x)
 #         model = Model(convnext.input, x)
-#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+#         model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'EfficientNetB0':
         effnet = EfficientNetB0(
@@ -244,7 +244,7 @@ if model_type == 'EfficientNetB0':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(effnet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'EfficientNetB1':
         effnet = EfficientNetB1(
@@ -259,7 +259,7 @@ if model_type == 'EfficientNetB1':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(effnet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'EfficientNetB2':
         effnet = EfficientNetB2(
@@ -274,7 +274,7 @@ if model_type == 'EfficientNetB2':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(effnet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'EfficientNetB3':
         effnet = EfficientNetB3(
@@ -289,7 +289,7 @@ if model_type == 'EfficientNetB3':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(effnet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'EfficientNetB4':
         effnet = EfficientNetB4(
@@ -304,7 +304,7 @@ if model_type == 'EfficientNetB4':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(effnet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'EfficientNetB5':
         effnet = EfficientNetB5(
@@ -319,7 +319,7 @@ if model_type == 'EfficientNetB5':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(effnet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'EfficientNetB6':
         effnet = EfficientNetB6(
@@ -334,7 +334,7 @@ if model_type == 'EfficientNetB6':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(effnet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'EfficientNetB7':
         effnet = EfficientNetB7(
@@ -349,7 +349,7 @@ if model_type == 'EfficientNetB7':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(effnet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 # if model_type == 'EfficientNetV2B0':
 #         effnet = EfficientNetV2B0(
@@ -364,7 +364,7 @@ if model_type == 'EfficientNetB7':
 #         x = layers.Dropout(0.2)(x)
 #         x = layers.Dense(3, activation = 'softmax')(x)
 #         model = Model(effnet.input, x)
-#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+#         model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 # if model_type == 'EfficientNetV2B1':
 #         effnet = EfficientNetV2B1(
@@ -379,7 +379,7 @@ if model_type == 'EfficientNetB7':
 #         x = layers.Dropout(0.2)(x)
 #         x = layers.Dense(3, activation = 'softmax')(x)
 #         model = Model(effnet.input, x)
-#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+#         model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 # if model_type == 'EfficientNetV2B2':
 #         effnet = EfficientNetV2B2(
@@ -394,7 +394,7 @@ if model_type == 'EfficientNetB7':
 #         x = layers.Dropout(0.2)(x)
 #         x = layers.Dense(3, activation = 'softmax')(x)
 #         model = Model(effnet.input, x)
-#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+#         model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 # if model_type == 'EfficientNetV2B3':
 #         effnet = EfficientNetV2B3(
@@ -409,7 +409,7 @@ if model_type == 'EfficientNetB7':
 #         x = layers.Dropout(0.2)(x)
 #         x = layers.Dense(3, activation = 'softmax')(x)
 #         model = Model(effnet.input, x)
-#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+#         model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 # if model_type == 'EfficientNetV2L':
 #         effnet = EfficientNetV2L(
@@ -424,7 +424,7 @@ if model_type == 'EfficientNetB7':
 #         x = layers.Dropout(0.2)(x)
 #         x = layers.Dense(3, activation = 'softmax')(x)
 #         model = Model(effnet.input, x)
-#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+#         model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 # if model_type == 'EfficientNetV2M':
 #         effnet = EfficientNetV2M(
@@ -439,7 +439,7 @@ if model_type == 'EfficientNetB7':
 #         x = layers.Dropout(0.2)(x)
 #         x = layers.Dense(3, activation = 'softmax')(x)
 #         model = Model(effnet.input, x)
-#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+#         model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 # if model_type == 'EfficientNetV2S':
 #         effnet = EfficientNetV2S(
@@ -454,7 +454,7 @@ if model_type == 'EfficientNetB7':
 #         x = layers.Dropout(0.2)(x)
 #         x = layers.Dense(3, activation = 'softmax')(x)
 #         model = Model(effnet.input, x)
-#         model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+#         model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'InceptionResNetV2':
         inception = InceptionResNetV2(
@@ -469,7 +469,7 @@ if model_type == 'InceptionResNetV2':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(inception.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'InceptionV3':
         inception = InceptionV3(
@@ -484,7 +484,7 @@ if model_type == 'InceptionV3':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(inception.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'MobileNetV2':
         mobilenet = MobileNetV2(
@@ -499,7 +499,7 @@ if model_type == 'MobileNetV2':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(mobilenet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'MobileNetV3Large':
         mobilenet = MobileNetV3Large(
@@ -514,7 +514,7 @@ if model_type == 'MobileNetV3Large':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(mobilenet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'MobileNetV3Small':
         mobilenet = MobileNetV3Small(
@@ -529,7 +529,7 @@ if model_type == 'MobileNetV3Small':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(mobilenet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'NASNetLarge':
         nasnet = NASNetLarge(
@@ -544,7 +544,7 @@ if model_type == 'NASNetLarge':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(nasnet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])        
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])        
 
 if model_type == 'NASNetMobile':
         nasnet = NASNetMobile(
@@ -559,7 +559,7 @@ if model_type == 'NASNetMobile':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(nasnet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'ResNet50V2':
         resnet = ResNet50V2(
@@ -574,7 +574,7 @@ if model_type == 'ResNet50V2':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(resnet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'ResNet101V2':
         resnet = ResNet101V2(
@@ -589,7 +589,7 @@ if model_type == 'ResNet101V2':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(resnet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'ResNet152V2':
         resnet = ResNet152V2(
@@ -604,7 +604,7 @@ if model_type == 'ResNet152V2':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(resnet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'ResNet50':
         resnet = ResNet50(
@@ -619,7 +619,7 @@ if model_type == 'ResNet50':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(resnet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'ResNet101':
         resnet = ResNet101(
@@ -634,7 +634,7 @@ if model_type == 'ResNet101':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(resnet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'ResNet152':
         resnet = ResNet152(
@@ -649,7 +649,7 @@ if model_type == 'ResNet152':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(resnet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'VGG16':
         vgg16 = VGG16(
@@ -664,7 +664,7 @@ if model_type == 'VGG16':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(vgg16.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'VGG19':
         vgg19 = VGG19(
@@ -679,7 +679,7 @@ if model_type == 'VGG19':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(vgg19.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'Xception':
         xception = Xception(
@@ -694,7 +694,7 @@ if model_type == 'Xception':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(vgg19.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 
 
