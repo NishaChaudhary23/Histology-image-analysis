@@ -1,11 +1,16 @@
 #! /bin/bash
-#PBS -N HistoImageAnalysis
-#PBS -o out.log
-#PBS -e err.log
-#PBS -l ncpus=1
+#PBS -N histology1
+#PBS -o model1_out.log
+#PBS -e model1err.log
+#PBS -l ncpus=10
 #PBS -q gpu
 
 module load compiler/anaconda3
-source histoimgan/bin/activate
 
-python3 /storage/bic/data/oscc/data/Histology-image-analysis/model.py train_model "DenseNet121"
+conda init
+
+source ~/.bashrc
+
+conda activate histoimgan
+
+python3 /storage/bic/data/oscc/data/Histology-image-analysis/model.py 

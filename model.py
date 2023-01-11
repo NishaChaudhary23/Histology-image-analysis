@@ -748,8 +748,14 @@ plt.ylabel('True Label')
 plt.tight_layout()
 plt.savefig(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Confusion_matrix.jpg')
 
+conf_df = pd.DataFrame(confusion, index = ['wdoscc','mdoscc','pdoscc'], columns = ['wdoscc','mdoscc','pdoscc'])
+conf_df.to_csv(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Confusion_matrix.csv')
+
 # classification report
-report = classification_report(valid_generator.classes, y_pred, target_names=target_names)
+target_names = ['wdoscc','mdoscc','pdoscc']
+report = classification_report(valid_generator.classes, y_pred, target_names=target_names, output_dict=True)
+df = pd.DataFrame(report).transpose()
+df.to_csv(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Classification_report.csv')
 
 # Other metrics
 kldiv = kl_divergence(valid_generator.classes, y_pred)
