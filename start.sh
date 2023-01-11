@@ -1,7 +1,7 @@
 #! /bin/bash
 #PBS -N histology1
 #PBS -o model1_out.log
-#PBS -e model1err.log
+#PBS -e model1_err.log
 #PBS -l ncpus=10
 #PBS -q gpu
 
