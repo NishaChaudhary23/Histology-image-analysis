@@ -139,7 +139,7 @@ if model_type == 'DenseNet169':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(densenet.input, x)
-        model.compile(optimiser = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'DenseNet201':
         densenet = DenseNet201(
