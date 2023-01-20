@@ -69,7 +69,7 @@ from tensorflow.keras.metrics import kl_divergence
 from tensorflow.keras.metrics import mean_squared_error
 from tensorflow.keras.metrics import poisson
 
-os.environ[‘TF_GPU_ALLOCATOR’] = ‘cuda_malloc_async’
+os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 
 #checking tensorflow version
 print(tf.__version__)
