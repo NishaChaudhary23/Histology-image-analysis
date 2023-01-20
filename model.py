@@ -75,7 +75,6 @@ from tensorflow.keras.metrics import poisson
 print(tf.__version__)
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
-
 train_large = '/storage/bic/data/oscc/data/working/train'
 
 
@@ -695,8 +694,6 @@ if model_type == 'Xception':
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(vgg19.input, x)
         model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
-
-
 
 if not os.path.exists(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}'):
         os.makedirs(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}')
