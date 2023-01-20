@@ -75,12 +75,12 @@ from tensorflow.keras.metrics import poisson
 print(tf.__version__)
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
-train_large = '/storage/bic/data/oscc/data/working/train'
+train_large = '/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/original'
 
 
 #reading & displaying an image
 a = np.random.choice(['wdoscc','mdoscc','pdoscc'])
-path = '/storage/bic/data/oscc/data/working/train/{}/'.format(a)
+path = '/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/original/{}/'.format(a)
 
 
 #(trainX, testX, trainY, testY) = train_test_split(data, train_large.target, test_size=0.25)
@@ -695,8 +695,8 @@ if model_type == 'Xception':
         model = Model(vgg19.input, x)
         model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-if not os.path.exists(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}'):
-        os.makedirs(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}')
+if not os.path.exists(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}'):
+        os.makedirs(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}')
 # Model Summary
 
 
@@ -714,7 +714,7 @@ print("------------------------------------------")
 # Creating a directory to save the model paths 
 
 # Saving the model
-model.save(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/dense121_01.h5')
+model.save(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}/dense121_01.h5')
 print("------------------------------------------")
 print(f'Model saved')
 print("------------------------------------------")
@@ -730,9 +730,11 @@ plt.lineplot(history.history['val_acc'], label='Validation Accuracy')
 plt.title('Training and Validation Accuracy')
 plt.legend(['train', 'test'], loc='upper left')
 plt.tight_layout()
-plt.savefig(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Accuracy.jpg')
+plt.savefig(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}/Accuracy.jpg')
 
-loaded_model = load_model(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/dense121_01.h5')
+np.save('/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}/history1.npy',history.history)
+
+loaded_model = load_model(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}/dense121_01.h5')
 outcomes = loaded_model.predict(valid_generator)
 y_pred = np.argmax(outcomes, axis=1)
 # confusion matrix
@@ -743,26 +745,16 @@ plt.title('Confusion Matrix')
 plt.xlabel('Predicted Label')
 plt.ylabel('True Label')
 plt.tight_layout()
-plt.savefig(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Confusion_matrix.jpg')
+plt.savefig(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}/Confusion_matrix.jpg')
 
 conf_df = pd.DataFrame(confusion, index = ['wdoscc','mdoscc','pdoscc'], columns = ['wdoscc','mdoscc','pdoscc'])
-conf_df.to_csv(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Confusion_matrix.csv')
+conf_df.to_csv(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}/Confusion_matrix.csv')
 
 # classification report
 target_names = ['wdoscc','mdoscc','pdoscc']
 report = classification_report(valid_generator.classes, y_pred, target_names=target_names, output_dict=True)
 df = pd.DataFrame(report).transpose()
-df.to_csv(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Classification_report.csv')
-
-# Other metrics
-kldiv = kl_divergence(valid_generator.classes, y_pred)
-mse = mean_squared_error(valid_generator.classes, y_pred)
-pois = poisson(valid_generator.classes, y_pred)
-
-with open(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Other_metrics.txt', 'w+') as f:
-        f.write(f'KLD: {str(kldiv)}\n')
-        f.write(f'MSE: {str(mse)}\n')
-        f.write(f'POISSON: {str(pois)}\n')
+df.to_csv(f'/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/Histology-image-analysis/models/{model_type}/Classification_report.csv')
 
 print("------------------------------------------")
 print(f'Supplimentary Data Saved')
