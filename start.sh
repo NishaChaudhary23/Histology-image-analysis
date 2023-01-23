@@ -1,7 +1,7 @@
 #! /bin/bash
-#PBS -N DN201
-#PBS -o model_densenet201_out.log
-#PBS -e model_densenet201_err.log
+#PBS -N MNV3L
+#PBS -o model_MobileNetV3Large_out.log
+#PBS -e model_MobileNetV3Large_err.log
 #PBS -q gpu
 
 module load compiler/anaconda3
