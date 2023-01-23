@@ -732,7 +732,19 @@ plt.legend(['train', 'test'], loc='upper left')
 plt.tight_layout()
 plt.savefig(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Accuracy.jpg')
 
-np.save('/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/history1.npy',history.history)
+# np.save('/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/history1.npy',history.history)
+
+hist_df = pd.DataFrame(history.history) 
+
+# save to json:  
+hist_json_file = f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/history.json' 
+with open(hist_json_file, mode='w') as f:
+    hist_df.to_json(f)
+
+# or save to csv: 
+hist_csv_file = f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/history.csv'
+with open(hist_csv_file, mode='w') as f:
+    hist_df.to_csv(f)
 
 loaded_model = load_model(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/dense121_01.h5')
 outcomes = loaded_model.predict(valid_generator)
