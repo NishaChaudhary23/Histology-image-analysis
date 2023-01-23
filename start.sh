@@ -12,5 +12,5 @@ conda init
 source ~/.bashrc
 
 conda activate histoimgan
-
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/rintu.kutum/.conda/envs/histoimgan/lib/python3.10/site-packages/nvidia/cudnn/lib
 python3 /storage/bic/data/oscc/data/Histology-image-analysis/model.py 
