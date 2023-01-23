@@ -75,12 +75,12 @@ os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 print(tf.__version__)
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
-train_large = '/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/original'
+train_large = '/storage/bic/data/oscc/data/working/train'
 
 
 #reading & displaying an image
 a = np.random.choice(['wdoscc','mdoscc','pdoscc'])
-path = '/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/original/{}/'.format(a)
+path = '/storage/bic/data/oscc/data/working/train/{}/'.format(a)
 
 
 #(trainX, testX, trainY, testY) = train_test_split(data, train_large.target, test_size=0.25)
