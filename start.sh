@@ -1,9 +1,8 @@
 #! /bin/bash
 #PBS -N DN201
-#PBS -o model_densenet201.log
-#PBS -e model_densenet201.log
-#PBS -l ncpus=100
-#PBS -q cpu
+#PBS -o model_densenet201_out.log
+#PBS -e model_densenet201_err.log
+#PBS -q gpu
 
 module load compiler/anaconda3
 
