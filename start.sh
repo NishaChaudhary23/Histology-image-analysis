@@ -1,7 +1,7 @@
 #! /bin/bash
-#PBS -N histology
-#PBS -o model_out.log
-#PBS -e model_err.log
+#PBS -N DN201
+#PBS -o model_densenet201.log
+#PBS -e model_densenet201.log
 #PBS -l ncpus=100
 #PBS -q cpu
 
