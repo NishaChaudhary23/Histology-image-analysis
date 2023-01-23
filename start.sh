@@ -1,7 +1,7 @@
 #! /bin/bash
-#PBS -N MNV3L
-#PBS -o model_MobileNetV3Large_out.log
-#PBS -e model_MobileNetV3Large_err.log
+#PBS -N MNV3S
+#PBS -o model_MobileNetV3Small_out.log
+#PBS -e model_MobileNetV3Small_err.log
 #PBS -q gpu
 
 module load compiler/anaconda3
