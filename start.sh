@@ -1,8 +1,8 @@
 #! /bin/bash
-#PBS -N MASNM
+#PBS -N RN101
 #PBS -l host=compute3
-#PBS -o model_NASNetMobile_out.log
-#PBS -e model_NASNetMobile_err.log
+#PBS -o model_ResNet101_out.log
+#PBS -e model_ResNet101_err.log
 #PBS -q gpu
 
 module load compiler/anaconda3
