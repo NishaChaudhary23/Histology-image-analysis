@@ -1,8 +1,8 @@
 #! /bin/bash
-#PBS -N MNV2-1
+#PBS -N MASNL
 #PBS -l host=compute3
-#PBS -o model_MobileNetV2_out.log
-#PBS -e model_MobileNetV2_err.log
+#PBS -o model_NASNetLarge_out.log
+#PBS -e model_NASNetLarge_err.log
 #PBS -q gpu
 
 module load compiler/anaconda3
