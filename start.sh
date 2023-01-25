@@ -1,8 +1,8 @@
 #! /bin/bash
-#PBS -N MNV3S
+#PBS -N IV3
 #PBS -l host=compute3
-#PBS -o model_InceptionResNetV2_out.log
-#PBS -e model_InceptionResNetV2_err.log
+#PBS -o model_InceptionV3_out.log
+#PBS -e model_InceptionV3_err.log
 #PBS -q gpu
 
 module load compiler/anaconda3
