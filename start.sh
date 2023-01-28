@@ -1,8 +1,8 @@
 #! /bin/bash
-#PBS -N V16
+#PBS -N DN169
 #PBS -l host=compute3
-#PBS -o model_VGG16_out.log
-#PBS -e model_VGG16_err.log
+#PBS -o model_DenseNet169_out.log
+#PBS -e model_DenseNet169_err.log
 #PBS -q gpu
 
 module load compiler/anaconda3
