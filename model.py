@@ -89,7 +89,7 @@ path = '/storage/bic/data/oscc/data/working/train/{}/'.format(a)
 # ImageDataGenerator
 # color images
 
-model_type = 'ResNet50V2'
+model_type = 'ResNet101V2'
 
 datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.2)
 # Training Data
@@ -576,7 +576,6 @@ if model_type == 'ResNet50V2':
 
 if model_type == 'ResNet101V2':
         resnet = ResNet101V2(
-                weights='imagenet',
                 include_top=False,
                 input_shape=(300,300,3)
                 )
@@ -591,7 +590,6 @@ if model_type == 'ResNet101V2':
 
 if model_type == 'ResNet152V2':
         resnet = ResNet152V2(
-                weights='imagenet',
                 include_top=False,
                 input_shape=(300,300,3)
                 )
@@ -606,7 +604,6 @@ if model_type == 'ResNet152V2':
 
 if model_type == 'ResNet50':
         resnet = ResNet50(
-                weights='imagenet',
                 include_top=False,
                 input_shape=(300,300,3)
                 )
@@ -621,7 +618,6 @@ if model_type == 'ResNet50':
 
 if model_type == 'ResNet101':
         resnet = ResNet101(
-                weights='imagenet',
                 include_top=False,
                 input_shape=(300,300,3)
                 )
@@ -636,7 +632,6 @@ if model_type == 'ResNet101':
 
 if model_type == 'ResNet152':
         resnet = ResNet152(
-                weights='imagenet',
                 include_top=False,
                 input_shape=(300,300,3)
                 )

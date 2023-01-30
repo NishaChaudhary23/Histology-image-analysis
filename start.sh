@@ -1,8 +1,8 @@
 #! /bin/bash
-#PBS -N RN50_SCR
+#PBS -N RN101V2_SCR
 #PBS -l host=compute4
-#PBS -o model_ResNet50V2_out.log
-#PBS -e model_ResNet50V2_err.log
+#PBS -o model_ResNet101V2_out.log
+#PBS -e model_ResNet101V2_err.log
 #PBS -q gpu
 
 module load compiler/anaconda3
