@@ -89,7 +89,7 @@ path = '/storage/bic/data/oscc/data/working/train/{}/'.format(a)
 # ImageDataGenerator
 # color images
 
-model_type = 'VGG16'
+model_type = 'ResNet50V2'
 
 datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.2)
 # Training Data
@@ -562,7 +562,6 @@ if model_type == 'NASNetMobile':
 
 if model_type == 'ResNet50V2':
         resnet = ResNet50V2(
-                weights='imagenet',
                 include_top=False,
                 input_shape=(300,300,3)
                 )

@@ -6,3 +6,6 @@
 *.tif
 *.png
 *.jpg
+
+
+/models
