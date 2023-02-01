@@ -1,6 +1,6 @@
 #! /bin/bash
 #PBS -N DN169
-#PBS -l host=compute3
+#PBS -l host=compute4
 #PBS -o model_DenseNet169_out.log
 #PBS -e model_DenseNet169_err.log
 #PBS -q gpu
