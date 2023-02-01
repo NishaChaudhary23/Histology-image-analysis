@@ -708,7 +708,7 @@ print("------------------------------------------")
 # Creating a directory to save the model paths 
 
 # Saving the model
-model.save(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/dense121_01.h5')
+model.save(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/{model_type}.h5')
 print("------------------------------------------")
 print(f'Model saved')
 print("------------------------------------------")
