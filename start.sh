@@ -1,6 +1,6 @@
 #! /bin/bash
 #PBS -N P2_XCPN
-#PBS -l host=compute3
+#PBS -l host=compute4
 #PBS -o model_Xception_out.log
 #PBS -e model_Xception_err.log
 #PBS -q gpu
