@@ -740,7 +740,7 @@ hist_csv_file = f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{m
 with open(hist_csv_file, mode='w') as f:
     hist_df.to_csv(f)
 
-loaded_model = load_model(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/dense121_01.h5')
+loaded_model = load_model(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/{model_type}.h5')
 outcomes = loaded_model.predict(valid_generator)
 y_pred = np.argmax(outcomes, axis=1)
 # confusion matrix

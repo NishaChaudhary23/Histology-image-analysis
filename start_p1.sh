@@ -1,8 +1,8 @@
 #! /bin/bash
 #PBS -N RN152V2
 #PBS -l host=compute4
-#PBS -o model_ResNet152V2_out.log
-#PBS -e model_ResNet152V2_err.log
+#PBS -o /storage/bic/data/oscc/project_1/model_ResNet152V2_out.log
+#PBS -e /storage/bic/data/oscc/project_1/model_ResNet152V2_err.log
 #PBS -q gpu
 
 module load compiler/anaconda3
@@ -17,4 +17,4 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/rintu.kutum/.conda/envs/histoimgan
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/rintu.kutum/.conda/envs/histoimgan/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/rintu.kutum/.conda/pkgs/cudatoolkit-11.2.2-hbe64b41_11/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/rintu.kutum/.conda/pkgs/cudatoolkit-11.0.3-h88f8997_11/lib
-python3 /storage/bic/data/oscc/data/Histology-image-analysis/model.py 
+python3 /storage/bic/data/oscc/data/Histology-image-analysis/model_1.py 
