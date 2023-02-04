@@ -1,8 +1,8 @@
 #! /bin/bash
-#PBS -N RN152V2
-#PBS -l host=compute4
-#PBS -o model_ResNet152V2_out.log
-#PBS -e model_ResNet152V2_err.log
+#PBS -N P2_XCPN
+#PBS -l host=compute3
+#PBS -o model_Xception_out.log
+#PBS -e model_Xception_err.log
 #PBS -q gpu
 
 module load compiler/anaconda3

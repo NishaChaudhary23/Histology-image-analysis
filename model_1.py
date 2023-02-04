@@ -87,7 +87,7 @@ path = '/storage/bic/data/oscc/project_1/train/{}/'.format(a)
 
 # ImageDataGenerator
 # color images
-model_type = 'EfficientNetB4'
+model_type = 'EfficientNetB5'
 # model_type = 'DenseNet121'
 print(f'Model Type: {model_type}')
 
