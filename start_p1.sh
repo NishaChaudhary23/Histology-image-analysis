@@ -1,8 +1,8 @@
 #! /bin/bash
-#PBS -N RN152V2
+#PBS -N P1_ENB4
 #PBS -l host=compute4
-#PBS -o /storage/bic/data/oscc/project_1/model_ResNet152V2_out.log
-#PBS -e /storage/bic/data/oscc/project_1/model_ResNet152V2_err.log
+#PBS -o /storage/bic/data/oscc/project_1/model_EfficientNetB4_out.log
+#PBS -e /storage/bic/data/oscc/project_1/model_EfficientNetB4_err.log
 #PBS -q gpu
 
 module load compiler/anaconda3
