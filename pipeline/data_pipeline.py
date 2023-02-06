@@ -10,7 +10,7 @@ def image_generator(path, case, batch_size=32):
         files_2 = os.listdir(foldpath_2)
         foldpath_3 = os.path.join(path, folders[2])
         files_3 = os.listdir(foldpath_3)
-        files = files_1[0.25*len(files_1)] + files_2[0.25*len(files_1)] + files_3[0.5*len(files_1)]
+        files = files_1[len(files_1)//25] + files_2[len(files_1)//25] + files_3[len(files_1)//25]
         print(files)
 
 image_generator("/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/original", 1)
