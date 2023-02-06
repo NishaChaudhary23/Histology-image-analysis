@@ -31,6 +31,7 @@ def image_generator(case, batch_size=32):
         os.makedirs(os.path.join(o_path,"p_w"))
         outpath6 = os.path.join(o_path,"p_w") 
     if case ==1:
+        print("Case 1")
         foldpath_1 = os.path.join(path, folders[0])
         files_1 = os.listdir(foldpath_1)
         foldpath_2 = os.path.join(path, folders[1])
@@ -54,6 +55,7 @@ def image_generator(case, batch_size=32):
         test_df.to_csv(os.path.join(outpath1, "test.csv"), index=False)
         print(test_df)
     if case ==2:
+        print("Case 2")
         foldpath_1 = os.path.join(path, folders[1])
         files_1 = os.listdir(foldpath_1)
         foldpath_2 = os.path.join(path, folders[2])
@@ -77,6 +79,7 @@ def image_generator(case, batch_size=32):
         test_df.to_csv(os.path.join(outpath2, "test.csv"), index=False)
         print(test_df)
     if case ==3:
+        print("Case 3")
         foldpath_1 = os.path.join(path, folders[2])
         files_1 = os.listdir(foldpath_1)
         foldpath_2 = os.path.join(path, folders[0])
@@ -100,6 +103,7 @@ def image_generator(case, batch_size=32):
         test_df.to_csv(os.path.join(outpath3, "test.csv"), index=False)
         print(test_df)
     if case ==4:
+        print("Case 4")
         foldpath_1 = os.path.join(path, folders[0])
         files_1 = os.listdir(foldpath_1)
         foldpath_2 = os.path.join(path, folders[1])
@@ -117,6 +121,7 @@ def image_generator(case, batch_size=32):
         test_df.to_csv(os.path.join(outpath4, "test.csv"), index=False)
         print(test_df)
     if case ==5:
+        print("Case 5")
         foldpath_1 = os.path.join(path, folders[1])
         files_1 = os.listdir(foldpath_1)
         foldpath_2 = os.path.join(path, folders[2])
@@ -134,6 +139,7 @@ def image_generator(case, batch_size=32):
         test_df.to_csv(os.path.join(outpath5, "test.csv"), index=False)
         print(test_df)
     if case ==6:
+        print("Case 6")
         foldpath_1 = os.path.join(path, folders[2])
         files_1 = os.listdir(foldpath_1)
         foldpath_2 = os.path.join(path, folders[0])
