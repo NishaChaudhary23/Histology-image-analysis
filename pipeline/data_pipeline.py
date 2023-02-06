@@ -15,13 +15,20 @@ def image_generator(path, case, batch_size=32):
         files_2 = os.listdir(foldpath_2)
         foldpath_3 = os.path.join(path, folders[2])
         files_3 = os.listdir(foldpath_3)
-        files = files_1[:len(files_1)//25] + files_2[:len(files_2)//25] + files_3[:len(files_3)//50]
-        for file in files_1[:len(files_1)//25]:
+        files = files_1[:len(files_1)//4] + files_2[:len(files_2)//4] + files_3[:len(files_3)//50]
+        for file in files_1[:len(files_1)//4]:
             train_df = train_df.append({'image': os.path.join(path, file), 'label': 0}, ignore_index=True)
-        for file in files_2[:len(files_2)//25]:
+        for file in files_2[:len(files_2)//4]:
             train_df = train_df.append({'image': os.path.join(path, file), 'label': 0}, ignore_index=True)
-        for file in files_3[:len(files_3)//50]:
+        for file in files_3[:len(files_3)//2]:
             train_df = train_df.append({'image': os.path.join(path, file), 'label': 1}, ignore_index=True)
         print(train_df)
+        for file in files_1[len(files_1)//4:len(files_1)//2]:
+            test_df = test_df.append({'image': os.path.join(path, file), 'label': 0}, ignore_index=True)
+        for file in files_2[len(files_2)//4:len(files_2)//2]:
+            test_df = test_df.append({'image': os.path.join(path, file), 'label': 0}, ignore_index=True)
+        for file in files_3[len(files_3)//2:len(files_1)//2]:
+            test_df = test_df.append({'image': os.path.join(path, file), 'label': 1}, ignore_index=True)
+        print(test_df)
 
 image_generator("/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/original", 1)
