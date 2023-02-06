@@ -8,27 +8,28 @@ warnings.filterwarnings('ignore')
 
 def image_generator(case, batch_size=32):
     path = "/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/original"
+    o_path = "/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/pipeline"
     folders = ['wdoscc', 'mdoscc', 'pdoscc']
     train_df = pd.DataFrame(columns=['image', 'label'])
     test_df = pd.DataFrame(columns=['image', 'label'])
-    if os.path.isdir(os.path.join(path,"wm_p")):
-        os.makedirs(os.path.join(path,"wm_p"))
-        outpath1 = os.path.join(path,"wm_p") 
-    if os.path.isdir(os.path.join(path,"mp_w")):
-        os.makedirs(os.path.join(path,"mp_w"))
-        outpath2 = os.path.join(path,"mp_w") 
-    if os.path.isdir(os.path.join(path,"pw_m")):
-        os.makedirs(os.path.join(path,"pw_m"))
-        outpath3 = os.path.join(path,"pw_m") 
-    if os.path.isdir(os.path.join(path,"w_m")):
-        os.makedirs(os.path.join(path,"w_m"))
-        outpath4 = os.path.join(path,"w_m") 
-    if os.path.isdir(os.path.join(path,"m_p")):
-        os.makedirs(os.path.join(path,"m_p"))
-        outpath5 = os.path.join(path,"m_p") 
-    if os.path.isdir(os.path.join(path,"p_w")):
-        os.makedirs(os.path.join(path,"p_w"))
-        outpath6 = os.path.join(path,"p_w") 
+    if os.path.isdir(os.path.join(o_path,"wm_p")):
+        os.makedirs(os.path.join(o_path,"wm_p"))
+        outpath1 = os.path.join(o_path,"wm_p") 
+    if os.path.isdir(os.path.join(o_path,"mp_w")):
+        os.makedirs(os.path.join(o_path,"mp_w"))
+        outpath2 = os.path.join(o_path,"mp_w") 
+    if os.path.isdir(os.path.join(o_path,"pw_m")):
+        os.makedirs(os.path.join(o_path,"pw_m"))
+        outpath3 = os.path.join(o_path,"pw_m") 
+    if os.path.isdir(os.path.join(o_path,"w_m")):
+        os.makedirs(os.path.join(o_path,"w_m"))
+        outpath4 = os.path.join(o_path,"w_m") 
+    if os.path.isdir(os.path.join(o_path,"m_p")):
+        os.makedirs(os.path.join(o_path,"m_p"))
+        outpath5 = os.path.join(o_path,"m_p") 
+    if os.path.isdir(os.path.join(o_path,"p_w")):
+        os.makedirs(os.path.join(o_path,"p_w"))
+        outpath6 = os.path.join(o_path,"p_w") 
     if case ==1:
         foldpath_1 = os.path.join(path, folders[0])
         files_1 = os.listdir(foldpath_1)
