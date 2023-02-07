@@ -46,6 +46,16 @@ def phase(choice):
                 df_test = pd.read_csv(f'{base}/pipeline/p_w/test.csv')
                 label_1 = 'pdoscc'
                 label_2 = 'wdoscc'
+        if choice=='M2a':
+                df_train = pd.read_csv(f'{base}/pipeline/wm_p/train.csv')
+                df_test = pd.read_csv(f'{base}/pipeline/wm_p/test.csv')
+                label_1 = 'wpdoscc'
+                label_2 = 'mdoscc'
+        if choice=='M2b':
+                df_train = pd.read_csv(f'{base}/pipeline/w_m/train.csv')
+                df_test = pd.read_csv(f'{base}/pipeline/w_m/test.csv')
+                label_1 = 'pdoscc'
+                label_2 = 'wdoscc'
 
         # remapping the col namesas x_lab and y_lab
         df_train = df_train.rename(columns={'image':'filename'})
