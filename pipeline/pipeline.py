@@ -210,13 +210,13 @@ def phase(choice):
         # print(f'Supplimentary Data Saved')
         # print("------------------------------------------")
 
-        # Testing the model
-        print("------------------------------------------")
-        print(f'Testing the model')
-        print("------------------------------------------")
-        test_loss, test_acc = model.evaluate(test_generator)
-        print('test acc:', test_acc)
-        print('test loss:', test_loss)
+        # # Testing the model
+        # print("------------------------------------------")
+        # print(f'Testing the model')
+        # print("------------------------------------------")
+        # test_loss, test_acc = model.evaluate(test_generator)
+        # print('test acc:', test_acc)
+        # print('test loss:', test_loss)
 
         # Predicting the test data
         print("------------------------------------------")
