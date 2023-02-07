@@ -136,11 +136,11 @@ def phase(choice):
 
         if not os.path.exists(f'{out_path}/{choice}'):
                 os.makedirs(f'{out_path}/{choice}')
-        Model Summary
+        # Model Summary
 
 
         TF_CPP_MIN_LOG_LEVEL=2
-        Training the model
+        # Training the model
 
         print("------------------------------------------")
         print(f'Training the model {choice}')
