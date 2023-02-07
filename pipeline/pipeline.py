@@ -54,8 +54,8 @@ def phase(choice):
 
 
         # converting the labels to key
-        df_train['class'] = df_train['class'].map({'0':label_1,'1':label_2})
-        df_test['class'] = df_test['class'].map({'0':label_1,'1':label_2})
+        df_train['class'] = df_train['class'].map({0:label_1,1:label_2})
+        df_test['class'] = df_test['class'].map({0:label_1,1:label_2})
 
         # converting all to categorical
         df_train['class'] = to_categorical(df_train['class'], num_classes=2, dtype='str')
