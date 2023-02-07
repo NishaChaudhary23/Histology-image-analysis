@@ -222,9 +222,9 @@ def phase(choice):
         print("------------------------------------------")
         print(f'Predicting the test data')
         print("------------------------------------------")
-        test_pred = model.predict(test_generator)
-        test_pred = np.argmax(test_pred, axis=1)
-        confusion = confusion_matrix(test_generator.classes, y_pred)
+        test_finetune_test_pred = model.predict(test_generator)
+        test_finetune_test_pred = np.argmax(test_finetune_test_pred, axis=1)
+        confusion = confusion_matrix(test_generator.classes, test_finetune_test_pred)
         plt.figure(figsize=(10, 10))
         sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
         plt.title('Confusion Matrix')
@@ -238,7 +238,7 @@ def phase(choice):
 
         # classification report
 
-        report = classification_report(test_generator.classes, y_pred, output_dict=True)
+        report = classification_report(test_generator.classes, test_pred, output_dict=True)
         df = pd.DataFrame(report).transpose()
         df.to_csv(f'{out_path}/{choice}/Classification_report_test.csv')
 
@@ -296,9 +296,9 @@ def phase(choice):
 
         loaded_model = load_model(f'{out_path}/{choice}/{choice}.h5')
         outcomes = loaded_model.predict(valid_generator)
-        y_pred = np.argmax(outcomes, axis=1)
+        test_fine_pred = np.argmax(outcomes, axis=1)
         # confusion matrix
-        confusion = confusion_matrix(valid_generator.classes, y_pred)
+        confusion = confusion_matrix(valid_generator.classes, test_fine_pred)
         plt.figure(figsize=(10, 10))
         sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
         plt.title('Confusion Matrix')
@@ -311,7 +311,7 @@ def phase(choice):
         conf_df.to_csv(f'{out_path}/{choice}/Confusion_matrix_finetune.csv')
 
         # classification report
-        report = classification_report(valid_generator.classes, y_pred, output_dict=True)
+        report = classification_report(valid_generator.classes, test_fine_pred, output_dict=True)
         df = pd.DataFrame(report).transpose()
         df.to_csv(f'{out_path}/{choice}/Classification_report_finetune.csv')
 
@@ -332,7 +332,7 @@ def phase(choice):
         print(f'Predicting the test data')
         print("------------------------------------------")
         test_pred = model.predict(test_generator)
-        test_pred = np.argmax(test_pred, axis=1)
+        test_finetune_test_pred = np.argmax(test_finetune_test_pred, axis=1)
         confusion = confusion_matrix(test_generator.classes, y_pred)
         plt.figure(figsize=(10, 10))
         sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
