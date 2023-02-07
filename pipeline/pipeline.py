@@ -61,8 +61,8 @@ def phase(choice):
 
 
         # 0s and 1s to label key 
-        df_train['class'] = df_train['class'].replace({0:label_1, 1:label_2})
-        df_test['class'] = df_test['class'].replace({0:label_1, 1:label_2})
+        df_train['class'] = df_train['class'].replace({str(0):label_1, str(1):label_2})
+        df_test['class'] = df_test['class'].replace({str(0):label_1, str(1):label_2})
 
         # converting all to categorical
         df_train['class'] = to_categorical(df_train['class'])
