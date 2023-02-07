@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Model
 from tensorflow.keras.models import load_model
+from tensorflow.keras.utils import to_categorical
 import os
 from tensorflow.keras.applications import InceptionV3
 from tensorflow.keras import layers
@@ -50,9 +51,9 @@ def phase(choice):
         df_test = df_test.rename(columns={'image':'filename'})
         df_test = df_test.rename(columns={'label':'class'})
 
-        # converting all to string
-        df_train['class'] = df_train['class'].astype(str)
-        df_test['class'] = df_test['class'].astype(str)
+        # converting all to categorical
+        df_train['class'] = df_train['class'].to_categorical()
+        df_test['class'] = df_test['class'].to_categorical()
 
         # Training Data
         train_generator = datagen_train.flow_from_dataframe(
