@@ -45,9 +45,9 @@ def phase(choice):
         print(df_test.head())
 
         # remapping the col namesas x_lab and y_lab
-        df_train = df_train.rename(columns={'filename':'x_lab'})
+        df_train = df_train.rename(columns={'image':'x_lab'})
         df_train = df_train.rename(columns={'label':'y_lab'})
-        df_test = df_test.rename(columns={'filename':'x_lab'})
+        df_test = df_test.rename(columns={'image':'x_lab'})
         df_test = df_test.rename(columns={'label':'y_lab'})
 
         # Training Data
