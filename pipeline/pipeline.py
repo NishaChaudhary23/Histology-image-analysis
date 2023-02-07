@@ -52,8 +52,8 @@ def phase(choice):
         df_train['class'] = to_categorical(df_train['class'], num_classes=2, dtype='str')
         df_test['class'] = to_categorical(df_test['class'], num_classes=2, dtype='str')
 
-        print(df_train.head())
-        print(df_test.head())
+        print(df_train)
+        print(df_test)
         # Training Data
         train_generator = datagen_train.flow_from_dataframe(
                 dataframe=df_train,
