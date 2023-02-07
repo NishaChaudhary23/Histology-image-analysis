@@ -46,7 +46,9 @@ def phase(choice):
 
         # remapping the col namesas x_lab and y_lab
         df_train = df_train.rename(columns={'image':'filename'})
+        df_train = df_train.rename(columns={'label':'class'})
         df_test = df_test.rename(columns={'image':'filename'})
+        df_test = df_test.rename(columns={'label':'class'})
 
         # Training Data
         train_generator = datagen_train.flow_from_dataframe(
