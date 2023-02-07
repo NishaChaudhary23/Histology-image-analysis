@@ -136,87 +136,87 @@ def phase(choice):
 
         if not os.path.exists(f'{out_path}/{choice}'):
                 os.makedirs(f'{out_path}/{choice}')
-        # Model Summary
+        Model Summary
 
 
-        #TF_CPP_MIN_LOG_LEVEL=2
-        # Training the model
+        TF_CPP_MIN_LOG_LEVEL=2
+        Training the model
 
-        # print("------------------------------------------")
-        # print(f'Training the model {choice}')
-        # print("------------------------------------------")
-        # history = model.fit(train_generator, validation_data = valid_generator, epochs=20)
+        print("------------------------------------------")
+        print(f'Training the model {choice}')
+        print("------------------------------------------")
+        history = model.fit(train_generator, validation_data = valid_generator, epochs=20)
 
-        # print("------------------------------------------")
-        # print(f'Training Complete')
-        # print("------------------------------------------")
-        # # Creating a directory to save the model paths 
+        print("------------------------------------------")
+        print(f'Training Complete')
+        print("------------------------------------------")
+        # Creating a directory to save the model paths 
 
-        # # Saving the model
-        # model.save(f'{out_path}/{choice}/{choice}.h5')
-        # print("------------------------------------------")
-        # print(f'Model saved')
-        # print("------------------------------------------")
+        # Saving the model
+        model.save(f'{out_path}/{choice}/{choice}.h5')
+        print("------------------------------------------")
+        print(f'Model saved')
+        print("------------------------------------------")
 
 
-        # #plotting the accuracy and loss
-        # print("------------------------------------------")
-        # print(f'Plotting and supplimentary data')
-        # print("------------------------------------------")
-        # plt.figure(figsize=(10, 10))
-        # plt.plot(history.history['acc'], label='Training Accuracy')
-        # plt.plot(history.history['val_acc'], label='Validation Accuracy')
-        # plt.title('Training and Validation Accuracy')
-        # plt.legend(['train', 'test'], loc='upper left')
-        # plt.tight_layout()
-        # plt.savefig(f'{out_path}/{choice}/Accuracy.jpg')
+        #plotting the accuracy and loss
+        print("------------------------------------------")
+        print(f'Plotting and supplimentary data')
+        print("------------------------------------------")
+        plt.figure(figsize=(10, 10))
+        plt.plot(history.history['acc'], label='Training Accuracy')
+        plt.plot(history.history['val_acc'], label='Validation Accuracy')
+        plt.title('Training and Validation Accuracy')
+        plt.legend(['train', 'test'], loc='upper left')
+        plt.tight_layout()
+        plt.savefig(f'{out_path}/{choice}/Accuracy.jpg')
 
-        # # np.save('{out_path}/{choice}/history1.npy',history.history)
+        # np.save('{out_path}/{choice}/history1.npy',history.history)
 
-        # hist_df = pd.DataFrame(history.history) 
+        hist_df = pd.DataFrame(history.history) 
 
-        # # save to json:  
-        # hist_json_file = f'{out_path}/{choice}/history.json' 
-        # with open(hist_json_file, mode='w') as f:
-        #         hist_df.to_json(f)
+        # save to json:  
+        hist_json_file = f'{out_path}/{choice}/history.json' 
+        with open(hist_json_file, mode='w') as f:
+                hist_df.to_json(f)
 
-        # # or save to csv: 
-        # hist_csv_file = f'{out_path}/{choice}/history.csv'
-        # with open(hist_csv_file, mode='w') as f:
-        #         hist_df.to_csv(f)
+        # or save to csv: 
+        hist_csv_file = f'{out_path}/{choice}/history.csv'
+        with open(hist_csv_file, mode='w') as f:
+                hist_df.to_csv(f)
 
-        # loaded_model = load_model(f'{out_path}/{choice}/{choice}.h5')
-        # outcomes = loaded_model.predict(valid_generator)
-        # y_pred = np.argmax(outcomes, axis=1)
-        # # confusion matrix
-        # confusion = confusion_matrix(valid_generator.classes, y_pred)
-        # plt.figure(figsize=(10, 10))
-        # sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
-        # plt.title('Confusion Matrix')
-        # plt.xlabel('Predicted Label')
-        # plt.ylabel('True Label')
-        # plt.tight_layout()
-        # plt.savefig(f'{out_path}/{choice}/Confusion_matrix.jpg')
+        loaded_model = load_model(f'{out_path}/{choice}/{choice}.h5')
+        outcomes = loaded_model.predict(valid_generator)
+        y_pred = np.argmax(outcomes, axis=1)
+        # confusion matrix
+        confusion = confusion_matrix(valid_generator.classes, y_pred)
+        plt.figure(figsize=(10, 10))
+        sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
+        plt.title('Confusion Matrix')
+        plt.xlabel('Predicted Label')
+        plt.ylabel('True Label')
+        plt.tight_layout()
+        plt.savefig(f'{out_path}/{choice}/Confusion_matrix.jpg')
 
-        # conf_df = pd.DataFrame(confusion)
-        # conf_df.to_csv(f'{out_path}/{choice}/Confusion_matrix.csv')
+        conf_df = pd.DataFrame(confusion)
+        conf_df.to_csv(f'{out_path}/{choice}/Confusion_matrix.csv')
 
-        # # classification report
-        # report = classification_report(valid_generator.classes, y_pred, output_dict=True)
-        # df = pd.DataFrame(report).transpose()
-        # df.to_csv(f'{out_path}/{choice}/Classification_report.csv')
+        # classification report
+        report = classification_report(valid_generator.classes, y_pred, output_dict=True)
+        df = pd.DataFrame(report).transpose()
+        df.to_csv(f'{out_path}/{choice}/Classification_report.csv')
 
-        # print("------------------------------------------")
-        # print(f'Supplimentary Data Saved')
-        # print("------------------------------------------")
+        print("------------------------------------------")
+        print(f'Supplimentary Data Saved')
+        print("------------------------------------------")
 
-        # # Testing the model
-        # print("------------------------------------------")
-        # print(f'Testing the model')
-        # print("------------------------------------------")
-        # test_loss, test_acc = model.evaluate(test_generator)
-        # print('test acc:', test_acc)
-        # print('test loss:', test_loss)
+        # Testing the model
+        print("------------------------------------------")
+        print(f'Testing the model')
+        print("------------------------------------------")
+        test_loss, test_acc = model.evaluate(test_generator)
+        print('test acc:', test_acc)
+        print('test loss:', test_loss)
 
         # Predicting the test data
         print("------------------------------------------")
@@ -357,4 +357,4 @@ def phase(choice):
 
 
 
-phase('M1a')
+phase('M2a')
