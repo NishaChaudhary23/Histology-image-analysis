@@ -30,27 +30,43 @@ train_large = '/storage/bic/data/oscc/data/working/train'
 a = np.random.choice(['wdoscc','mdoscc','pdoscc'])
 path = '/storage/bic/data/oscc/data/working/train/{}/'.format(a)
 
+def phase(path, choice):
 
-model_type = 'InceptionV3'
+        out_path = '/home/chs.rintu/Documents/office/researchxoscc/project_2/output'
 
-datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.20)
-# Training Data
-train_generator = datagen_train.flow_from_dataframe(
-        train_large,
-        target_size=(300, 300),
-        batch_size=32,
-        class_mode='categorical',
-        subset = 'training')
-#Validation Data
-valid_generator = datagen_train.flow_from_dataframe(
-        train_large,
-        target_size=(300, 300),
-        batch_size=32,
-        class_mode='categorical',
-        subset = 'validation',
-        shuffle=False)
+        if choice=='M1a':
+                df_train = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/pw_m/train.csv')
+                df_test = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/pw_m/test.csv')
+        if choice=='M1b':
+                df_train = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/p_w/train.csv')
+                df_test = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/p_w/test.csv')
+        datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.20)
+        # Training Data
+        train_generator = datagen_train.flow_from_dataframe(
+                dataframe=df_train,
+                target_size=(300, 300),
+                batch_size=32,
+                class_mode='categorical',
+                subset = 'training')
+        #Validation Data
+        valid_generator = datagen_train.flow_from_dataframe(
+                dataframe=df_train,
+                target_size=(300, 300),
+                batch_size=32,
+                class_mode='categorical',
+                subset = 'validation',
+                shuffle=False)
 
-if model_type == 'InceptionV3':
+        datagen_test = ImageDataGenerator(rescale = 1.0/255.0)
+        # Test Data
+        test_generator = datagen_test.flow_from_dataframe(
+                dataframe=df_test,
+                target_size=(300, 300),
+                batch_size=32,
+                class_mode='categorical',
+                shuffle=False)
+
+        
         inception = InceptionV3(
                 weights='imagenet',
                 include_top=False,
@@ -66,79 +82,78 @@ if model_type == 'InceptionV3':
         model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 
-if not os.path.exists(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}'):
-        os.makedirs(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}')
-# Model Summary
+        if not os.path.exists(f'{out_path}/{choice}'):
+                os.makedirs(f'{out_path}/{choice}')
+        # Model Summary
 
 
-#TF_CPP_MIN_LOG_LEVEL=2
-# Training the model
+        #TF_CPP_MIN_LOG_LEVEL=2
+        # Training the model
 
-print("------------------------------------------")
-print(f'Training the model {model_type}')
-print("------------------------------------------")
-history = model.fit(train_generator, validation_data = valid_generator, epochs=50)
+        print("------------------------------------------")
+        print(f'Training the model {choice}')
+        print("------------------------------------------")
+        history = model.fit(train_generator, validation_data = valid_generator, epochs=50)
 
-print("------------------------------------------")
-print(f'Training Complete')
-print("------------------------------------------")
-# Creating a directory to save the model paths 
+        print("------------------------------------------")
+        print(f'Training Complete')
+        print("------------------------------------------")
+        # Creating a directory to save the model paths 
 
-# Saving the model
-model.save(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/{model_type}.h5')
-print("------------------------------------------")
-print(f'Model saved')
-print("------------------------------------------")
+        # Saving the model
+        model.save(f'{out_path}/{choice}/{choice}.h5')
+        print("------------------------------------------")
+        print(f'Model saved')
+        print("------------------------------------------")
 
 
-#plotting the accuracy and loss
-print("------------------------------------------")
-print(f'Plotting and supplimentary data')
-print("------------------------------------------")
-plt.figure(figsize=(10, 10))
-plt.plot(history.history['acc'], label='Training Accuracy')
-plt.plot(history.history['val_acc'], label='Validation Accuracy')
-plt.title('Training and Validation Accuracy')
-plt.legend(['train', 'test'], loc='upper left')
-plt.tight_layout()
-plt.savefig(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Accuracy.jpg')
+        #plotting the accuracy and loss
+        print("------------------------------------------")
+        print(f'Plotting and supplimentary data')
+        print("------------------------------------------")
+        plt.figure(figsize=(10, 10))
+        plt.plot(history.history['acc'], label='Training Accuracy')
+        plt.plot(history.history['val_acc'], label='Validation Accuracy')
+        plt.title('Training and Validation Accuracy')
+        plt.legend(['train', 'test'], loc='upper left')
+        plt.tight_layout()
+        plt.savefig(f'{out_path}/{choice}/Accuracy.jpg')
 
-# np.save('/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/history1.npy',history.history)
+        # np.save('{out_path}/{choice}/history1.npy',history.history)
 
-hist_df = pd.DataFrame(history.history) 
+        hist_df = pd.DataFrame(history.history) 
 
-# save to json:  
-hist_json_file = f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/history.json' 
-with open(hist_json_file, mode='w') as f:
-    hist_df.to_json(f)
+        # save to json:  
+        hist_json_file = f'{out_path}/{choice}/history.json' 
+        with open(hist_json_file, mode='w') as f:
+                hist_df.to_json(f)
 
-# or save to csv: 
-hist_csv_file = f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/history.csv'
-with open(hist_csv_file, mode='w') as f:
-    hist_df.to_csv(f)
+        # or save to csv: 
+        hist_csv_file = f'{out_path}/{choice}/history.csv'
+        with open(hist_csv_file, mode='w') as f:
+                hist_df.to_csv(f)
 
-loaded_model = load_model(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/{model_type}.h5')
-outcomes = loaded_model.predict(valid_generator)
-y_pred = np.argmax(outcomes, axis=1)
-# confusion matrix
-confusion = confusion_matrix(valid_generator.classes, y_pred)
-plt.figure(figsize=(10, 10))
-sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
-plt.title('Confusion Matrix')
-plt.xlabel('Predicted Label')
-plt.ylabel('True Label')
-plt.tight_layout()
-plt.savefig(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Confusion_matrix.jpg')
+        loaded_model = load_model(f'{out_path}/{choice}/{choice}.h5')
+        outcomes = loaded_model.predict(valid_generator)
+        y_pred = np.argmax(outcomes, axis=1)
+        # confusion matrix
+        confusion = confusion_matrix(valid_generator.classes, y_pred)
+        plt.figure(figsize=(10, 10))
+        sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
+        plt.title('Confusion Matrix')
+        plt.xlabel('Predicted Label')
+        plt.ylabel('True Label')
+        plt.tight_layout()
+        plt.savefig(f'{out_path}/{choice}/Confusion_matrix.jpg')
 
-conf_df = pd.DataFrame(confusion, index = ['wdoscc','mdoscc','pdoscc'], columns = ['wdoscc','mdoscc','pdoscc'])
-conf_df.to_csv(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Confusion_matrix.csv')
+        conf_df = pd.DataFrame(confusion)
+        conf_df.to_csv(f'{out_path}/{choice}/Confusion_matrix.csv')
 
-# classification report
-target_names = ['wdoscc','mdoscc','pdoscc']
-report = classification_report(valid_generator.classes, y_pred, target_names=target_names, output_dict=True)
-df = pd.DataFrame(report).transpose()
-df.to_csv(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Classification_report.csv')
+        # classification report
+        report = classification_report(valid_generator.classes, y_pred, output_dict=True)
+        df = pd.DataFrame(report).transpose()
+        df.to_csv(f'{out_path}/{choice}/Classification_report.csv')
 
-print("------------------------------------------")
-print(f'Supplimentary Data Saved')
-print("------------------------------------------")
+        print("------------------------------------------")
+        print(f'Supplimentary Data Saved')
+        print("------------------------------------------")
