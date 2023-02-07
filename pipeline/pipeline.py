@@ -33,17 +33,19 @@ a = np.random.choice(['wdoscc','mdoscc','pdoscc'])
 path = '/storage/bic/data/oscc/data/working/train/{}/'.format(a)
 
 def phase(choice):
+        base = '/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet'
         out_path = '/home/chs.rintu/Documents/office/researchxoscc/project_2/output'
-        datapath = '/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/train_all'
+        datapath = f'{base}/train_all'
         if choice=='M1a':
-                df_train = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/pw_m/train.csv')
-                df_test = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/pw_m/test.csv')
+                df_train = pd.read_csv(f'{base}/pipeline/pw_m/train.csv')
+                df_test = pd.read_csv(f'{base}/pipeline/pw_m/test.csv')
                 label_1 = 'wpdoscc'
                 label_2 = 'mdoscc'
         if choice=='M1b':
-                df_train = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/p_w/train.csv')
-                df_test = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/p_w/test.csv')
-        datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.20)
+                df_train = pd.read_csv(f'{base}/pipeline/p_w/train.csv')
+                df_test = pd.read_csv(f'{base}/pipeline/p_w/test.csv')
+                label_1 = 'pdoscc'
+                label_2 = 'wdoscc'
 
         # remapping the col namesas x_lab and y_lab
         df_train = df_train.rename(columns={'image':'filename'})
@@ -66,14 +68,18 @@ def phase(choice):
 
         print(df_train)
         print(df_test)
+        
+        
         # Training Data
+        datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.2)
         train_generator = datagen_train.flow_from_dataframe(
                 dataframe=df_train,
                 folder=datapath,
                 target_size=(300, 300),
                 batch_size=32,
                 class_mode='categorical',
-                subset = 'training')
+                subset = 'training',
+                validate_filenames=False)
         #Validation Data
         valid_generator = datagen_train.flow_from_dataframe(
                 dataframe=df_train,
@@ -82,7 +88,8 @@ def phase(choice):
                 batch_size=32,
                 class_mode='categorical',
                 subset = 'validation',
-                shuffle=False)
+                shuffle=False,
+                validate_filenames=False)
 
         datagen_test = ImageDataGenerator(rescale = 1.0/255.0)
         # Test Data
@@ -92,7 +99,8 @@ def phase(choice):
                 target_size=(300, 300),
                 batch_size=32,
                 class_mode='categorical',
-                shuffle=False)
+                shuffle=False,
+                validate_filenames=False)
         
         # printing the train, valid and test data
         print("------------------------------------------")
