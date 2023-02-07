@@ -38,6 +38,8 @@ def phase(choice):
         if choice=='M1a':
                 df_train = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/pw_m/train.csv')
                 df_test = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/pw_m/test.csv')
+                label_1 = 'wpdoscc'
+                label_2 = 'mdoscc'
         if choice=='M1b':
                 df_train = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/p_w/train.csv')
                 df_test = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/p_w/test.csv')
@@ -49,9 +51,15 @@ def phase(choice):
         df_test = df_test.rename(columns={'image':'filename'})
         df_test = df_test.rename(columns={'label':'class'})
 
+
+
+        # converting the labels to key
+        df_train['class'] = df_train['class'].map({'0':label_1,'1':label_2})
+        df_test['class'] = df_test['class'].map({'0':label_1,'1':label_2})
+
         # converting all to categorical
-        df_train['class'] = OneHotEncoder(df_train['class'])
-        df_test['class'] = OneHotEncoder(df_test['class'])
+        df_train['class'] = to_categorical(df_train['class'], num_classes=2, dtype='int')
+        df_test['class'] = to_categorical(df_test['class'], num_classes=2, dtype='int')
 
         # converting the str to string
         # df_train['class'] = df_train['class'].astype(str)
