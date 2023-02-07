@@ -9,6 +9,7 @@ warnings.filterwarnings('ignore')
 def image_generator(case, batch_size=32):
     path = "/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/train/"
     o_path = "/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline"
+    appendpath = '/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/train_all'
     folders = ['wdoscc', 'mdoscc', 'pdoscc']
     train_df = pd.DataFrame(columns=['image', 'label'])
     test_df = pd.DataFrame(columns=['image', 'label'])
@@ -39,11 +40,11 @@ def image_generator(case, batch_size=32):
         foldpath_3 = os.path.join(path, folders[2])
         files_3 = os.listdir(foldpath_3)
         for file in files_1[:len(files_1)//4]:
-            train_df = train_df.append({'image': file, 'label': 0}, ignore_index=True)
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_2[:len(files_2)//4]:
-            train_df = train_df.append({'image': file, 'label': 0}, ignore_index=True)
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_3[:len(files_3)//2]:
-            train_df = train_df.append({'image': file, 'label': 1}, ignore_index=True)
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': 1}, ignore_index=True)
         train_df.to_csv(os.path.join(outpath1, "train.csv"), index=False)
         print(train_df)
     if case ==2:
@@ -55,11 +56,11 @@ def image_generator(case, batch_size=32):
         foldpath_3 = os.path.join(path, folders[2])
         files_3 = os.listdir(foldpath_3)
         for file in files_1[len(files_1)//4:len(files_1)//2]:
-            test_df = test_df.append({'image': file, 'label': 0}, ignore_index=True)
+            test_df = test_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_2[len(files_2)//4:len(files_2)//2]:
-            test_df = test_df.append({'image': file, 'label': 0}, ignore_index=True)
+            test_df = test_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_3[len(files_3)//2:len(files_3)-len(files_3)//4]:
-            test_df = test_df.append({'image': file, 'label': 1}, ignore_index=True)
+            test_df = test_df.append({'image': os.path.join(appendpath,file), 'label': 1}, ignore_index=True)
         test_df.to_csv(os.path.join(outpath1, "test.csv"), index=False)
         print(test_df)
     if case ==3:
@@ -71,11 +72,11 @@ def image_generator(case, batch_size=32):
         foldpath_3 = os.path.join(path, folders[0])
         files_3 = os.listdir(foldpath_3)
         for file in files_1[:len(files_1)//4]:
-            train_df = train_df.append({'image': file, 'label': 0}, ignore_index=True)
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_2[:len(files_2)//4]:
-            train_df = train_df.append({'image': file, 'label': 0}, ignore_index=True)
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_3[:len(files_3)//2]:
-            train_df = train_df.append({'image': file, 'label': 1}, ignore_index=True)
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': 1}, ignore_index=True)
         train_df.to_csv(os.path.join(outpath2, "train.csv"), index=False)
         print(train_df)
     if case ==4:
@@ -87,11 +88,11 @@ def image_generator(case, batch_size=32):
         foldpath_3 = os.path.join(path, folders[0])
         files_3 = os.listdir(foldpath_3)
         for file in files_1[len(files_1)//4:len(files_1)//2]:
-            test_df = test_df.append({'image': file, 'label': 0}, ignore_index=True)
+            test_df = test_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_2[len(files_2)//4:len(files_2)//2]:
-            test_df = test_df.append({'image': file, 'label': 0}, ignore_index=True)
+            test_df = test_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_3[len(files_3)//2:len(files_3)-len(files_3)//4]:
-            test_df = test_df.append({'image': file, 'label': 1}, ignore_index=True)
+            test_df = test_df.append({'image': os.path.join(appendpath,file), 'label': 1}, ignore_index=True)
         test_df.to_csv(os.path.join(outpath2, "test.csv"), index=False)
         print(test_df)
     if case ==5:
@@ -103,11 +104,11 @@ def image_generator(case, batch_size=32):
         foldpath_3 = os.path.join(path, folders[1])
         files_3 = os.listdir(foldpath_3)
         for file in files_1[:len(files_1)//4]:
-            train_df = train_df.append({'image': file, 'label': 0}, ignore_index=True)
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_2[:len(files_2)//4]:
-            train_df = train_df.append({'image': file, 'label': 0}, ignore_index=True)
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_3[:len(files_3)//2]:
-            train_df = train_df.append({'image': file, 'label': 1}, ignore_index=True)
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': 1}, ignore_index=True)
         train_df.to_csv(os.path.join(outpath3, "train.csv"), index=False)
         print(train_df)
     if case ==6:
@@ -119,11 +120,11 @@ def image_generator(case, batch_size=32):
         foldpath_3 = os.path.join(path, folders[1])
         files_3 = os.listdir(foldpath_3)
         for file in files_1[len(files_1)//4:len(files_1)//2]:
-            test_df = test_df.append({'image': file, 'label': 0}, ignore_index=True)
+            test_df = test_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_2[len(files_2)//4:len(files_2)//2]:
-            test_df = test_df.append({'image': file, 'label': 0}, ignore_index=True)
+            test_df = test_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_3[len(files_3)//2:len(files_2)-len(files_2)//4]:
-            test_df = test_df.append({'image': file, 'label': 1}, ignore_index=True)
+            test_df = test_df.append({'image': os.path.join(appendpath,file), 'label': 1}, ignore_index=True)
         test_df.to_csv(os.path.join(outpath3, "test.csv"), index=False)
         print(test_df)
     if case ==7:
@@ -133,9 +134,9 @@ def image_generator(case, batch_size=32):
         foldpath_2 = os.path.join(path, folders[1])
         files_2 = os.listdir(foldpath_2)
         for file in files_1[:len(files_1)//2]:
-            train_df = train_df.append({'image': file, 'label': 0}, ignore_index=True)
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_2[:len(files_2)//2]:
-            train_df = train_df.append({'image': file, 'label': 1}, ignore_index=True)
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': 1}, ignore_index=True)
         train_df.to_csv(os.path.join(outpath4, "train.csv"), index=False)
         print(train_df)
     if case ==8:
@@ -145,9 +146,9 @@ def image_generator(case, batch_size=32):
         foldpath_2 = os.path.join(path, folders[1])
         files_2 = os.listdir(foldpath_2)
         for file in files_1[len(files_1)//2:len(files_1)-len(files_1)//4]:
-            test_df = test_df.append({'image': file, 'label': 0}, ignore_index=True)
+            test_df = test_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_2[len(files_2)//2:len(files_2)-len(files_2)//4]:
-            test_df = test_df.append({'image': file, 'label': 1}, ignore_index=True)
+            test_df = test_df.append({'image': os.path.join(appendpath,file), 'label': 1}, ignore_index=True)
         test_df.to_csv(os.path.join(outpath4, "test.csv"), index=False)
         print(test_df)
     if case ==9:
@@ -157,9 +158,9 @@ def image_generator(case, batch_size=32):
         foldpath_2 = os.path.join(path, folders[2])
         files_2 = os.listdir(foldpath_2)
         for file in files_1[:len(files_1)//2]:
-            train_df = train_df.append({'image': file, 'label': 0}, ignore_index=True)
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_2[:len(files_2)//2]:
-            train_df = train_df.append({'image': file, 'label': 1}, ignore_index=True)
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': 1}, ignore_index=True)
         train_df.to_csv(os.path.join(outpath5, "train.csv"), index=False)
         print(train_df)
     if case ==10:
@@ -169,9 +170,9 @@ def image_generator(case, batch_size=32):
         foldpath_2 = os.path.join(path, folders[2])
         files_2 = os.listdir(foldpath_2)
         for file in files_1[len(files_1)//2:len(files_1)-len(files_1)//4]:
-            test_df = test_df.append({'image': file, 'label': 0}, ignore_index=True)
+            test_df = test_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_2[len(files_2)//2:len(files_2)-len(files_2)//4]:
-            test_df = test_df.append({'image': file, 'label': 1}, ignore_index=True)
+            test_df = test_df.append({'image': os.path.join(appendpath,file), 'label': 1}, ignore_index=True)
         test_df.to_csv(os.path.join(outpath5, "test.csv"), index=False)
         print(test_df)
     if case ==11:
@@ -181,9 +182,9 @@ def image_generator(case, batch_size=32):
         foldpath_2 = os.path.join(path, folders[0])
         files_2 = os.listdir(foldpath_2)
         for file in files_1[:len(files_1)//4]:
-            train_df = train_df.append({'image': file, 'label': 0}, ignore_index=True)
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_2[:len(files_2)//4]:
-            train_df = train_df.append({'image': file, 'label': 1}, ignore_index=True)
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': 1}, ignore_index=True)
         train_df.to_csv(os.path.join(outpath6, "train.csv"), index=False)
         print(train_df)
     if case ==12:
@@ -193,9 +194,9 @@ def image_generator(case, batch_size=32):
         foldpath_2 = os.path.join(path, folders[0])
         files_2 = os.listdir(foldpath_2)
         for file in files_1[len(files_1)//2:len(files_1)-len(files_1)//4]:
-            test_df = test_df.append({'image': file, 'label': 0}, ignore_index=True)
+            test_df = test_df.append({'image': os.path.join(appendpath,file), 'label': 0}, ignore_index=True)
         for file in files_2[len(files_2)//2:len(files_2)-len(files_2)//4]:
-            test_df = test_df.append({'image': file, 'label': 1}, ignore_index=True)
+            test_df = test_df.append({'image': os.path.join(appendpath,file), 'label': 1}, ignore_index=True)
         test_df.to_csv(os.path.join(outpath6, "test.csv"), index=False)
         print(test_df)
 
