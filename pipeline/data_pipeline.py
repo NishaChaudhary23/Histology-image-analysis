@@ -7,8 +7,8 @@ from multiprocessing import Pool
 warnings.filterwarnings('ignore')
 
 def image_generator(case, batch_size=32):
-    path = "/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/original"
-    o_path = "/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/pipeline"
+    path = "/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/train/"
+    o_path = "/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline"
     folders = ['wdoscc', 'mdoscc', 'pdoscc']
     train_df = pd.DataFrame(columns=['image', 'label'])
     test_df = pd.DataFrame(columns=['image', 'label'])
