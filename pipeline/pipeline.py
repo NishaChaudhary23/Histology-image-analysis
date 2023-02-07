@@ -237,5 +237,115 @@ def phase(choice):
         print(f'Supplimentary Testing Phase Data Saved')
         print("------------------------------------------")
 
+        # finetuning the model
+        print("------------------------------------------")
+        print(f'Finetuning the model')
+        print("------------------------------------------")
+        # freezing the base model
+        inception.trainable = False
+        # recompiling the model
+        model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+        # training the model
+        history = model.fit(train_generator, validation_data = valid_generator, epochs=20)
+        print("------------------------------------------")
+        print(f'Finetuning Complete')
+        print("------------------------------------------")
+        # Creating a directory to save the model paths 
+
+        # Saving the model
+        model.save(f'{out_path}/{choice}/{choice}_finetune.h5')
+        print("------------------------------------------")
+        print(f'Model saved')
+        print("------------------------------------------")
+
+
+        #plotting the accuracy and loss
+        print("------------------------------------------")
+        print(f'Plotting and supplimentary data')
+        print("------------------------------------------")
+        plt.figure(figsize=(10, 10))
+        plt.plot(history.history['acc'], label='Training Accuracy')
+        plt.plot(history.history['val_acc'], label='Validation Accuracy')
+        plt.title('Training and Validation Accuracy')
+        plt.legend(['train', 'test'], loc='upper left')
+        plt.tight_layout()
+        plt.savefig(f'{out_path}/{choice}/Accuracy_finetune.jpg')
+
+        # np.save('{out_path}/{choice}/history1.npy',history.history)
+
+        hist_df = pd.DataFrame(history.history) 
+
+        # save to json:  
+        hist_json_file = f'{out_path}/{choice}/history_finetune.json' 
+        with open(hist_json_file, mode='w') as f:
+                hist_df.to_json(f)
+
+        # or save to csv: 
+        hist_csv_file = f'{out_path}/{choice}/history_finetune.csv'
+        with open(hist_csv_file, mode='w') as f:
+                hist_df.to_csv(f)
+
+        loaded_model = load_model(f'{out_path}/{choice}/{choice}.h5')
+        outcomes = loaded_model.predict(valid_generator)
+        y_pred = np.argmax(outcomes, axis=1)
+        # confusion matrix
+        confusion = confusion_matrix(valid_generator.classes, y_pred)
+        plt.figure(figsize=(10, 10))
+        sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
+        plt.title('Confusion Matrix')
+        plt.xlabel('Predicted Label')
+        plt.ylabel('True Label')
+        plt.tight_layout()
+        plt.savefig(f'{out_path}/{choice}/Confusion_matrix_finetune.jpg')
+
+        conf_df = pd.DataFrame(confusion)
+        conf_df.to_csv(f'{out_path}/{choice}/Confusion_matrix_finetune.csv')
+
+        # classification report
+        report = classification_report(valid_generator.classes, y_pred, output_dict=True)
+        df = pd.DataFrame(report).transpose()
+        df.to_csv(f'{out_path}/{choice}/Classification_report_finetune.csv')
+
+        print("------------------------------------------")
+        print(f'Supplimentary Data Saved')
+        print("------------------------------------------")
+
+        # Testing the model
+        print("------------------------------------------")
+        print(f'Testing the model')
+        print("------------------------------------------")
+        test_loss, test_acc = model.evaluate(test_generator)
+        print('test acc:', test_acc)
+        print('test loss:', test_loss)
+
+        # Predicting the test data
+        print("------------------------------------------")
+        print(f'Predicting the test data')
+        print("------------------------------------------")
+        test_pred = model.predict(test_generator)
+        test_pred = np.argmax(test_pred, axis=1)
+        confusion = confusion_matrix(test_generator.classes, y_pred)
+        plt.figure(figsize=(10, 10))
+        sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
+        plt.title('Confusion Matrix')
+        plt.xlabel('Predicted Label')
+        plt.ylabel('True Label')
+        plt.tight_layout()
+        plt.savefig(f'{out_path}/{choice}/Confusion_matrix_test_finetune.jpg')
+
+        conf_df = pd.DataFrame(confusion)
+        conf_df.to_csv(f'{out_path}/{choice}/Confusion_matrix_test_finetune.csv')
+
+        # classification report
+
+        report = classification_report(test_generator.classes, y_pred, output_dict=True)
+        df = pd.DataFrame(report).transpose()
+        df.to_csv(f'{out_path}/{choice}/Classification_report_test_finetune.csv')
+
+        print("------------------------------------------")
+        print(f'Supplimentary Testing Phase Data Saved')
+        print("------------------------------------------")
+
+
 
 phase('M1a')
