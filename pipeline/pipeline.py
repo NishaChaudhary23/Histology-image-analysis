@@ -128,7 +128,7 @@ def phase(choice):
         print("------------------------------------------")
         print(f'Training the model {choice}')
         print("------------------------------------------")
-        history = model.fit(train_generator, validation_data = valid_generator, epochs=50)
+        history = model.fit(train_generator, validation_data = valid_generator, epochs=20)
 
         print("------------------------------------------")
         print(f'Training Complete')
