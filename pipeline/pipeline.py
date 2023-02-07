@@ -11,6 +11,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Model
 from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import to_categorical
+from sklearn.preprocessing import OneHotEncoder
 import os
 from tensorflow.keras.applications import InceptionV3
 from tensorflow.keras import layers
@@ -49,12 +50,12 @@ def phase(choice):
         df_test = df_test.rename(columns={'label':'class'})
 
         # converting all to categorical
-        df_train['class'] = to_categorical(df_train['class'], num_classes=2, dtype='int')
-        df_test['class'] = to_categorical(df_test['class'], num_classes=2, dtype='int')
+        df_train['class'] = OneHotEncoder(df_train['class'])
+        df_test['class'] = OneHotEncoder(df_test['class'])
 
         # converting the str to string
-        df_train['class'] = df_train['class'].astype(str)
-        df_test['class'] = df_test['class'].astype(str)
+        # df_train['class'] = df_train['class'].astype(str)
+        # df_test['class'] = df_test['class'].astype(str)
 
         print(df_train)
         print(df_test)
