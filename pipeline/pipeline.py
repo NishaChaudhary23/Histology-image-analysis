@@ -50,6 +50,10 @@ def phase(choice):
         df_test = df_test.rename(columns={'image':'filename'})
         df_test = df_test.rename(columns={'label':'class'})
 
+        # converting all to string
+        df_train['class'] = df_train['class'].astype(str)
+        df_test['class'] = df_test['class'].astype(str)
+
         # Training Data
         train_generator = datagen_train.flow_from_dataframe(
                 dataframe=df_train,
