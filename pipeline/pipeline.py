@@ -30,7 +30,7 @@ train_large = '/storage/bic/data/oscc/data/working/train'
 a = np.random.choice(['wdoscc','mdoscc','pdoscc'])
 path = '/storage/bic/data/oscc/data/working/train/{}/'.format(a)
 
-def phase(path, choice):
+def phase(choice):
 
         out_path = '/home/chs.rintu/Documents/office/researchxoscc/project_2/output'
 
@@ -157,3 +157,42 @@ def phase(path, choice):
         print("------------------------------------------")
         print(f'Supplimentary Data Saved')
         print("------------------------------------------")
+
+        # Testing the model
+        print("------------------------------------------")
+        print(f'Testing the model')
+        print("------------------------------------------")
+        test_loss, test_acc = model.evaluate(test_generator)
+        print('test acc:', test_acc)
+        print('test loss:', test_loss)
+
+        # Predicting the test data
+        print("------------------------------------------")
+        print(f'Predicting the test data')
+        print("------------------------------------------")
+        test_pred = model.predict(test_generator)
+        test_pred = np.argmax(test_pred, axis=1)
+        confusion = confusion_matrix(test_generator.classes, y_pred)
+        plt.figure(figsize=(10, 10))
+        sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
+        plt.title('Confusion Matrix')
+        plt.xlabel('Predicted Label')
+        plt.ylabel('True Label')
+        plt.tight_layout()
+        plt.savefig(f'{out_path}/{choice}/Confusion_matrix_test.jpg')
+
+        conf_df = pd.DataFrame(confusion)
+        conf_df.to_csv(f'{out_path}/{choice}/Confusion_matrix_test.csv')
+
+        # classification report
+
+        report = classification_report(test_generator.classes, y_pred, output_dict=True)
+        df = pd.DataFrame(report).transpose()
+        df.to_csv(f'{out_path}/{choice}/Classification_report_test.csv')
+
+        print("------------------------------------------")
+        print(f'Supplimentary Testing Phase Data Saved')
+        print("------------------------------------------")
+
+
+phase('M1a')
