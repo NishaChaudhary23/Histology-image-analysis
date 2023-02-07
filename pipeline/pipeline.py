@@ -64,14 +64,6 @@ def phase(choice):
         df_train['class'] = df_train['class'].replace({str(0):label_1, str(1):label_2})
         df_test['class'] = df_test['class'].replace({str(0):label_1, str(1):label_2})
 
-        # converting all to categorical
-        df_train['class'] = to_categorical(df_train['class'])
-        df_test['class'] = to_categorical(df_test['class'])
-
-        # converting the str to string
-        # df_train['class'] = df_train['class'].astype(str)
-        # df_test['class'] = df_test['class'].astype(str)
-
         print(df_train)
         print(df_test)
         # Training Data
