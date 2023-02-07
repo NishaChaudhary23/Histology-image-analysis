@@ -60,7 +60,7 @@ def phase(choice):
                 folder=datapath,
                 target_size=(300, 300),
                 batch_size=32,
-                class_mode='categorical',
+                class_mode='binary',
                 subset = 'training')
         #Validation Data
         valid_generator = datagen_train.flow_from_dataframe(
@@ -68,7 +68,7 @@ def phase(choice):
                 folder=datapath,
                 target_size=(300, 300),
                 batch_size=32,
-                class_mode='categorical',
+                class_mode='binary',
                 subset = 'validation',
                 shuffle=False)
 
@@ -92,7 +92,7 @@ def phase(choice):
         x = layers.Flatten()(inception.output)
         x = layers.Dense(1024, activation = 'relu')(x)
         x = layers.Dropout(0.2)(x)
-        x = layers.Dense(3, activation = 'softmax')(x)
+        x = layers.Dense(2, activation = 'softmax')(x)
         model = Model(inception.input, x)
         model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
