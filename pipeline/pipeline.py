@@ -52,8 +52,8 @@ def phase(choice):
         df_test = df_test.rename(columns={'label':'class'})
 
         # converting all to categorical
-        df_train['class'] = df_train['class'].to_categorical()
-        df_test['class'] = df_test['class'].to_categorical()
+        df_train['class'] = to_categorical(df_train['class'])
+        df_test['class'] = to_categorical(df_test['class'].to_categorical())
 
         # Training Data
         train_generator = datagen_train.flow_from_dataframe(
