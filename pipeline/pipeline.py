@@ -78,7 +78,7 @@ def phase(choice):
                 dataframe=df_test,
                 target_size=(300, 300),
                 batch_size=32,
-                class_mode='categorical',
+                class_mode='binary',
                 shuffle=False)
 
         
