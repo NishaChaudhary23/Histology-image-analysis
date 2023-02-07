@@ -49,8 +49,13 @@ def phase(choice):
         df_test = df_test.rename(columns={'label':'class'})
 
         # converting all to categorical
-        df_train['class'] = to_categorical(df_train['class'], num_classes=2, dtype='str')
-        df_test['class'] = to_categorical(df_test['class'], num_classes=2, dtype='str')
+        df_train['class'] = to_categorical(df_train['class'], num_classes=2, dtype='int')
+        df_test['class'] = to_categorical(df_test['class'], num_classes=2, dtype='int')
+
+        # converting the str to list
+        df_train['class'] = df_train['class'].apply(lambda x: list(x))
+        df_test['class'] = df_test['class'].apply(lambda x: list(x))
+        
 
         print(df_train)
         print(df_test)
