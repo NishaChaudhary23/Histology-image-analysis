@@ -81,6 +81,13 @@ def phase(choice):
                 batch_size=32,
                 class_mode='categorical',
                 shuffle=False)
+        
+        # printing the train, valid and test data
+        print("------------------------------------------")
+        print(f'Training Data: {train_generator.n}')
+        print(f'Validation Data: {valid_generator.n}')
+        print(f'Test Data: {test_generator.n}')
+        print("------------------------------------------")
 
         
         inception = InceptionV3(
