@@ -44,7 +44,7 @@ def phase(choice):
         # Training Data
         train_generator = datagen_train.flow_from_dataframe(
                 dataframe=df_train,
-                folder=,
+                folder=datapath,
                 target_size=(300, 300),
                 batch_size=32,
                 class_mode='categorical',
@@ -52,6 +52,7 @@ def phase(choice):
         #Validation Data
         valid_generator = datagen_train.flow_from_dataframe(
                 dataframe=df_train,
+                folder=datapath,
                 target_size=(300, 300),
                 batch_size=32,
                 class_mode='categorical',
@@ -62,6 +63,7 @@ def phase(choice):
         # Test Data
         test_generator = datagen_test.flow_from_dataframe(
                 dataframe=df_test,
+                folder=datapath,
                 target_size=(300, 300),
                 batch_size=32,
                 class_mode='categorical',
