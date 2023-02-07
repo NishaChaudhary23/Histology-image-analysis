@@ -33,7 +33,7 @@ path = '/storage/bic/data/oscc/data/working/train/{}/'.format(a)
 def phase(choice):
 
         out_path = '/home/chs.rintu/Documents/office/researchxoscc/project_2/output'
-
+        datapath = 'home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/train'
         if choice=='M1a':
                 df_train = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/pw_m/train.csv')
                 df_test = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/pw_m/test.csv')
@@ -44,6 +44,7 @@ def phase(choice):
         # Training Data
         train_generator = datagen_train.flow_from_dataframe(
                 dataframe=df_train,
+                folder=,
                 target_size=(300, 300),
                 batch_size=32,
                 class_mode='categorical',
