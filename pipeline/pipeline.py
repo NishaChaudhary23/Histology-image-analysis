@@ -53,6 +53,11 @@ def phase(choice):
 
 
 
+        # converting to string in dataframe
+        df_train['class'] = df_train['class'].astype(str)
+        df_test['class'] = df_test['class'].astype(str)
+
+
         # 0s and 1s to label key 
         df_train['class'] = df_train['class'].replace({0:label_1, 1:label_2})
         df_test['class'] = df_test['class'].replace({0:label_1, 1:label_2})
