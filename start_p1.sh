@@ -1,8 +1,8 @@
 #! /bin/bash
-#PBS -N P1_ENB5
+#PBS -N P1_INV3
 #PBS -l host=compute4
-#PBS -o /storage/bic/data/oscc/project_1/model_EfficientNetB5_out.log
-#PBS -e /storage/bic/data/oscc/project_1/model_EfficientNetB5_err.log
+#PBS -o /storage/bic/data/oscc/project_1/model_InceptionV3_out.log
+#PBS -e /storage/bic/data/oscc/project_1/model_InceptionV3_err.log
 #PBS -q gpu
 
 module load compiler/anaconda3
