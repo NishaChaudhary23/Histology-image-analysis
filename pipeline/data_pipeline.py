@@ -13,22 +13,22 @@ def image_generator(case, batch_size=32):
     train_df = pd.DataFrame(columns=['image', 'label'])
     test_df = pd.DataFrame(columns=['image', 'label'])
     if not os.path.isdir(os.path.join(o_path,"wm_p")):
-        os.makedirs(os.path.join(o_path,"wm_p"))
+        os.makedirs(os.path.join(o_path,"wm_p"), exist_ok=True)
     outpath1 = os.path.join(o_path,"wm_p") 
     if not os.path.isdir(os.path.join(o_path,"mp_w")):
-        os.makedirs(os.path.join(o_path,"mp_w"))
+        os.makedirs(os.path.join(o_path,"mp_w"), exist_ok=True)
     outpath2 = os.path.join(o_path,"mp_w") 
     if not os.path.isdir(os.path.join(o_path,"pw_m")):
-        os.makedirs(os.path.join(o_path,"pw_m"))
+        os.makedirs(os.path.join(o_path,"pw_m"), exist_ok=True)
     outpath3 = os.path.join(o_path,"pw_m") 
     if not os.path.isdir(os.path.join(o_path,"w_m")):
-        os.makedirs(os.path.join(o_path,"w_m"))
+        os.makedirs(os.path.join(o_path,"w_m"), exist_ok=True)
     outpath4 = os.path.join(o_path,"w_m") 
     if not os.path.isdir(os.path.join(o_path,"m_p")):
-        os.makedirs(os.path.join(o_path,"m_p"))
+        os.makedirs(os.path.join(o_path,"m_p"), exist_ok=True)
     outpath5 = os.path.join(o_path,"m_p") 
     if not os.path.isdir(os.path.join(o_path,"p_w")):
-        os.makedirs(os.path.join(o_path,"p_w"))
+        os.makedirs(os.path.join(o_path,"p_w"), exist_ok=True)
     outpath6 = os.path.join(o_path,"p_w") 
     if case ==1:
         print("Case 1")
