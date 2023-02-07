@@ -33,7 +33,7 @@ path = '/storage/bic/data/oscc/data/working/train/{}/'.format(a)
 def phase(choice):
 
         out_path = '/home/chs.rintu/Documents/office/researchxoscc/project_2/output'
-        datapath = 'home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/train_all'
+        datapath = '/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/train_all'
         if choice=='M1a':
                 df_train = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/pw_m/train.csv')
                 df_test = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/pw_m/test.csv')
