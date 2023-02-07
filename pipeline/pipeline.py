@@ -53,7 +53,7 @@ def phase(choice):
 
         # converting all to categorical
         df_train['class'] = to_categorical(df_train['class'])
-        df_test['class'] = to_categorical(df_test['class'].to_categorical())
+        df_test['class'] = to_categorical(df_test['class']
 
         # Training Data
         train_generator = datagen_train.flow_from_dataframe(
