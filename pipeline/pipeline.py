@@ -41,6 +41,13 @@ def phase(choice):
                 df_train = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/p_w/train.csv')
                 df_test = pd.read_csv('/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline/p_w/test.csv')
         datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.20)
+
+        # remapping the col namesas x_lab and y_lab
+        df_train = df_train.rename(columns={'Unnamed: 0':'x_lab'})
+        df_train = df_train.rename(columns={'Unnamed: 1':'y_lab'})
+        df_test = df_test.rename(columns={'Unnamed: 0':'x_lab'})
+        df_test = df_test.rename(columns={'Unnamed: 1':'y_lab'})
+        
         # Training Data
         train_generator = datagen_train.flow_from_dataframe(
                 dataframe=df_train,
