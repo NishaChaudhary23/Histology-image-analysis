@@ -61,7 +61,7 @@ def phase(choice):
                 folder=datapath,
                 target_size=(300, 300),
                 batch_size=32,
-                class_mode='binary',
+                class_mode='categorical',
                 subset = 'training')
         #Validation Data
         valid_generator = datagen_train.flow_from_dataframe(
@@ -69,7 +69,7 @@ def phase(choice):
                 folder=datapath,
                 target_size=(300, 300),
                 batch_size=32,
-                class_mode='binary',
+                class_mode='categorical',
                 subset = 'validation',
                 shuffle=False)
 
@@ -79,7 +79,7 @@ def phase(choice):
                 dataframe=df_test,
                 target_size=(300, 300),
                 batch_size=32,
-                class_mode='binary',
+                class_mode='categorical',
                 shuffle=False)
 
         
