@@ -209,11 +209,11 @@ def image_generator(case, batch_size=32):
         foldpath_3 = os.path.join(path, folders[2])
         files_3 = os.listdir(foldpath_3)
         for file in files_1[len(files_1)//2:len(files_1)]:
-            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': "wdoscc"}, ignore_index=True)
+            train_df = train_df.append({'filename': os.path.join(appendpath,file), 'class': "wdoscc"}, ignore_index=True)
         for file in files_2[len(files_2)//2:len(files_2)]:
-            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': "mdoscc"}, ignore_index=True)
+            train_df = train_df.append({'filename': os.path.join(appendpath,file), 'class': "mdoscc"}, ignore_index=True)
         for file in files_3[len(files_3)//2:len(files_3)]:
-            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': "pdoscc"}, ignore_index=True)
+            train_df = train_df.append({'filename': os.path.join(appendpath,file), 'class': "pdoscc"}, ignore_index=True)
         train_df.to_csv(os.path.join(outpath1, "master_test.csv"), index=False)
         print(train_df)
 
