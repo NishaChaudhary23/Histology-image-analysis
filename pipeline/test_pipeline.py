@@ -24,3 +24,21 @@ print("------------------------------------------")
 print("-----------------Model 2b-----------------")
 model_2b.summary()
 print("------------------------------------------")
+
+base = '/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet'
+out_path = '/home/chs.rintu/Documents/office/researchxoscc/project_2/output'
+datapath = f'{base}/train_all'
+
+
+df_test_2a = pd.read_csv(f'{base}/pipeline/wm_p/test.csv')
+label_2a = ['wpdoscc','mdoscc']
+df_test_2b = pd.read_csv(f'{base}/pipeline/w_m/test.csv')
+label_2b = ['pdoscc','wdoscc']
+datagen_test = ImageDataGenerator(rescale = 1.0/255.0)
+test_generator = datagen_test.flow_from_dataframe(
+        dataframe=df_test,
+        folder=datapath,
+        target_size=(300, 300),
+        class_mode='categorical',
+        shuffle=False,
+        validate_filenames=False)

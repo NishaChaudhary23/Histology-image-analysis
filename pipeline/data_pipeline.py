@@ -31,6 +31,7 @@ def image_generator(case, batch_size=32):
     if not os.path.isdir(os.path.join(o_path,"p_w")):
         os.makedirs(os.path.join(o_path,"p_w"), exist_ok=True)
     outpath6 = os.path.join(o_path,"p_w") 
+    outpath7 = os.path.join(o_path,"all")
     if case ==1:
         print("Case 1")
         foldpath_1 = os.path.join(path, folders[0])
@@ -199,9 +200,25 @@ def image_generator(case, batch_size=32):
             test_df = test_df.append({'image': os.path.join(appendpath,file), 'label': 1}, ignore_index=True)
         test_df.to_csv(os.path.join(outpath6, "test.csv"), index=False)
         print(test_df)
+    if case ==13:
+        print("Case 13")
+        foldpath_1 = os.path.join(path, folders[0])
+        files_1 = os.listdir(foldpath_1)
+        foldpath_2 = os.path.join(path, folders[1])
+        files_2 = os.listdir(foldpath_2)
+        foldpath_3 = os.path.join(path, folders[2])
+        files_3 = os.listdir(foldpath_3)
+        for file in files_1[len(files_1)//2:len(files_1)]:
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': "wdoscc"}, ignore_index=True)
+        for file in files_2[len(files_2)//2:len(files_2)]:
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': "mdoscc"}, ignore_index=True)
+        for file in files_3[len(files_3)//2:len(files_3)]:
+            train_df = train_df.append({'image': os.path.join(appendpath,file), 'label': "pdoscc"}, ignore_index=True)
+        train_df.to_csv(os.path.join(outpath1, "master_test.csv"), index=False)
+        print(train_df)
 
 
 if __name__ == "__main__":
     pool = Pool(mp.cpu_count())
-    pool.map(image_generator, range(1, 13))
-# image_generator("/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/original", 1)
+    # pool.map(image_generator, range(1, 13))
+    image_generator("/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/original", 13)
