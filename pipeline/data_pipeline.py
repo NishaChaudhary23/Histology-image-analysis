@@ -221,4 +221,4 @@ def image_generator(case, batch_size=32):
 # if __name__ == "__main__":
 #     pool = Pool(mp.cpu_count())
 #     # pool.map(image_generator, range(1, 13))
-image_generator("/home/chs.rintu/Documents/chs-lab-ws02/nisha/project-2-oscc/data/original", 13)
+image_generator(13)
