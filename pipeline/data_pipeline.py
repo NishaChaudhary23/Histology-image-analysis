@@ -69,7 +69,7 @@ def image_generator(case, batch_size=32):
         train_df.to_csv(os.path.join(outpath4, "train.csv"), index=False)
         train_df = train_df.sample(frac=1).reset_index(drop=True)
         print(train_df)
-    if case ==7:
+    if case ==8:
         print("Case 8")
         foldpath_1 = os.path.join(path, folders[0])
         files_1 = os.listdir(foldpath_1)
