@@ -36,45 +36,28 @@ def phase(choice):
         base = '/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet'
         out_path = '/home/chs.rintu/Documents/office/researchxoscc/project_2/output'
         datapath = f'{base}/train_all'
-        if choice=='M1a':
-                df_train = pd.read_csv(f'{base}/pipeline/pw_m/train.csv')
-                df_test = pd.read_csv(f'{base}/pipeline/pw_m/test.csv')
-                label_1 = 'wpdoscc'
-                label_2 = 'mdoscc'
-        if choice=='M1b':
-                df_train = pd.read_csv(f'{base}/pipeline/p_w/train.csv')
-                df_test = pd.read_csv(f'{base}/pipeline/p_w/test.csv')
-                label_1 = 'pdoscc'
-                label_2 = 'wdoscc'
+        # if choice=='M1a':
+        #         df_train = pd.read_csv(f'{base}/pipeline/pw_m/train.csv')
+        #         df_test = pd.read_csv(f'{base}/pipeline/pw_m/test.csv')
+        #         label_1 = 'wpdoscc'
+        #         label_2 = 'mdoscc'
+        # if choice=='M1b':
+        #         df_train = pd.read_csv(f'{base}/pipeline/p_w/train.csv')
+        #         df_test = pd.read_csv(f'{base}/pipeline/p_w/test.csv')
+        #         label_1 = 'pdoscc'
+        #         label_2 = 'wdoscc'
         if choice=='M2a':
                 df_train = pd.read_csv(f'{base}/pipeline/wm_p/train.csv')
                 df_test = pd.read_csv(f'{base}/pipeline/wm_p/test.csv')
                 label_1 = 'wmdoscc'
                 label_2 = 'pdoscc'
+                class_names = [label_1, label_2]
         if choice=='M2b':
                 df_train = pd.read_csv(f'{base}/pipeline/w_m/train.csv')
                 df_test = pd.read_csv(f'{base}/pipeline/w_m/test.csv')
-                label_1 = 'mdoscc'
-                label_2 = 'wdoscc'
-
-        # remapping the col namesas x_lab and y_lab
-        df_train = df_train.rename(columns={'image':'filename'})
-        df_train = df_train.rename(columns={'label':'class'})
-        df_test = df_test.rename(columns={'image':'filename'})
-        df_test = df_test.rename(columns={'label':'class'})
-
-
-
-        # converting to string in dataframe
-        df_train['class'] = df_train['class'].astype(str)
-        df_test['class'] = df_test['class'].astype(str)
-        print(df_train)
-        print(df_test)
-
-
-        # 0s and 1s to label key 
-        df_train['class'] = df_train['class'].replace({str(0):label_1, str(1):label_2})
-        df_test['class'] = df_test['class'].replace({str(0):label_1, str(1):label_2})
+                label_1 = 'wdoscc'
+                label_2 = 'mdoscc'
+                class_names = [label_1, label_2]
 
         print(df_train)
         print(df_test)
@@ -191,7 +174,7 @@ def phase(choice):
         # confusion matrix
         confusion = confusion_matrix(valid_generator.classes, y_pred)
         plt.figure(figsize=(10, 10))
-        sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
+        sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues', xticklabels = class_names, yticklabels = class_names)
         plt.title('Confusion Matrix')
         plt.xlabel('Predicted Label')
         plt.ylabel('True Label')
@@ -222,11 +205,11 @@ def phase(choice):
         print("------------------------------------------")
         print(f'Predicting the test data')
         print("------------------------------------------")
-        test_finetune_test_pred = model.predict(test_generator)
-        test_finetune_test_pred = np.argmax(test_finetune_test_pred, axis=1)
-        confusion = confusion_matrix(test_generator.classes, test_finetune_test_pred)
+        y_pred = model.predict(test_generator)
+        y_pred = np.argmax(y_pred, axis=1)
+        confusion = confusion_matrix(test_generator.classes, y_pred)
         plt.figure(figsize=(10, 10))
-        sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
+        sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues', xticklabels = class_names, yticklabels = class_names)
         plt.title('Confusion Matrix')
         plt.xlabel('Predicted Label')
         plt.ylabel('True Label')
@@ -238,7 +221,7 @@ def phase(choice):
 
         # classification report
 
-        report = classification_report(test_generator.classes, test_finetune_test_pred, output_dict=True)
+        report = classification_report(test_generator.classes, y_pred, output_dict=True)
         df = pd.DataFrame(report).transpose()
         df.to_csv(f'{out_path}/{choice}/Classification_report_test.csv')
 
@@ -300,7 +283,7 @@ def phase(choice):
         # confusion matrix
         confusion = confusion_matrix(valid_generator.classes, test_fine_pred)
         plt.figure(figsize=(10, 10))
-        sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
+        sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues', xticklabels = class_names, yticklabels = class_names)
         plt.title('Confusion Matrix')
         plt.xlabel('Predicted Label')
         plt.ylabel('True Label')
@@ -331,11 +314,11 @@ def phase(choice):
         print("------------------------------------------")
         print(f'Predicting the test data')
         print("------------------------------------------")
-        test_finetune_test_pred = model.predict(test_generator)
-        test_finetune_test_pred = np.argmax(test_finetune_test_pred, axis=1)
-        confusion = confusion_matrix(test_generator.classes, test_finetune_test_pred)
+        y_pred = model.predict(test_generator)
+        y_pred = np.argmax(y_pred, axis=1)
+        confusion = confusion_matrix(test_generator.classes, y_pred)
         plt.figure(figsize=(10, 10))
-        sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
+        sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues', xticklabels = class_names, yticklabels = class_names)
         plt.title('Confusion Matrix')
         plt.xlabel('Predicted Label')
         plt.ylabel('True Label')
@@ -347,7 +330,7 @@ def phase(choice):
 
         # classification report
 
-        report = classification_report(test_generator.classes, test_finetune_test_pred, output_dict=True)
+        report = classification_report(test_generator.classes, y_pred, output_dict=True)
         df = pd.DataFrame(report).transpose()
         df.to_csv(f'{out_path}/{choice}/Classification_report_test_finetune.csv')
 
@@ -357,4 +340,4 @@ def phase(choice):
 
 
 
-phase('M2b')
+phase('M2')
