@@ -30,7 +30,15 @@ out_path = '/home/chs.rintu/Documents/office/researchxoscc/project_2/output'
 datapath = f'{base}/train_all'
 
 
-df_test = pd.read_csv(f'{base}/pipeline/all/test.csv')
+df_test = pd.read_csv(f'{base}/pipeline/all/master_test.csv')
+# dropping columns of image and class
+df_test = df_test.drop(['image','class'], axis=1)
+# renaming filename and label to image and class
+df_test = df_test.rename(columns={'filename':'image','label':'class'})
+# print(df_test)
+
+
+
 label_2a = ['wpdoscc','mdoscc']
 label_2b = ['pdoscc','wdoscc']
 datagen_test = ImageDataGenerator(rescale = 1.0/255.0)
