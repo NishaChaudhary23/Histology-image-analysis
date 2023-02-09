@@ -27,11 +27,6 @@ print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
 train_large = '/storage/bic/data/oscc/data/working/train'
 
-
-#reading & displaying an image
-a = np.random.choice(['wdoscc','mdoscc','pdoscc'])
-path = '/storage/bic/data/oscc/data/working/train/{}/'.format(a)
-
 def phase(choice):
         base = '/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet'
         out_path = '/home/chs.rintu/Documents/office/researchxoscc/project_2/output'
