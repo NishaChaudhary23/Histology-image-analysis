@@ -19,10 +19,10 @@ model_2b = load_model('/home/chs.rintu/Documents/office/researchxoscc/project_2/
 
 # model summary
 print("-----------------Model 2a-----------------")
-model_2a.summary()
+# model_2a.summary()
 print("------------------------------------------")
 print("-----------------Model 2b-----------------")
-model_2b.summary()
+# model_2b.summary()
 print("------------------------------------------")
 
 base = '/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet'
@@ -32,9 +32,9 @@ datapath = f'{base}/train_all'
 
 df_test = pd.read_csv(f'{base}/pipeline/all/master_test.csv')
 # dropping columns of image and class
-df_test = df_test.drop(['image','class'], axis=1)
+df_test = df_test.drop(['image','label'], axis=1)
 # renaming filename and label to image and class
-df_test = df_test.rename(columns={'filename':'image','label':'class'})
+df_test = df_test.rename(columns={'filename':'image'})
 # print(df_test)
 
 
