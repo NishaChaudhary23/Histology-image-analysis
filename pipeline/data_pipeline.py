@@ -16,11 +16,11 @@ def image_generator(case, batch_size=32):
     if not os.path.isdir(os.path.join(o_path,"wm_p")):
         os.makedirs(os.path.join(o_path,"wm_p"), exist_ok=True)
     outpath1 = os.path.join(o_path,"wm_p") 
-    if not os.path.isdir(os.path.join(o_path,"mp_w")):
-        os.makedirs(os.path.join(o_path,"mp_w"), exist_ok=True)
+    if not os.path.isdir(os.path.join(o_path,"w_m")):
+        os.makedirs(os.path.join(o_path,"w_m"), exist_ok=True)
     outpath4 = os.path.join(o_path,"w_m") 
-    if not os.path.isdir(os.path.join(o_path,"m_p")):
-        os.makedirs(os.path.join(o_path,"m_p"), exist_ok=True)
+    if not os.path.isdir(os.path.join(o_path,"w_m")):
+        os.makedirs(os.path.join(o_path,"combined"), exist_ok=True)
     outpath7 = os.path.join(o_path,"all")
     if case ==1:
         print("Case 1")
@@ -67,6 +67,19 @@ def image_generator(case, batch_size=32):
         for file in files_2[:len(files_2)//2]:
             train_df = train_df.append({'filename': os.path.join(appendpath,file), 'class': "mdoscc"}, ignore_index=True)
         train_df.to_csv(os.path.join(outpath4, "train.csv"), index=False)
+        train_df = train_df.sample(frac=1).reset_index(drop=True)
+        print(train_df)
+    if case ==7:
+        print("Case 8")
+        foldpath_1 = os.path.join(path, folders[0])
+        files_1 = os.listdir(foldpath_1)
+        foldpath_2 = os.path.join(path, folders[1])
+        files_2 = os.listdir(foldpath_2)
+        for file in files_1[len(files_1)//2:len(files_1)-len(files_1)//4]:
+            train_df = train_df.append({'filename': os.path.join(appendpath,file), 'class': "wdoscc"}, ignore_index=True)
+        for file in files_2[len(files_2)//2:len(files_2)-len(files_2)//4]:
+            train_df = train_df.append({'filename': os.path.join(appendpath,file), 'class': "mdoscc"}, ignore_index=True)
+        train_df.to_csv(os.path.join(outpath4, "test.csv"), index=False)
         train_df = train_df.sample(frac=1).reset_index(drop=True)
         print(train_df)
     if case ==13:
