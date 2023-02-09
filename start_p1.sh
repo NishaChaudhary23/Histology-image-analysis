@@ -1,8 +1,8 @@
 #! /bin/bash
-#PBS -N P1_NASL
+#PBS -N P1_NASM
 #PBS -l host=compute3
-#PBS -o /storage/bic/data/oscc/project_1/model_NASNetLarge_out.log
-#PBS -e /storage/bic/data/oscc/project_1/model_NASNetLarge_err.log
+#PBS -o /storage/bic/data/oscc/project_1/model_NASNetMobile_out.log
+#PBS -e /storage/bic/data/oscc/project_1/model_NASNetMobile_err.log
 #PBS -q gpu
 
 module load compiler/anaconda3
