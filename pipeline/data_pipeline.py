@@ -105,6 +105,6 @@ def image_generator(case, batch_size=32):
 if __name__ == "__main__":
     pool = Pool(mp.cpu_count())
 
-    pool.map(image_generator, [1,2,7,13])
+    pool.map(image_generator, [1,2,7,13,8])
 
 image_generator(13)
