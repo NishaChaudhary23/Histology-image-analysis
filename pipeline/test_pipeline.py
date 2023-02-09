@@ -49,7 +49,7 @@ label_2b = ['wdoscc','mdoscc']
 #         class_mode='categorical',
 #         shuffle=False,
 #         validate_filenames=False)
-for ID in df_test['filename']:
+for ID in df_test['filename'].values.tolist():
     true_label = df_test[df_test['filename'] == ID]['class'].values[0]
     img = tf.keras.preprocessing.image.load_img(
         f'{ID}', target_size=(300, 300)
