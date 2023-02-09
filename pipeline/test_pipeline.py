@@ -59,18 +59,21 @@ for ID in df_test['filename']:
     predictions = model_2a.predict(img_array)
     score = tf.nn.softmax(predictions[0])
     pred_label = label_2a[np.argmax(score)]
-    if label_2a[np.argmax(score)] == "wmdoscc":
+    if label_2a[np.argmax(score)] == "mdoscc":
+        pred_label = "pdoscc"
+        print(
+            "This image most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
+            .format(pred_label, 100 * np.max(score), true_label)
+        )
+    else:
         prediction = model_2b.predict(img_array)
         score = tf.nn.softmax(prediction[0])
         pred_label = label_2b[np.argmax(score)]
+        if pred_label == "pdoscc":
+            pred_label = "mdoscc"
         print(
             "This image most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
-            .format(label_2b[np.argmax(score)], 100 * np.max(score), true_label)
-        )
-    else:
-        print(
-            "This image most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
-            .format(label_2a[np.argmax(score)], 100 * np.max(score), true_label)
+            .format(pred_label, 100 * np.max(score), true_label)
         )
     y_pred.append(pred_label)
 y_true = df_test['class'].values.tolist()

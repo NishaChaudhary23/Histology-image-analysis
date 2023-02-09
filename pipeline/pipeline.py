@@ -49,12 +49,12 @@ def phase(choice):
         if choice=='M2a':
                 df_train = pd.read_csv(f'{base}/pipeline/wm_p/train.csv')
                 df_test = pd.read_csv(f'{base}/pipeline/wm_p/test.csv')
-                label_1 = 'wpdoscc'
-                label_2 = 'mdoscc'
+                label_1 = 'wmdoscc'
+                label_2 = 'pdoscc'
         if choice=='M2b':
                 df_train = pd.read_csv(f'{base}/pipeline/w_m/train.csv')
                 df_test = pd.read_csv(f'{base}/pipeline/w_m/test.csv')
-                label_1 = 'pdoscc'
+                label_1 = 'mdoscc'
                 label_2 = 'wdoscc'
 
         # remapping the col namesas x_lab and y_lab
