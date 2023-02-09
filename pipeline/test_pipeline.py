@@ -41,16 +41,27 @@ print(df_test.head(5))
 
 label_2a = ['wpdoscc','mdoscc']
 label_2b = ['pdoscc','wdoscc']
-datagen_test = ImageDataGenerator(rescale = 1.0/255.0)
-test_generator = datagen_test.flow_from_dataframe(
-        dataframe=df_test,
-        folder=datapath,
-        target_size=(300, 300),
-        class_mode='categorical',
-        shuffle=False,
-        validate_filenames=False)
-
-predictions = model_2a.predict(test_generator)
-y_pred = np.argmax(predictions, axis=1)
-print(predictions)
-print(y_pred)
+# datagen_test = ImageDataGenerator(rescale = 1.0/255.0)
+# test_generator = datagen_test.flow_from_dataframe(
+#         dataframe=df_test,
+#         folder=datapath,
+#         target_size=(300, 300),
+#         class_mode='categorical',
+#         shuffle=False,
+#         validate_filenames=False)
+for ID in df_test['filename']:
+    img = tf.keras.preprocessing.image.load_img(
+        f'{ID}', target_size=(300, 300)
+    )
+    img_array = tf.keras.preprocessing.image.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0)  # Create a batch
+    predictions = model_2a.predict(img_array)
+    score = tf.nn.softmax(predictions[0])
+    print(
+        "This image most likely belongs to {} with a {:.2f} percent confidence."
+        .format(label_2a[np.argmax(score)], 100 * np.max(score))
+    )
+# predictions = model_2a.predict()
+# y_pred = np.argmax(predictions, axis=1)
+# print(predictions)
+# print(y_pred)
