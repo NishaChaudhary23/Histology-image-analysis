@@ -34,7 +34,7 @@ df_test = pd.read_csv(f'{base}/pipeline/all/master_test.csv')
 # dropping columns of image and class
 df_test = df_test.drop(['image','label'], axis=1)
 # renaming filename and label to image and class
-df_test = df_test.rename(columns={'filename':'image'})
+# df_test = df_test.rename(columns={'':'filename'})
 print(df_test.head(5))
 
 
