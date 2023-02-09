@@ -65,12 +65,12 @@ for ID in df_test['filename']:
         pred_label = label_2b[np.argmax(score)]
         print(
             "This image most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
-            .format(label_2b[np.argmax(score)], 100 * np.max(score)), true_label
+            .format(label_2b[np.argmax(score)], 100 * np.max(score), true_label)
         )
     else:
         print(
             "This image most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
-            .format(label_2a[np.argmax(score)], 100 * np.max(score)), true_label
+            .format(label_2a[np.argmax(score)], 100 * np.max(score), true_label)
         )
     y_pred.append(pred_label)
     y_true = df_test['label'].values.tolist()
