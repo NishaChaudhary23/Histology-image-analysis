@@ -534,7 +534,7 @@ if model_type == 'NASNetLarge':
 	nasnet = NASNetLarge(
 			weights='imagenet',
 			include_top=False,
-			input_shape=(300,300,3)
+			input_shape=(331,331,3)
 			)
 	for layer in nasnet.layers:
 			layer.trainable = True
@@ -549,7 +549,7 @@ if model_type == 'NASNetMobile':
 	nasnet = NASNetMobile(
 			weights='imagenet',
 			include_top=False,
-			input_shape=(300,300,3)
+			input_shape=(331,331,3)
 			)
 	for layer in nasnet.layers:
 			layer.trainable = True
