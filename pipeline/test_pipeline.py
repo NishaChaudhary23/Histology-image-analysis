@@ -73,20 +73,20 @@ for ID in df_test['filename']:
             .format(label_2a[np.argmax(score)], 100 * np.max(score), true_label)
         )
     y_pred.append(pred_label)
-    y_true = df_test['class'].values.tolist()
-    # classification report
-    print(classification_report(y_true, y_pred))
-    # saving classification report to csv
-    report = classification_report(y_true, y_pred, output_dict=True)
-    df = pd.DataFrame(report).transpose()
-    df.to_csv(f'{out_path}/combined/combined_classification_report.csv')
-    # confusion matrix
-    cm = confusion_matrix(y_true, y_pred)
-    # saving confusion matrix to csv
-    df_cm = pd.DataFrame(cm, index = [i for i in ['pdoscc','wdoscc','mdoscc']],
-                    columns = [i for i in ['pdoscc','wdoscc','mdoscc']])
-    df_cm.to_csv(f'{out_path}/combined/combined_confusion_matrix.csv')
-    print(cm)
+y_true = df_test['class'].values.tolist()
+# classification report
+print(classification_report(y_true, y_pred))
+# saving classification report to csv
+report = classification_report(y_true, y_pred, output_dict=True)
+df = pd.DataFrame(report).transpose()
+df.to_csv(f'{out_path}/combined/combined_classification_report.csv')
+# confusion matrix
+cm = confusion_matrix(y_true, y_pred)
+# saving confusion matrix to csv
+df_cm = pd.DataFrame(cm, index = [i for i in ['pdoscc','wdoscc','mdoscc']],
+                columns = [i for i in ['pdoscc','wdoscc','mdoscc']])
+df_cm.to_csv(f'{out_path}/combined/combined_confusion_matrix.csv')
+print(cm)
     # plot confusion matrix
 # predictions = model_2a.predict()
 # y_pred = np.argmax(predictions, axis=1)
