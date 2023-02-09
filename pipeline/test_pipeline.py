@@ -73,7 +73,7 @@ for ID in df_test['filename']:
             .format(label_2a[np.argmax(score)], 100 * np.max(score), true_label)
         )
     y_pred.append(pred_label)
-    y_true = df_test['label'].values.tolist()
+    y_true = df_test['class'].values.tolist()
     # classification report
     print(classification_report(y_true, y_pred))
     # saving classification report to csv
