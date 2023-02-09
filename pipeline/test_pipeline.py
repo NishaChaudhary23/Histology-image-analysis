@@ -39,8 +39,8 @@ print(df_test.head(5))
 
 
 
-label_2a = ['wpdoscc','mdoscc']
-label_2b = ['pdoscc','wdoscc']
+label_2a = ['wmdoscc','pdoscc']
+label_2b = ['wdoscc','mdoscc']
 # datagen_test = ImageDataGenerator(rescale = 1.0/255.0)
 # test_generator = datagen_test.flow_from_dataframe(
 #         dataframe=df_test,
@@ -57,10 +57,18 @@ for ID in df_test['filename']:
     img_array = tf.expand_dims(img_array, 0)  # Create a batch
     predictions = model_2a.predict(img_array)
     score = tf.nn.softmax(predictions[0])
-    print(
-        "This image most likely belongs to {} with a {:.2f} percent confidence."
-        .format(label_2a[np.argmax(score)], 100 * np.max(score))
-    )
+    if label_2a[np.argmax(score)] == "wmdoscc":
+        prediction = model_2b.predict(img_array)
+        score = tf.nn.softmax(prediction[0])
+        print(
+            "This image most likely belongs to {} with a {:.2f} percent confidence."
+            .format(label_2b[np.argmax(score)], 100 * np.max(score))
+        )
+    else:
+        print(
+            "This image most likely belongs to {} with a {:.2f} percent confidence."
+            .format(label_2a[np.argmax(score)], 100 * np.max(score))
+        )
 # predictions = model_2a.predict()
 # y_pred = np.argmax(predictions, axis=1)
 # print(predictions)
