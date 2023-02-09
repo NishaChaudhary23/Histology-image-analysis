@@ -548,7 +548,7 @@ if model_type == 'NASNetLarge':
 if model_type == 'NASNetMobile':
 	nasnet = NASNetMobile(
 			include_top=False,
-			input_shape=(300,300,3)
+			input_shape=(224,224,3)
 			)
 	for layer in nasnet.layers:
 			layer.trainable = True
