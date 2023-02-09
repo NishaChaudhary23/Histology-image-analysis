@@ -37,7 +37,7 @@ df_test = df_test.drop(['image','label'], axis=1)
 # df_test = df_test.rename(columns={'':'filename'})
 print(df_test.head(5))
 
-
+y_pred = []
 
 label_2a = ['wmdoscc','pdoscc']
 label_2b = ['wdoscc','mdoscc']
@@ -50,6 +50,7 @@ label_2b = ['wdoscc','mdoscc']
 #         shuffle=False,
 #         validate_filenames=False)
 for ID in df_test['filename']:
+    true_label = df_test[df_test['filename'] == ID]['label'].values[0]
     img = tf.keras.preprocessing.image.load_img(
         f'{ID}', target_size=(300, 300)
     )
@@ -57,18 +58,36 @@ for ID in df_test['filename']:
     img_array = tf.expand_dims(img_array, 0)  # Create a batch
     predictions = model_2a.predict(img_array)
     score = tf.nn.softmax(predictions[0])
+    pred_label = label_2a[np.argmax(score)]
     if label_2a[np.argmax(score)] == "wmdoscc":
         prediction = model_2b.predict(img_array)
         score = tf.nn.softmax(prediction[0])
+        pred_label = label_2b[np.argmax(score)]
         print(
-            "This image most likely belongs to {} with a {:.2f} percent confidence."
-            .format(label_2b[np.argmax(score)], 100 * np.max(score))
+            "This image most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
+            .format(label_2b[np.argmax(score)], 100 * np.max(score)), true_label
         )
     else:
         print(
-            "This image most likely belongs to {} with a {:.2f} percent confidence."
-            .format(label_2a[np.argmax(score)], 100 * np.max(score))
+            "This image most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
+            .format(label_2a[np.argmax(score)], 100 * np.max(score)), true_label
         )
+    y_pred.append(pred_label)
+    y_true = df_test['label'].values.tolist()
+    # classification report
+    print(classification_report(y_true, y_pred))
+    # saving classification report to csv
+    report = classification_report(y_true, y_pred, output_dict=True)
+    df = pd.DataFrame(report).transpose()
+    df.to_csv(f'{out_path}/combined/combined_classification_report.csv')
+    # confusion matrix
+    cm = confusion_matrix(y_true, y_pred)
+    # saving confusion matrix to csv
+    df_cm = pd.DataFrame(cm, index = [i for i in ['pdoscc','wdoscc','mdoscc']],
+                    columns = [i for i in ['pdoscc','wdoscc','mdoscc']])
+    df_cm.to_csv(f'{out_path}/combined/combined_confusion_matrix.csv')
+    print(cm)
+    # plot confusion matrix
 # predictions = model_2a.predict()
 # y_pred = np.argmax(predictions, axis=1)
 # print(predictions)
