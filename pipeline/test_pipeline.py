@@ -62,5 +62,5 @@ y_pred_2b = [label_2b[i] for i in y_pred_2b]
 
 # combined 3 column datatframe for model_2a, model_2b and final prediction
 df = pd.DataFrame({'model_2a':y_pred_2a, 'model_2b':y_pred_2b,'ground_truth':df_test['class'].values.tolist()})
-df['correct_prediction'] = np.where(df['model_2a'] == df['ground_truth'] or df['model_2b'] == df['ground_truth'], 1, 0)
+# df['correct_prediction'] = np.where(df['model_2a'] == df['ground_truth'] or df['model_2b'] == df['ground_truth'], 1, 0)
 df.to_csv(f'{out_path}/test_pipeline_output.csv', index=False)
