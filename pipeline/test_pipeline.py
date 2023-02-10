@@ -31,7 +31,7 @@ datapath = f'{base}/train_all'
 
 
 df_test = pd.read_csv(f'{base}/pipeline/all/master_test.csv')
-df_test = df_test[df_test['class'] == 'mdoscc' or df_test['class'] == 'wdoscc']
+df_test = df_test[df_test['class'] != 'pdoscc']
 print(df_test.head(5))
 
 y_pred = []
