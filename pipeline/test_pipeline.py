@@ -57,19 +57,21 @@ for ID in df_test['filename'].values.tolist()[:10]:
     print(score)
     print(predictions)
     pred_label = label_2a[np.argmax(score)]
-    if pred_label == "wmdoscc":
-        prediction = model_2b.predict(img_array)
-        score = tf.nn.softmax(prediction[0])
-        pred_label = label_2b[np.argmax(score)]
-        print(
-            "This image,{} most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
-            .format(ID.split("/")[-1],pred_label, 100 * np.max(score), true_label)
-        )
-    else:
-        print(
-            "This image, {}, most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
-            .format(ID.split("/")[-1],pred_label, 100 * np.max(score), true_label)
-        )
+
+    print("------------------------------------------")
+    print(f'For image: {ID.split("/")[-1]}')
+    print(
+        "Model2a: This image,{} most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
+        .format(ID.split("/")[-1],pred_label, 100 * np.max(score), true_label)
+    )
+    predictions = model_2b.predict(img_array)
+    score = tf.nn.softmax(predictions[0])
+    pred_label = label_2b[np.argmax(score)]
+    print(
+        "This image, {}, most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
+        .format(ID.split("/")[-1],pred_label, 100 * np.max(score), true_label)
+    )
+    print("------------------------------------------")
     y_pred.append(pred_label)
 y_true = df_test['class'].values.tolist()
 # classification report
