@@ -61,4 +61,4 @@ y_pred_2b = np.argmax(y_pred_2b, axis=1)
 y_pred_2b = [label_2b[i] for i in y_pred_2b]
 
 # combined 3 column datatframe for model_2a, model_2b and final prediction
-df = pd.DataFrame({'model_2a':y_pred_2a, 'model_2b':y_pred_2b}, 'ground_truth':df_test['class'].values.tolist())
+df = pd.DataFrame({'model_2a':y_pred_2a, 'model_2b':y_pred_2b,'ground_truth':df_test['class'].values.tolist()})
