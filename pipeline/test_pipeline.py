@@ -62,13 +62,13 @@ for ID in df_test['filename'].values.tolist():
         if pred_label == "pdoscc":
             pred_label = "mdoscc"
         print(
-            "This image most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
-            .format(pred_label, 100 * np.max(score), true_label)
+            "This image,{} most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
+            .format(ID.split("/")[-1],pred_label, 100 * np.max(score), true_label)
         )
     else:
         print(
-            "This image most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
-            .format(pred_label, 100 * np.max(score), true_label)
+            "This image, {}, most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
+            .format(ID.split("/")[-1],pred_label, 100 * np.max(score), true_label)
         )
     y_pred.append(pred_label)
 y_true = df_test['class'].values.tolist()
