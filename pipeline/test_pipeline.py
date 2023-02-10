@@ -38,58 +38,27 @@ y_pred = []
 
 label_2a = ['wmdoscc','pdoscc']
 label_2b = ['wdoscc','mdoscc']
-# datagen_test = ImageDataGenerator(rescale = 1.0/255.0)
-# test_generator = datagen_test.flow_from_dataframe(
-#         dataframe=df_test,
-#         folder=datapath,
-#         target_size=(300, 300),
-#         class_mode='categorical',
-#         shuffle=False,
-#         validate_filenames=False)
-for ID in df_test['filename'].values.tolist()[:10]:
-    true_label = df_test[df_test['filename'] == ID]['class'].values[0]
-    img = tf.keras.preprocessing.image.load_img(
-        f'{ID}', target_size=(300, 300)
-    )
-    img_array = tf.keras.preprocessing.image.img_to_array(img)
-    img_array = tf.expand_dims(img_array, 0)  # Create a batch
-    predictions = model_2a.predict(img_array)
-    score = tf.nn.softmax(predictions[0])
-    print(score)
-    print(predictions)
-    pred_label = label_2a[np.argmax(score)]
+datagen_test = ImageDataGenerator(rescale = 1.0/255.0)
+test_generator = datagen_test.flow_from_dataframe(
+        dataframe=df_test,
+        folder=datapath,
+        target_size=(300, 300),
+        class_mode='categorical',
+        shuffle=False,
+        validate_filenames=False)
 
-    print("------------------------------------------")
-    print(f'For image: {ID.split("/")[-1]}')
-    print(
-        "Model2a: This image,{} most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
-        .format(ID.split("/")[-1],pred_label, 100 * np.max(score), true_label)
-    )
-    # predictions = model_2b.predict(img_array)
-    # score = tf.nn.softmax(predictions[0])
-    # pred_label = label_2b[np.argmax(score)]
-    # print(
-    #     "This image, {}, most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
-    #     .format(ID.split("/")[-1],pred_label, 100 * np.max(score), true_label)
-    # )
-    # print("------------------------------------------")
-    y_pred.append(pred_label)
-y_true = df_test['class'].values.tolist()
-# classification report
-print(classification_report(y_true, y_pred))
-# saving classification report to csv
-report = classification_report(y_true, y_pred, output_dict=True)
-df = pd.DataFrame(report).transpose()
-df.to_csv(f'{out_path}/combined/combined_classification_report.csv')
-# confusion matrix
-cm = confusion_matrix(y_true, y_pred)
-# saving confusion matrix to csv
-df_cm = pd.DataFrame(cm, index = [i for i in ['pdoscc','wdoscc','mdoscc']],
-                columns = [i for i in ['pdoscc','wdoscc','mdoscc']])
-df_cm.to_csv(f'{out_path}/combined/combined_confusion_matrix.csv')
-print(cm)
-    # plot confusion matrix
-# predictions = model_2a.predict()
-# y_pred = np.argmax(predictions, axis=1)
-# print(predictions)
-# print(y_pred)
+# model_2a
+print("Model 2a")
+y_pred_2a = model_2a.predict(test_generator)
+y_pred_2a = np.argmax(y_pred_2a, axis=1)
+y_pred_2a = [label_2a[i] for i in y_pred_2a]
+
+
+# model_2b
+print("Model 2b")
+y_pred_2b = model_2b.predict(test_generator)
+y_pred_2b = np.argmax(y_pred_2b, axis=1)
+y_pred_2b = [label_2b[i] for i in y_pred_2b]
+
+# combined 3 column datatframe for model_2a, model_2b and final prediction
+df = pd.DataFrame({'model_2a':y_pred_2a, 'model_2b':y_pred_2b}, 'ground_truth':df_test['class'].values.tolist())
