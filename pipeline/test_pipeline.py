@@ -36,7 +36,7 @@ print(df_test.head(5))
 y_pred = []
 
 label_2a = ['pdoscc','wmdoscc']
-label_2b = ['mdoscc','mdoscc']
+label_2b = ['mdoscc','wdoscc']
 datagen_test = ImageDataGenerator(rescale = 1.0/255.0)
 test_generator = datagen_test.flow_from_dataframe(
         dataframe=df_test,
