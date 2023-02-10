@@ -49,15 +49,18 @@ test_generator = datagen_test.flow_from_dataframe(
 # model_2a
 print("Model 2a")
 y_pred_2a = model_2a.predict(test_generator)
+confidence_2a = np.argmax(y_pred_2a, axis=1)
 y_pred_2a = np.argmax(y_pred_2a, axis=1)
 y_pred_2a = [label_2a[i] for i in y_pred_2a]
-
-
 # model_2b
 print("Model 2b")
 y_pred_2b = model_2b.predict(test_generator)
+confidence_2b = np.argmax(y_pred_2b, axis=1)
 y_pred_2b = np.argmax(y_pred_2b, axis=1)
 y_pred_2b = [label_2b[i] for i in y_pred_2b]
+
+
+
 
 # combined 3 column datatframe for model_2a, model_2b and final prediction
 df = pd.DataFrame({'model_2a':y_pred_2a, 'model_2b':y_pred_2b,'ground_truth':df_test['class'].values.tolist()})
@@ -70,6 +73,12 @@ print("Confusion Matrix")
 print(confusion_matrix(df_test['class'].values.tolist(), df['final_prediction'].values.tolist()))
 cm = confusion_matrix(df_test['class'].values.tolist(), df['final_prediction'].values.tolist())
 df_cm = pd.DataFrame(cm, index = [i for i in ["pdoscc","wdoscc","mdoscc"]], columns = [i for i in ["pdoscc","wdoscc","mdoscc"]])
+df_cm.to_csv(f'{out_path}/test_pipeline_output_cm.csv', index=True)
+plt.figure(figsize = (10,7))
+sns.heatmap(df_cm, annot=True, xticklabels=, fmt='g')
+plt.savefig(f'{out_path}/test_pipeline_output_cm.png')
+
+
 print("Classification Report")
 print(classification_report(df_test['class'].values.tolist(), df['final_prediction'].values.tolist()))
 report = classification_report(df_test['class'].values.tolist(), df['final_prediction'].values.tolist(), output_dict=True)
