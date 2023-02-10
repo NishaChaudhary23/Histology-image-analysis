@@ -75,7 +75,7 @@ cm = confusion_matrix(df_test['class'].values.tolist(), df['final_prediction'].v
 df_cm = pd.DataFrame(cm, index = [i for i in ["pdoscc","wdoscc","mdoscc"]], columns = [i for i in ["pdoscc","wdoscc","mdoscc"]])
 df_cm.to_csv(f'{out_path}/test_pipeline_output_cm.csv', index=True)
 plt.figure(figsize = (10,7))
-sns.heatmap(df_cm, annot=True, xticklabels=, fmt='g')
+sns.heatmap(df_cm, annot=True, fmt='g')
 plt.savefig(f'{out_path}/test_pipeline_output_cm.png')
 
 
