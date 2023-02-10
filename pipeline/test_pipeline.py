@@ -54,13 +54,13 @@ for ID in df_test['filename'].values.tolist():
     img_array = tf.expand_dims(img_array, 0)  # Create a batch
     predictions = model_2a.predict(img_array)
     score = tf.nn.softmax(predictions[0])
+    print(score)
+    print(predictions)
     pred_label = label_2a[np.argmax(score)]
     if pred_label == "wmdoscc":
         prediction = model_2b.predict(img_array)
         score = tf.nn.softmax(prediction[0])
         pred_label = label_2b[np.argmax(score)]
-        if pred_label == "pdoscc":
-            pred_label = "mdoscc"
         print(
             "This image,{} most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
             .format(ID.split("/")[-1],pred_label, 100 * np.max(score), true_label)
