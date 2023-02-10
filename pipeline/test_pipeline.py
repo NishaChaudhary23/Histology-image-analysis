@@ -31,6 +31,7 @@ datapath = f'{base}/train_all'
 
 
 df_test = pd.read_csv(f'{base}/pipeline/all/master_test.csv')
+df_test = df_test[df_test['class'] == 'pdoscc']
 print(df_test.head(5))
 
 y_pred = []
@@ -64,14 +65,14 @@ for ID in df_test['filename'].values.tolist()[:10]:
         "Model2a: This image,{} most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
         .format(ID.split("/")[-1],pred_label, 100 * np.max(score), true_label)
     )
-    predictions = model_2b.predict(img_array)
-    score = tf.nn.softmax(predictions[0])
-    pred_label = label_2b[np.argmax(score)]
-    print(
-        "This image, {}, most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
-        .format(ID.split("/")[-1],pred_label, 100 * np.max(score), true_label)
-    )
-    print("------------------------------------------")
+    # predictions = model_2b.predict(img_array)
+    # score = tf.nn.softmax(predictions[0])
+    # pred_label = label_2b[np.argmax(score)]
+    # print(
+    #     "This image, {}, most likely belongs to {} with a {:.2f} percent confidence. the original label is {}"
+    #     .format(ID.split("/")[-1],pred_label, 100 * np.max(score), true_label)
+    # )
+    # print("------------------------------------------")
     y_pred.append(pred_label)
 y_true = df_test['class'].values.tolist()
 # classification report
