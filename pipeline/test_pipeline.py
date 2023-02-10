@@ -31,13 +31,12 @@ datapath = f'{base}/train_all'
 
 
 df_test = pd.read_csv(f'{base}/pipeline/all/master_test.csv')
-df_test = df_test[df_test['class'] != 'pdoscc']
 print(df_test.head(5))
 
 y_pred = []
 
-label_2a = ['wmdoscc','pdoscc']
-label_2b = ['wdoscc','mdoscc']
+label_2a = ['pdoscc','wmdoscc']
+label_2b = ['mdoscc','mdoscc']
 datagen_test = ImageDataGenerator(rescale = 1.0/255.0)
 test_generator = datagen_test.flow_from_dataframe(
         dataframe=df_test,
@@ -62,5 +61,17 @@ y_pred_2b = [label_2b[i] for i in y_pred_2b]
 
 # combined 3 column datatframe for model_2a, model_2b and final prediction
 df = pd.DataFrame({'model_2a':y_pred_2a, 'model_2b':y_pred_2b,'ground_truth':df_test['class'].values.tolist()})
-# df['correct_prediction'] = np.where(df['model_2a'] == df['ground_truth'] or df['model_2b'] == df['ground_truth'], 1, 0)
+# final prediction 
+df['final_prediction'] = df.apply(lambda x: x['model_2a'] if x['model_2a'] == "pdoscc" else x['model_2b'], axis=1)
 df.to_csv(f'{out_path}/test_pipeline_output.csv', index=False)
+
+# confusion matrix
+print("Confusion Matrix")
+print(confusion_matrix(df_test['class'].values.tolist(), df['final_prediction'].values.tolist()))
+cm = confusion_matrix(df_test['class'].values.tolist(), df['final_prediction'].values.tolist())
+df_cm = pd.DataFrame(cm, index = [i for i in ["pdoscc","wdoscc","mdoscc"]], columns = [i for i in ["pdoscc","wdoscc","mdoscc"]])
+print("Classification Report")
+print(classification_report(df_test['class'].values.tolist(), df['final_prediction'].values.tolist()))
+report = classification_report(df_test['class'].values.tolist(), df['final_prediction'].values.tolist(), output_dict=True)
+df = pd.DataFrame(report).transpose()
+df.to_csv(f'{out_path}/test_pipeline_output_report.csv', index=True)
