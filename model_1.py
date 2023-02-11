@@ -87,7 +87,7 @@ path = '/storage/bic/data/oscc/project_1/train/{}/'.format(a)
 
 # ImageDataGenerator
 # color images
-model_type = 'VGG19'
+model_type = 'InceptionResNetV2'
 # model_type = 'DenseNet121'
 print(f'Model Type: {model_type}')
 

@@ -1,8 +1,8 @@
 #! /bin/bash
-#PBS -N P1_V19
+#PBS -N P1_IRNV3
 #PBS -l host=compute3
-#PBS -o /storage/bic/data/oscc/project_1/model_VGG19_out.log
-#PBS -e /storage/bic/data/oscc/project_1/model_VGG19_err.log
+#PBS -o /storage/bic/data/oscc/project_1/model_InceptionResNetV2_out.log
+#PBS -e /storage/bic/data/oscc/project_1/model_InceptionResNetV2_err.log
 #PBS -q gpu
 
 module load compiler/anaconda3
