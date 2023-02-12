@@ -1,8 +1,8 @@
 #! /bin/bash
-#PBS -N P2_XCPN
+#PBS -N P2_DN121
 #PBS -l host=compute4
-#PBS -o model_Xception_out.log
-#PBS -e model_Xception_err.log
+#PBS -o model_DenseNet121_out.log
+#PBS -e model_DenseNet121_err.log
 #PBS -q gpu
 
 module load compiler/anaconda3
