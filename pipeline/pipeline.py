@@ -97,7 +97,6 @@ def phase(choice):
                         target_size=(300, 300),
                         batch_size=32,
                         class_mode='categorical',
-                        subset = 'training',
                         validate_filenames=False)
                 #Validation Data
                 datagen_valid = ImageDataGenerator(rescale = 1.0/255.0)
@@ -107,7 +106,6 @@ def phase(choice):
                         target_size=(300, 300),
                         batch_size=32,
                         class_mode='categorical',
-                        subset = 'validation',
                         shuffle=True,
                         validate_filenames=False)
 
@@ -119,7 +117,6 @@ def phase(choice):
                         target_size=(300, 300),
                         class_mode='categorical',
                         shuffle=True,
-                        subset='test',
                         validate_filenames=False)
                 
                 # printing the train, valid and test data
