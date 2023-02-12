@@ -691,7 +691,7 @@ if model_type == 'Xception':
 	x = layers.Dense(1024, activation = 'relu')(x)
 	x = layers.Dropout(0.2)(x)
 	x = layers.Dense(3, activation = 'softmax')(x)
-	model = Model(vgg19.input, x)
+	model = Model(xception.input, x)
 	model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if not os.path.exists(f'/storage/bic/data/oscc/project_1/models/{model_type}'):
