@@ -402,7 +402,7 @@ def phase(choice):
                 df.to_csv(f'{out_path}/{choice}/fold_{i+1}/internal_validation_classification_report_finetune.csv')
 
                 print("------------------------------------------")
-                print(f'Supplimentary Testing Phase Data Saved')
+                print(f'Supplimentary Testing Phase Data Saved locally')
                 print("------------------------------------------")
                 print("------------------------------------------------------------------------------------")
 
