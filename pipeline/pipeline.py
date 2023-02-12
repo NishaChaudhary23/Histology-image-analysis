@@ -220,10 +220,10 @@ def phase(choice):
                 print(conf_percentages)
                 labels = [f"{v1}\n{v2}%" for v1, v2 in
                         zip(conf.flatten(),conf_percentages)]
-                labels = np.asarray(labels).reshape(3,3)
+                labels = np.asarray(labels).reshape((2,2))
                 print(labels)
                 plt.figure(figsize=(3.5,3))
-                sns.heatmap(conf_percentages.reshape((3,3)), annot=labels, xticklabels=class_names, cmap=sns.color_palette("ch:s=-.2,r=.6", as_cmap=True), yticklabels=class_names, fmt='', cbar=True, annot_kws={"font":'Sans',"size": 9.5,"fontstyle":'italic' })
+                sns.heatmap(conf_percentages.reshape((2,2)), annot=labels, xticklabels=class_names, cmap=sns.color_palette("ch:s=-.2,r=.6", as_cmap=True), yticklabels=class_names, fmt='', cbar=True, annot_kws={"font":'Sans',"size": 9.5,"fontstyle":'italic' })
                 plt.xlabel('Predicted',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
                 plt.ylabel('Ground Truth',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
                 plt.title(f'Confusion Matrix for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
@@ -308,6 +308,7 @@ def phase(choice):
                 plt.ylabel('Accuracy',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
                 plt.title(f'Accuracy for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
                 plt.savefig(f'{out_path}/{choice}/fold_{i+1}/Accuracy_finetune.jpg')
+                plt.figure(figsize=(3.5,3))
                 plt.plot(history.history['loss'], label='Train Loss')
                 plt.plot(history.history['val_loss'], label='Val Loss')
                 plt.xlabel('Epochs',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
@@ -384,10 +385,10 @@ def phase(choice):
                 print(conf_percentages)
                 labels = [f"{v1}\n{v2}%" for v1, v2 in
                         zip(conf.flatten(),conf_percentages)]
-                labels = np.asarray(labels).reshape(3,3)
+                labels = np.asarray(labels).reshape((2,2))
                 print(labels)
                 plt.figure(figsize=(3.5,3))
-                sns.heatmap(conf_percentages.reshape((3,3)), annot=labels, xticklabels=class_names, cmap=sns.color_palette("ch:s=-.2,r=.6", as_cmap=True), yticklabels=class_names, fmt='', cbar=True, annot_kws={"font":'Sans',"size": 9.5,"fontstyle":'italic' })
+                sns.heatmap(conf_percentages.reshape((2,2)), annot=labels, xticklabels=class_names, cmap=sns.color_palette("ch:s=-.2,r=.6", as_cmap=True), yticklabels=class_names, fmt='', cbar=True, annot_kws={"font":'Sans',"size": 9.5,"fontstyle":'italic' })
                 plt.xlabel('Predicted',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
                 plt.ylabel('Ground Truth',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
                 plt.title(f'Confusion Matrix for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
