@@ -87,7 +87,7 @@ path = '/storage/bic/data/oscc/project_1/train/{}/'.format(a)
 
 # ImageDataGenerator
 # color images
-model_type = 'Xception'
+model_type = 'NASNetMobile'
 # model_type = 'DenseNet121'
 print(f'Model Type: {model_type}')
 
@@ -96,14 +96,14 @@ datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.2)
 train_generator = datagen_train.flow_from_directory(
 	train_large,
 	target_size=(300, 300),
-	batch_size=32,
+	batch_size=32 if model_type not in ['NASNetLarge','NASNetMobile'] else 8,
 	class_mode='categorical',
 	subset = 'training')
 #Validation Data
 valid_generator = datagen_train.flow_from_directory(
 	train_large,
 	target_size=(300, 300),
-	batch_size=32,
+	batch_size=32 if model_type not in ['NASNetLarge','NASNetMobile'] else 8,
 	class_mode='categorical',
 	subset = 'validation',
 	shuffle=False)
