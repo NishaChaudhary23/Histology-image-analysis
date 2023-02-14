@@ -1,8 +1,8 @@
 #! /bin/bash
-#PBS -N P1_XCPN
+#PBS -N P1_NASNM
 #PBS -l host=compute3
-#PBS -o /storage/bic/data/oscc/project_1/model_Xception_out.log
-#PBS -e /storage/bic/data/oscc/project_1/model_Xception_err.log
+#PBS -o /storage/bic/data/oscc/project_1/model_MASNetMobile_out.log
+#PBS -e /storage/bic/data/oscc/project_1/model_MASNetMobile_err.log
 #PBS -q gpu
 
 module load compiler/anaconda3
