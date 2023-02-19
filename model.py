@@ -532,7 +532,6 @@ if model_type == 'MobileNetV3Small':
 
 if model_type == 'NASNetLarge':
         nasnet = NASNetLarge(
-                weights='imagenet',
                 include_top=False,
                 input_shape=(300,300,3)
                 )
