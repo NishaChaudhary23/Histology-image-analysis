@@ -77,6 +77,7 @@ def phase(choice):
                         target_size=(300, 300),
                         batch_size=32,
                         class_mode='categorical',
+                        validation_split =0.2,
                         subset='training',
                         validate_filenames=False)
                 valid_generator = datagen_train.flow_from_dataframe(
