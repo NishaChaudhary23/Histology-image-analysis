@@ -1,6 +1,6 @@
 #! /bin/bash
 #PBS -N P3_INV3
-#PBS -l host=compute3
+#PBS -l host=compute4
 #PBS -o model_InceptionV3_out.log
 #PBS -e model_InceptionV3_err.log
 #PBS -q gpu
