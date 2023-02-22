@@ -107,284 +107,284 @@ def phase(choice):
                 print("------------------------------------------")
 
                 
-                # inception = InceptionV3(
-                #         weights='imagenet',
-                #         include_top=False,
-                #         input_shape=(300,300,3)
-                #         )
-                # for layer in inception.layers:
-                #         layer.trainable = True
-                # x = layers.Flatten()(inception.output)
-                # x = layers.Dense(1024, activation = 'relu')(x)
-                # x = layers.Dropout(0.2)(x)
-                # x = layers.Dense(2, activation = 'softmax')(x)
-                # model = Model(inception.input, x)
-                # model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+                inception = InceptionV3(
+                        weights='imagenet',
+                        include_top=False,
+                        input_shape=(300,300,3)
+                        )
+                for layer in inception.layers:
+                        layer.trainable = True
+                x = layers.Flatten()(inception.output)
+                x = layers.Dense(1024, activation = 'relu')(x)
+                x = layers.Dropout(0.2)(x)
+                x = layers.Dense(2, activation = 'softmax')(x)
+                model = Model(inception.input, x)
+                model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 
-                # if not os.path.exists(f'{out_path}/{choice}'):
-                #         os.makedirs(f'{out_path}/{choice}')
-                # if not os.path.exists(f'{out_path}/{choice}/fold_{i+1}'):
-                #         os.makedirs(f'{out_path}/{choice}/fold_{i+1}')
-                # # Model Summary
+                if not os.path.exists(f'{out_path}/{choice}'):
+                        os.makedirs(f'{out_path}/{choice}')
+                if not os.path.exists(f'{out_path}/{choice}/fold_{i+1}'):
+                        os.makedirs(f'{out_path}/{choice}/fold_{i+1}')
+                # Model Summary
 
 
-                # TF_CPP_MIN_LOG_LEVEL=2
-                # # Training the model
+                TF_CPP_MIN_LOG_LEVEL=2
+                # Training the model
 
-                # print("------------------------------------------")
-                # print(f'Training the model {choice}')
-                # print("------------------------------------------")
-                # history = model.fit(train_generator, validation_data = valid_generator, epochs=20)
+                print("------------------------------------------")
+                print(f'Training the model {choice}')
+                print("------------------------------------------")
+                history = model.fit(train_generator, validation_data = valid_generator, epochs=20)
 
-                # print("------------------------------------------")
-                # print(f'Training Complete')
-                # print("------------------------------------------")
-                # # Creating a directory to save the model paths 
+                print("------------------------------------------")
+                print(f'Training Complete')
+                print("------------------------------------------")
+                # Creating a directory to save the model paths 
 
-                # # Saving the model
-                # model.save(f'{out_path}/{choice}/fold_{i+1}/{choice}.h5')
-                # print("------------------------------------------")
-                # print(f'Model saved')
-                # print("------------------------------------------")
-
-
-                # #plotting the accuracy and loss
-                # print("------------------------------------------")
-                # print(f'Plotting and supplimentary data')
-                # print("------------------------------------------")
-                # plt.figure(figsize=(3.5,3))
-                # plt.plot(history.history['acc'], label='Train Acc')
-                # plt.plot(history.history['val_acc'], label='Val Acc')
-                # plt.xlabel('Epochs',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
-                # plt.ylabel('Accuracy',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
-                # plt.title(f'Accuracy for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
-                # plt.savefig(f'{out_path}/{choice}/fold_{i+1}/Accuracy.jpg')
-                # plt.figure(figsize=(3.5,3))
-                # plt.plot(history.history['loss'], label='Train Loss')
-                # plt.plot(history.history['val_loss'], label='Val Loss')
-                # plt.xlabel('Epochs',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
-                # plt.ylabel('Loss',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
-                # plt.title(f'Loss for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
-                # plt.legend(loc = 0)
-                # plt.tight_layout()
-                # plt.savefig(f'{out_path}/{choice}/fold_{i+1}/Loss.jpg')
-
-                # # np.save('{out_path}/{choice}/history1.npy',history.history)
-
-                # hist_df = pd.DataFrame(history.history) 
-
-                # # save to json:  
-                # hist_json_file = f'{out_path}/{choice}/fold_{i+1}/history.json' 
-                # with open(hist_json_file, mode='w') as f:
-                #         hist_df.to_json(f)
-
-                # # or save to csv: 
-                # hist_csv_file = f'{out_path}/{choice}/fold_{i+1}/history.csv'
-                # with open(hist_csv_file, mode='w') as f:
-                #         hist_df.to_csv(f)
-
-                # loaded_model = load_model(f'{out_path}/{choice}/fold_{i+1}/{choice}.h5')
-                # outcomes = loaded_model.predict(valid_generator)
-                # y_pred = np.argmax(outcomes, axis=1)
-                # # confusion matrix
-                # confusion = confusion_matrix(valid_generator.classes, y_pred)
-                # conf_df = pd.DataFrame(confusion)
-                # conf_df.to_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix.csv')
-                # conf = pd.read_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix.csv')
-                # conf = conf.values[:,1:]
-                # conf = conf.astype(np.int32)
-                # conf_percentages = conf / conf.sum(axis=1)[:, np.newaxis]
-                # conf_percentages = conf_percentages * 100
-                # conf_percentages = np.round(conf_percentages, 2).flatten()
-                # print(conf_percentages)
-                # labels = [f"{v1}\n{v2}%" for v1, v2 in
-                #         zip(conf.flatten(),conf_percentages)]
-                # labels = np.asarray(labels).reshape((2,2))
-                # print(labels)
-                # plt.figure(figsize=(3.5,3))
-                # sns.heatmap(conf_percentages.reshape((2,2)), annot=labels, xticklabels=class_names, cmap=sns.color_palette("ch:s=-.2,r=.6", as_cmap=True), yticklabels=class_names, fmt='', cbar=True, annot_kws={"font":'Sans',"size": 9.5,"fontstyle":'italic' })
-                # plt.xlabel('Predicted',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
-                # plt.ylabel('Ground Truth',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
-                # plt.title(f'Confusion Matrix for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
-                # plt.tight_layout()
-                # plt.savefig(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix.jpg')
-
-                # # classification report
-                # report = classification_report(valid_generator.classes, y_pred, output_dict=True)
-                # df = pd.DataFrame(report).transpose()
-                # df.to_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_classification_report.csv')
-
-                # print("------------------------------------------")
-                # print(f'Supplimentary Data Saved')
-                # print("------------------------------------------")
-
-                # # Testing the model
-                # print("------------------------------------------")
-                # print(f'Testing the model')
-                # print("------------------------------------------")
-                # test_loss, test_acc = model.evaluate(test_generator)
-                # print('test acc:', test_acc)
-                # print('test loss:', test_loss)
-
-                # # Predicting the test data
-                # print("------------------------------------------")
-                # print(f'Predicting the test data')
-                # print("------------------------------------------")
-                # y_pred = model.predict(test_generator)
-                # y_pred = np.argmax(y_pred, axis=1)
-                # confusion = confusion_matrix(test_generator.classes, y_pred)
-                # plt.figure(figsize=(10, 10))
-                # sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues', xticklabels = class_names, yticklabels = class_names)
-                # plt.title('Confusion Matrix')
-                # plt.xlabel('Predicted Label')
-                # plt.ylabel('True Label')
-                # plt.tight_layout()
-                # plt.savefig(f'{out_path}/{choice}/fold_{i+1}/internal_validation_confusion_matrix.jpg')
-
-                # conf_df = pd.DataFrame(confusion)
-                # conf_df.to_csv(f'{out_path}/{choice}/fold_{i+1}/internal_validation_confusion_matrix.csv')
-
-                # # classification report
-
-                # report = classification_report(test_generator.classes, y_pred, output_dict=True)
-                # df = pd.DataFrame(report).transpose()
-                # df.to_csv(f'{out_path}/{choice}/fold_{i+1}/internal_validation_classification_report.csv')
-
-                # print("------------------------------------------")
-                # print(f'Supplimentary Testing Phase Data Saved')
-                # print("------------------------------------------")
-
-                # # finetuning the model
-                # print("------------------------------------------")
-                # print(f'Finetuning the model')
-                # print("------------------------------------------")
-                # # freezing the base model
-                # inception.trainable = False
-                # # recompiling the model
-                # model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
-                # # training the model
-                # history = model.fit(train_generator, validation_data = valid_generator, epochs=20)
-                # print("------------------------------------------")
-                # print(f'Finetuning Complete')
-                # print("------------------------------------------")
-                # # Creating a directory to save the model paths 
-
-                # # Saving the model
-                # model.save(f'{out_path}/{choice}/fold_{i+1}/{choice}_finetune.h5')
-                # print("------------------------------------------")
-                # print(f'Model saved')
-                # print("------------------------------------------")
+                # Saving the model
+                model.save(f'{out_path}/{choice}/fold_{i+1}/{choice}.h5')
+                print("------------------------------------------")
+                print(f'Model saved')
+                print("------------------------------------------")
 
 
-                # #plotting the accuracy and loss
-                # print("------------------------------------------")
-                # print(f'Plotting and supplimentary data')
-                # print("------------------------------------------")
-                # plt.figure(figsize=(3.5,3))
-                # plt.plot(history.history['acc'], label='Train Loss')
-                # plt.plot(history.history['val_acc'], label='Val Loss')
-                # plt.xlabel('Epochs',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
-                # plt.ylabel('Accuracy',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
-                # plt.title(f'Accuracy for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
-                # plt.savefig(f'{out_path}/{choice}/fold_{i+1}/Accuracy_finetune.jpg')
-                # plt.figure(figsize=(3.5,3))
-                # plt.plot(history.history['loss'], label='Train Loss')
-                # plt.plot(history.history['val_loss'], label='Val Loss')
-                # plt.xlabel('Epochs',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
-                # plt.ylabel('Loss',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
-                # plt.title(f'Loss for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
-                # plt.legend(loc = 0)
-                # plt.tight_layout()
-                # plt.savefig(f'{out_path}/{choice}/fold_{i+1}/Loss_finetune.jpg')
+                #plotting the accuracy and loss
+                print("------------------------------------------")
+                print(f'Plotting and supplimentary data')
+                print("------------------------------------------")
+                plt.figure(figsize=(3.5,3))
+                plt.plot(history.history['acc'], label='Train Acc')
+                plt.plot(history.history['val_acc'], label='Val Acc')
+                plt.xlabel('Epochs',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
+                plt.ylabel('Accuracy',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
+                plt.title(f'Accuracy for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
+                plt.savefig(f'{out_path}/{choice}/fold_{i+1}/Accuracy.jpg')
+                plt.figure(figsize=(3.5,3))
+                plt.plot(history.history['loss'], label='Train Loss')
+                plt.plot(history.history['val_loss'], label='Val Loss')
+                plt.xlabel('Epochs',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
+                plt.ylabel('Loss',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
+                plt.title(f'Loss for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
+                plt.legend(loc = 0)
+                plt.tight_layout()
+                plt.savefig(f'{out_path}/{choice}/fold_{i+1}/Loss.jpg')
 
-                # # np.save('{out_path}/{choice}/history1.npy',history.history)
+                # np.save('{out_path}/{choice}/history1.npy',history.history)
 
-                # hist_df = pd.DataFrame(history.history) 
+                hist_df = pd.DataFrame(history.history) 
 
-                # # save to json:  
-                # hist_json_file = f'{out_path}/{choice}/fold_{i+1}/history_finetune.json' 
-                # with open(hist_json_file, mode='w') as f:
-                #         hist_df.to_json(f)
+                # save to json:  
+                hist_json_file = f'{out_path}/{choice}/fold_{i+1}/history.json' 
+                with open(hist_json_file, mode='w') as f:
+                        hist_df.to_json(f)
 
-                # # or save to csv: 
-                # hist_csv_file = f'{out_path}/{choice}/fold_{i+1}/history_finetune.csv'
-                # with open(hist_csv_file, mode='w') as f:
-                #         hist_df.to_csv(f)
+                # or save to csv: 
+                hist_csv_file = f'{out_path}/{choice}/fold_{i+1}/history.csv'
+                with open(hist_csv_file, mode='w') as f:
+                        hist_df.to_csv(f)
 
-                # loaded_model = load_model(f'{out_path}/{choice}/fold_{i+1}/{choice}.h5')
-                # outcomes = loaded_model.predict(valid_generator)
-                # test_fine_pred = np.argmax(outcomes, axis=1)
-                # # confusion matrix
-                # confusion = confusion_matrix(valid_generator.classes, test_fine_pred)
-                # plt.figure(figsize=(10, 10))
-                # sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues', xticklabels = class_names, yticklabels = class_names)
-                # plt.title('Confusion Matrix')
-                # plt.xlabel('Predicted Label')
-                # plt.ylabel('True Label')
-                # plt.tight_layout()
-                # plt.savefig(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix_finetune.jpg')
+                loaded_model = load_model(f'{out_path}/{choice}/fold_{i+1}/{choice}.h5')
+                outcomes = loaded_model.predict(valid_generator)
+                y_pred = np.argmax(outcomes, axis=1)
+                # confusion matrix
+                confusion = confusion_matrix(valid_generator.classes, y_pred)
+                conf_df = pd.DataFrame(confusion)
+                conf_df.to_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix.csv')
+                conf = pd.read_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix.csv')
+                conf = conf.values[:,1:]
+                conf = conf.astype(np.int32)
+                conf_percentages = conf / conf.sum(axis=1)[:, np.newaxis]
+                conf_percentages = conf_percentages * 100
+                conf_percentages = np.round(conf_percentages, 2).flatten()
+                print(conf_percentages)
+                labels = [f"{v1}\n{v2}%" for v1, v2 in
+                        zip(conf.flatten(),conf_percentages)]
+                labels = np.asarray(labels).reshape((2,2))
+                print(labels)
+                plt.figure(figsize=(3.5,3))
+                sns.heatmap(conf_percentages.reshape((2,2)), annot=labels, xticklabels=class_names, cmap=sns.color_palette("ch:s=-.2,r=.6", as_cmap=True), yticklabels=class_names, fmt='', cbar=True, annot_kws={"font":'Sans',"size": 9.5,"fontstyle":'italic' })
+                plt.xlabel('Predicted',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
+                plt.ylabel('Ground Truth',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
+                plt.title(f'Confusion Matrix for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
+                plt.tight_layout()
+                plt.savefig(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix.jpg')
 
-                # conf_df = pd.DataFrame(confusion)
-                # conf_df.to_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix_finetune.csv')
+                # classification report
+                report = classification_report(valid_generator.classes, y_pred, output_dict=True)
+                df = pd.DataFrame(report).transpose()
+                df.to_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_classification_report.csv')
 
-                # # classification report
-                # report = classification_report(valid_generator.classes, test_fine_pred, output_dict=True)
-                # df = pd.DataFrame(report).transpose()
-                # df.to_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_test_classification_report_finetune.csv')
+                print("------------------------------------------")
+                print(f'Supplimentary Data Saved')
+                print("------------------------------------------")
 
-                # print("------------------------------------------")
-                # print(f'Supplimentary Data Saved')
-                # print("------------------------------------------")
+                # Testing the model
+                print("------------------------------------------")
+                print(f'Testing the model')
+                print("------------------------------------------")
+                test_loss, test_acc = model.evaluate(test_generator)
+                print('test acc:', test_acc)
+                print('test loss:', test_loss)
 
-                # # Testing the model
-                # print("------------------------------------------")
-                # print(f'Testing the model')
-                # print("------------------------------------------")
-                # test_loss, test_acc = model.evaluate(test_generator)
-                # print('test acc:', test_acc)
-                # print('test loss:', test_loss)
+                # Predicting the test data
+                print("------------------------------------------")
+                print(f'Predicting the test data')
+                print("------------------------------------------")
+                y_pred = model.predict(test_generator)
+                y_pred = np.argmax(y_pred, axis=1)
+                confusion = confusion_matrix(test_generator.classes, y_pred)
+                plt.figure(figsize=(10, 10))
+                sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues', xticklabels = class_names, yticklabels = class_names)
+                plt.title('Confusion Matrix')
+                plt.xlabel('Predicted Label')
+                plt.ylabel('True Label')
+                plt.tight_layout()
+                plt.savefig(f'{out_path}/{choice}/fold_{i+1}/internal_validation_confusion_matrix.jpg')
 
-                # # Predicting the test data
-                # print("------------------------------------------")
-                # print(f'Predicting the test data')
-                # print("------------------------------------------")
-                # y_pred = model.predict(test_generator)
-                # y_pred = np.argmax(y_pred, axis=1)
-                # confusion = confusion_matrix(test_generator.classes, y_pred)
+                conf_df = pd.DataFrame(confusion)
+                conf_df.to_csv(f'{out_path}/{choice}/fold_{i+1}/internal_validation_confusion_matrix.csv')
 
-                # conf_df = pd.DataFrame(confusion)
-                # conf_df.to_csv(f'{out_path}/{choice}/fold_{i+1}/internal_validation_confusion_matrix_finetune.csv')
-                # conf = pd.read_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix.csv')
-                # conf = conf.values[:,1:]
-                # conf = conf.astype(np.int32)
-                # conf_percentages = conf / conf.sum(axis=1)[:, np.newaxis]
-                # conf_percentages = conf_percentages * 100
-                # conf_percentages = np.round(conf_percentages, 2).flatten()
+                # classification report
 
-                # print(conf_percentages)
-                # labels = [f"{v1}\n{v2}%" for v1, v2 in
-                #         zip(conf.flatten(),conf_percentages)]
-                # labels = np.asarray(labels).reshape((2,2))
-                # print(labels)
-                # plt.figure(figsize=(3.5,3))
-                # sns.heatmap(conf_percentages.reshape((2,2)), annot=labels, xticklabels=class_names, cmap=sns.color_palette("ch:s=-.2,r=.6", as_cmap=True), yticklabels=class_names, fmt='', cbar=True, annot_kws={"font":'Sans',"size": 9.5,"fontstyle":'italic' })
-                # plt.xlabel('Predicted',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
-                # plt.ylabel('Ground Truth',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
-                # plt.title(f'Confusion Matrix for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
-                # plt.tight_layout()
-                # plt.savefig(f'{out_path}/{choice}/fold_{i+1}/internal_validation_confusion_matrix_finetune.jpg')
+                report = classification_report(test_generator.classes, y_pred, output_dict=True)
+                df = pd.DataFrame(report).transpose()
+                df.to_csv(f'{out_path}/{choice}/fold_{i+1}/internal_validation_classification_report.csv')
 
-                # # classification report
+                print("------------------------------------------")
+                print(f'Supplimentary Testing Phase Data Saved')
+                print("------------------------------------------")
 
-                # report = classification_report(test_generator.classes, y_pred, output_dict=True)
-                # df = pd.DataFrame(report).transpose()
-                # df.to_csv(f'{out_path}/{choice}/fold_{i+1}/internal_validation_classification_report_finetune.csv')
+                # finetuning the model
+                print("------------------------------------------")
+                print(f'Finetuning the model')
+                print("------------------------------------------")
+                # freezing the base model
+                inception.trainable = False
+                # recompiling the model
+                model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+                # training the model
+                history = model.fit(train_generator, validation_data = valid_generator, epochs=20)
+                print("------------------------------------------")
+                print(f'Finetuning Complete')
+                print("------------------------------------------")
+                # Creating a directory to save the model paths 
 
-                # print("------------------------------------------")
-                # print(f'Supplimentary Testing Phase Data Saved locally')
-                # print("------------------------------------------")
-                # print("------------------------------------------------------------------------------------")
+                # Saving the model
+                model.save(f'{out_path}/{choice}/fold_{i+1}/{choice}_finetune.h5')
+                print("------------------------------------------")
+                print(f'Model saved')
+                print("------------------------------------------")
+
+
+                #plotting the accuracy and loss
+                print("------------------------------------------")
+                print(f'Plotting and supplimentary data')
+                print("------------------------------------------")
+                plt.figure(figsize=(3.5,3))
+                plt.plot(history.history['acc'], label='Train Loss')
+                plt.plot(history.history['val_acc'], label='Val Loss')
+                plt.xlabel('Epochs',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
+                plt.ylabel('Accuracy',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
+                plt.title(f'Accuracy for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
+                plt.savefig(f'{out_path}/{choice}/fold_{i+1}/Accuracy_finetune.jpg')
+                plt.figure(figsize=(3.5,3))
+                plt.plot(history.history['loss'], label='Train Loss')
+                plt.plot(history.history['val_loss'], label='Val Loss')
+                plt.xlabel('Epochs',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
+                plt.ylabel('Loss',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
+                plt.title(f'Loss for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
+                plt.legend(loc = 0)
+                plt.tight_layout()
+                plt.savefig(f'{out_path}/{choice}/fold_{i+1}/Loss_finetune.jpg')
+
+                # np.save('{out_path}/{choice}/history1.npy',history.history)
+
+                hist_df = pd.DataFrame(history.history) 
+
+                # save to json:  
+                hist_json_file = f'{out_path}/{choice}/fold_{i+1}/history_finetune.json' 
+                with open(hist_json_file, mode='w') as f:
+                        hist_df.to_json(f)
+
+                # or save to csv: 
+                hist_csv_file = f'{out_path}/{choice}/fold_{i+1}/history_finetune.csv'
+                with open(hist_csv_file, mode='w') as f:
+                        hist_df.to_csv(f)
+
+                loaded_model = load_model(f'{out_path}/{choice}/fold_{i+1}/{choice}.h5')
+                outcomes = loaded_model.predict(valid_generator)
+                test_fine_pred = np.argmax(outcomes, axis=1)
+                # confusion matrix
+                confusion = confusion_matrix(valid_generator.classes, test_fine_pred)
+                plt.figure(figsize=(10, 10))
+                sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues', xticklabels = class_names, yticklabels = class_names)
+                plt.title('Confusion Matrix')
+                plt.xlabel('Predicted Label')
+                plt.ylabel('True Label')
+                plt.tight_layout()
+                plt.savefig(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix_finetune.jpg')
+
+                conf_df = pd.DataFrame(confusion)
+                conf_df.to_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix_finetune.csv')
+
+                # classification report
+                report = classification_report(valid_generator.classes, test_fine_pred, output_dict=True)
+                df = pd.DataFrame(report).transpose()
+                df.to_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_test_classification_report_finetune.csv')
+
+                print("------------------------------------------")
+                print(f'Supplimentary Data Saved')
+                print("------------------------------------------")
+
+                # Testing the model
+                print("------------------------------------------")
+                print(f'Testing the model')
+                print("------------------------------------------")
+                test_loss, test_acc = model.evaluate(test_generator)
+                print('test acc:', test_acc)
+                print('test loss:', test_loss)
+
+                # Predicting the test data
+                print("------------------------------------------")
+                print(f'Predicting the test data')
+                print("------------------------------------------")
+                y_pred = model.predict(test_generator)
+                y_pred = np.argmax(y_pred, axis=1)
+                confusion = confusion_matrix(test_generator.classes, y_pred)
+
+                conf_df = pd.DataFrame(confusion)
+                conf_df.to_csv(f'{out_path}/{choice}/fold_{i+1}/internal_validation_confusion_matrix_finetune.csv')
+                conf = pd.read_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix.csv')
+                conf = conf.values[:,1:]
+                conf = conf.astype(np.int32)
+                conf_percentages = conf / conf.sum(axis=1)[:, np.newaxis]
+                conf_percentages = conf_percentages * 100
+                conf_percentages = np.round(conf_percentages, 2).flatten()
+
+                print(conf_percentages)
+                labels = [f"{v1}\n{v2}%" for v1, v2 in
+                        zip(conf.flatten(),conf_percentages)]
+                labels = np.asarray(labels).reshape((2,2))
+                print(labels)
+                plt.figure(figsize=(3.5,3))
+                sns.heatmap(conf_percentages.reshape((2,2)), annot=labels, xticklabels=class_names, cmap=sns.color_palette("ch:s=-.2,r=.6", as_cmap=True), yticklabels=class_names, fmt='', cbar=True, annot_kws={"font":'Sans',"size": 9.5,"fontstyle":'italic' })
+                plt.xlabel('Predicted',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
+                plt.ylabel('Ground Truth',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
+                plt.title(f'Confusion Matrix for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
+                plt.tight_layout()
+                plt.savefig(f'{out_path}/{choice}/fold_{i+1}/internal_validation_confusion_matrix_finetune.jpg')
+
+                # classification report
+
+                report = classification_report(test_generator.classes, y_pred, output_dict=True)
+                df = pd.DataFrame(report).transpose()
+                df.to_csv(f'{out_path}/{choice}/fold_{i+1}/internal_validation_classification_report_finetune.csv')
+
+                print("------------------------------------------")
+                print(f'Supplimentary Testing Phase Data Saved locally')
+                print("------------------------------------------")
+                print("------------------------------------------------------------------------------------")
 
 
 
