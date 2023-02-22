@@ -70,14 +70,13 @@ def phase(choice):
                 master = pd.read_csv(f'{data_src_path}/data_fold_{i}/master_train.csv')
                 print(df_train[df_train['filename'].isin(df_test['filename'])])
                 # Training Data
-                datagen_train = ImageDataGenerator(rescale = 1.0/255.0)
+                datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.25)
                 train_generator = datagen_train.flow_from_dataframe(
                         dataframe=df_train,
                         folder=datapath,
                         target_size=(300, 300),
                         batch_size=32,
                         class_mode='categorical',
-                        validation_split =0.2,
                         subset='training',
                         validate_filenames=False)
                 valid_generator = datagen_train.flow_from_dataframe(
