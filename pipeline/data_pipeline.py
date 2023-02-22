@@ -187,8 +187,6 @@ def five_fold_datagen():
 
 
 if __name__ == "__main__":
-    pool = Pool(mp.cpu_count())
-
+    # pool = Pool(mp.cpu_count())
+    five_fold_datagen()
     # pool.map(image_generator, [1,2,7,13,8])
-
-image_generator(13)
