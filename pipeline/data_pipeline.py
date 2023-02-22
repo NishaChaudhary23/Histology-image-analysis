@@ -176,6 +176,9 @@ def five_fold_datagen(i):
     combined_train_df_model_2a['class'] = combined_train_df_model_2a['class'].replace('wdoscc', 'wmdoscc')
     combined_train_df_model_2a['class'] = combined_train_df_model_2a['class'].replace('mdoscc', 'wmdoscc')
 
+    combined_internal_val_model_2a['class'] = combined_internal_val_model_2a['class'].replace('wdoscc', 'wmdoscc')
+    combined_internal_val_model_2a['class'] = combined_internal_val_model_2a['class'].replace('mdoscc', 'wmdoscc')
+
     # saving the dataframes to csvs
     combined_train_df.to_csv(os.path.join(outpath, "master_train.csv"), index=False)
     combined_internal_val.to_csv(os.path.join(outpath, "master_internal_val.csv"), index=False)
