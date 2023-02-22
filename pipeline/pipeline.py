@@ -67,7 +67,8 @@ def phase(choice):
                 
                 df_test = pd.read_csv(f'{data_src_path}/data_fold_{i}/master_internal_val_model_{choice_d}.csv')
                 df_train = pd.read_csv(f'{data_src_path}/data_fold_{i}/master_train_model_{choice_d}.csv')
-
+                master = pd.read_csv(f'{data_src_path}/data_fold_{i}/master_train.csv')
+                print(df_train[df_train['filename'].isin(df_test['filename'])])
                 # Training Data
                 datagen_train = ImageDataGenerator(rescale = 1.0/255.0)
                 train_generator = datagen_train.flow_from_dataframe(
