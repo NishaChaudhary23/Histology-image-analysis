@@ -137,22 +137,16 @@ def five_fold_datagen(i):
 
     for file in wd_files:
         appendpath = os.path.join(path, folders[0])
-        if file in wd_internal_val_list:
-            wd_internal_val = wd_internal_val.append({'filename': os.path.join(appendpath, file), 'class': "wdoscc"},ignore_index=True)
-        else:
-            wd_train_df = wd_train_df.append({'filename': os.path.join(appendpath, file), 'class': "wdoscc"},ignore_index=True)
+        wd_internal_val = wd_internal_val.append({'filename': os.path.join(appendpath, file), 'class': "wdoscc"},ignore_index=True)
+        wd_train_df = wd_train_df.append({'filename': os.path.join(appendpath, file), 'class': "wdoscc"},ignore_index=True)
     for file in md_files:
         appendpath = os.path.join(path, folders[1])
-        if file in md_internal_val_list:
-            md_internal_val = md_internal_val.append({'filename': os.path.join(appendpath, file), 'class': "mdoscc"},ignore_index=True)
-        else:
-            md_train_df = md_train_df.append({'filename': os.path.join(appendpath, file), 'class': "mdoscc"},ignore_index=True)
+        md_internal_val = md_internal_val.append({'filename': os.path.join(appendpath, file), 'class': "mdoscc"},ignore_index=True)
+        md_train_df = md_train_df.append({'filename': os.path.join(appendpath, file), 'class': "mdoscc"},ignore_index=True)
     for file in pd_files:
         appendpath = os.path.join(path, folders[2])
-        if file in pd_internal_val_list:
-            pd_internal_val = pd_internal_val.append({'filename': os.path.join(appendpath, file), 'class': "pdoscc"},ignore_index=True)
-        else:
-            pd_train_df = pd_train_df.append({'filename': os.path.join(appendpath, file), 'class': "pdoscc"},ignore_index=True)
+        pd_internal_val = pd_internal_val.append({'filename': os.path.join(appendpath, file), 'class': "pdoscc"},ignore_index=True)
+        pd_train_df = pd_train_df.append({'filename': os.path.join(appendpath, file), 'class': "pdoscc"},ignore_index=True)
     
     combined_train_df = combined_train_df.append(wd_train_df, ignore_index=True)
     combined_train_df = combined_train_df.append(md_train_df, ignore_index=True)
@@ -161,6 +155,10 @@ def five_fold_datagen(i):
     combined_internal_val = combined_internal_val.append(wd_internal_val, ignore_index=True)
     combined_internal_val = combined_internal_val.append(md_internal_val, ignore_index=True)
     combined_internal_val = combined_internal_val.append(pd_internal_val, ignore_index=True)
+    
+    
+    internal_val_list = combined_internal_val['filename'].tolist()
+    combined_train_df = combined_train_df[~combined_train_df['filename'].isin(internal_val_list)]
 
     combined_train_df_model_2a = combined_train_df.copy()
     combined_internal_val_model_2a = combined_internal_val.copy()
@@ -178,6 +176,9 @@ def five_fold_datagen(i):
 
     combined_internal_val_model_2a['class'] = combined_internal_val_model_2a['class'].replace('wdoscc', 'wmdoscc')
     combined_internal_val_model_2a['class'] = combined_internal_val_model_2a['class'].replace('mdoscc', 'wmdoscc')
+
+    # converting internal val rows to a list
+
 
     # saving the dataframes to csvs
     combined_train_df.to_csv(os.path.join(outpath, "master_train.csv"), index=False)
