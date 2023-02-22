@@ -1,8 +1,8 @@
 #! /bin/bash
-#PBS -N P2_NNLarge
+#PBS -N P2_DN121
 #PBS -l host=compute3
-#PBS -o model_NASNetLarge_out.log
-#PBS -e model_NASNetLarge_err.log
+#PBS -o model_DenseNet121_out.log
+#PBS -e model_DenseNet121_err.log
 #PBS -q gpu
 
 module load compiler/anaconda3
