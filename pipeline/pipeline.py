@@ -31,6 +31,7 @@ def phase(choice):
         choice_d = ''
         base = '/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet'
         out_path = '/home/chs.rintu/Documents/office/researchxoscc/project_2/output'
+        data_src_path = f'{base}/pipeline'
         datapath = f'{base}/train_all'
         # if choice=='M1a':
         #         df_train = pd.read_csv(f'{base}/pipeline/pw_m/train.csv')
@@ -64,8 +65,8 @@ def phase(choice):
                 print("------------------------------------------")
                 print("------------------------------------------------------------------------------------")
                 
-                df_test = pd.read_csv(f'{datapath}/data_fold_{i}/master_internal_val_model_{choice_d}.csv')
-                df_train = pd.read_csv(f'{datapath}/data_fold_{i}/master_train_model_{choice_d}.csv')
+                df_test = pd.read_csv(f'{data_src_path}/data_fold_{i}/master_internal_val_model_{choice_d}.csv')
+                df_train = pd.read_csv(f'{data_src_path}/data_fold_{i}/master_train_model_{choice_d}.csv')
 
                 # Training Data
                 datagen_train = ImageDataGenerator(rescale = 1.0/255.0)
