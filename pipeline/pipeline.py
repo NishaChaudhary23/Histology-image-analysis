@@ -75,7 +75,7 @@ def phase(choice):
                         dataframe=df_train,
                         folder=datapath,
                         target_size=(300, 300),
-                        batch_size=20,
+                        batch_size=32,
                         class_mode='categorical',
                         subset='training',
                         validate_filenames=False)
@@ -83,7 +83,7 @@ def phase(choice):
                         dataframe=df_train,
                         folder=datapath,
                         target_size=(300, 300),
-                        batch_size=20,
+                        batch_size=32,
                         class_mode='categorical',
                         subset='validation',
                         shuffle=True,
