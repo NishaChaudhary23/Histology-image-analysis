@@ -95,14 +95,14 @@ datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.2)
 # Training Data
 train_generator = datagen_train.flow_from_directory(
         train_large,
-        target_size=(331, 331),
+        target_size=(300, 300),
         batch_size=8,
         class_mode='categorical',
         subset = 'training')
 #Validation Data
 valid_generator = datagen_train.flow_from_directory(
         train_large,
-        target_size=(331, 331),
+        target_size=(300, 300),
         batch_size=8,
         class_mode='categorical',
         subset = 'validation',
