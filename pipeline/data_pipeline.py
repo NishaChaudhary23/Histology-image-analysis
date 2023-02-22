@@ -102,9 +102,93 @@ def image_generator(case, batch_size=32):
         print(train_df)
 
 
+def five_fold_datagen():
+    path = "/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/train/"
+    o_path = "/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/pipeline"
+    appendpath = '/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet/train_all'
+    folders = ['wdoscc', 'mdoscc', 'pdoscc']
+
+    wd_files = os.listdir(os.path.join(path, folders[0]))
+    md_files = os.listdir(os.path.join(path, folders[1]))
+    pd_files = os.listdir(os.path.join(path, folders[2]))
+
+    print(f'wdoscc: {len(wd_files)}')
+    print(f'mdoscc: {len(md_files)}')
+    print(f'pdoscc: {len(pd_files)}')
+
+
+
+    for i in range(5):
+        outpath = os.path.join(o_path, "data_fold_" + str(i))
+        if not os.path.exists(outpath):
+            os.makedirs(outpath)
+        combined_train_df = pd.DataFrame(columns=['filename', 'class'])
+        combined_internal_val = pd.DataFrame(columns=['filename', 'class'])
+        wd_train_df = pd.DataFrame(columns=['filename', 'class'])
+        md_train_df = pd.DataFrame(columns=['filename', 'class'])
+        pd_train_df = pd.DataFrame(columns=['filename', 'class'])
+        wd_internal_val = pd.DataFrame(columns=['filename', 'class'])
+        md_internal_val = pd.DataFrame(columns=['filename', 'class'])
+        pd_internal_val = pd.DataFrame(columns=['filename', 'class'])
+
+        wd_internal_val_list = wd_files[i * len(wd_files) // 5: (i + 1) * len(wd_files) // 5]
+        md_internal_val_list = md_files[i * len(md_files) // 5: (i + 1) * len(md_files) // 5]
+        pd_internal_val_list = pd_files[i * len(pd_files) // 5: (i + 1) * len(pd_files) // 5]
+
+        for file in wd_files:
+            appendpath = os.path.join(path, folders[0])
+            if file in wd_internal_val_list:
+                wd_internal_val = wd_internal_val.append({'filename': os.path.join(appendpath, file), 'class': "wdoscc"},ignore_index=True)
+            else:
+                wd_train_df = wd_train_df.append({'filename': os.path.join(appendpath, file), 'class': "wdoscc"},ignore_index=True)
+        for file in md_files:
+            appendpath = os.path.join(path, folders[1])
+            if file in md_internal_val_list:
+                md_internal_val = md_internal_val.append({'filename': os.path.join(appendpath, file), 'class': "mdoscc"},ignore_index=True)
+            else:
+                md_train_df = md_train_df.append({'filename': os.path.join(appendpath, file), 'class': "mdoscc"},ignore_index=True)
+        for file in pd_files:
+            appendpath = os.path.join(path, folders[2])
+            if file in pd_internal_val_list:
+                pd_internal_val = pd_internal_val.append({'filename': os.path.join(appendpath, file), 'class': "pdoscc"},ignore_index=True)
+            else:
+                pd_train_df = pd_train_df.append({'filename': os.path.join(appendpath, file), 'class': "pdoscc"},ignore_index=True)
+        
+        combined_train_df = combined_train_df.append(wd_train_df, ignore_index=True)
+        combined_train_df = combined_train_df.append(md_train_df, ignore_index=True)
+        combined_train_df = combined_train_df.append(pd_train_df, ignore_index=True)
+
+        combined_internal_val = combined_internal_val.append(wd_internal_val, ignore_index=True)
+        combined_internal_val = combined_internal_val.append(md_internal_val, ignore_index=True)
+        combined_internal_val = combined_internal_val.append(pd_internal_val, ignore_index=True)
+
+        combined_train_df_model_2a = combined_train_df.copy()
+        combined_internal_val_model_2a = combined_internal_val.copy()
+
+        combined_train_df_model_2b = combined_train_df.copy()
+        combined_internal_val_model_2b = combined_internal_val.copy()
+
+        # filtering model 2b to include only wdoscc and mdoscc
+        combined_train_df_model_2b = combined_train_df_model_2b[combined_train_df_model_2b['class'] != 'pdoscc']
+        combined_internal_val_model_2b = combined_internal_val_model_2b[combined_internal_val_model_2b['class'] != 'pdoscc']
+
+        # relabeling model class if wdoscc and mdoscc to wmdoscc
+        combined_train_df_model_2a['class'] = combined_train_df_model_2a['class'].replace('wdoscc', 'wmdoscc')
+        combined_train_df_model_2a['class'] = combined_train_df_model_2a['class'].replace('mdoscc', 'wmdoscc')
+
+        # saving the dataframes to csvs
+        combined_train_df.to_csv(os.path.join(outpath, "master_train.csv"), index=False)
+        combined_internal_val.to_csv(os.path.join(outpath, "master_internal_val.csv"), index=False)
+        combined_train_df_model_2a.to_csv(os.path.join(outpath, "master_train_model_2a.csv"), index=False)
+        combined_internal_val_model_2a.to_csv(os.path.join(outpath, "master_internal_val_model_2a.csv"), index=False)
+        combined_train_df_model_2b.to_csv(os.path.join(outpath, "master_train_model_2b.csv"), index=False)
+        combined_internal_val_model_2b.to_csv(os.path.join(outpath, "master_internal_val_model_2b.csv"), index=False)
+    return
+
+
 if __name__ == "__main__":
     pool = Pool(mp.cpu_count())
 
-    pool.map(image_generator, [1,2,7,13,8])
+    # pool.map(image_generator, [1,2,7,13,8])
 
 image_generator(13)
