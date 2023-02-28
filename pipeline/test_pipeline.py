@@ -82,10 +82,9 @@ y_pred_2a5 = np.argmax(y_pred_2a5, axis=1)
 y_pred_2a5 = [label_2a[i] for i in y_pred_2a5]
 y_pred_2a = [y_pred_2a1,y_pred_2a2,y_pred_2a3,y_pred_2a4,y_pred_2a5]
 y_pred_2a = np.array(y_pred_2a)
-# final single prediction
-y_pred_2a = np.apply_along_axis(lambda x: np.bincount(x).argmax(), axis=0, arr=y_pred_2a)
-y_pred_2a = [label_2a[i] for i in y_pred_2a]
 print(y_pred_2a)
+
+
 
 
 # model_2b1
@@ -116,9 +115,6 @@ y_pred_2b5 = np.argmax(y_pred_2b5, axis=1)
 y_pred_2b5 = [label_2b[i] for i in y_pred_2b5]
 y_pred_2b = [y_pred_2b1,y_pred_2b2,y_pred_2b3,y_pred_2b4,y_pred_2b5]
 y_pred_2b = np.array(y_pred_2b)
-# final single prediction
-y_pred_2b = np.apply_along_axis(lambda x: np.bincount(x).argmax(), axis=0, arr=y_pred_2b)
-y_pred_2b = [label_2b[i] for i in y_pred_2b]
 print(y_pred_2b)
 
 
