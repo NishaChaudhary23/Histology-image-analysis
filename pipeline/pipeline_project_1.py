@@ -29,34 +29,15 @@ train_large = '/storage/bic/data/oscc/data/working/train'
 
 def phase(choice):
         choice_d = ''
-        base = '/home/chs.rintu/Documents/office/researchxoscc/project_2/dataSet'
-        out_path = '/home/chs.rintu/Documents/office/researchxoscc/project_2/output'
+        base = '/home/chs.rintu/Documents/office/researchxoscc/project_1/dataSet'
+        out_path = '/home/chs.rintu/Documents/office/researchxoscc/project_1/output'
         data_src_path = f'{base}/pipeline'
         datapath = f'{base}/train_all'
-        # if choice=='M1a':
-        #         df_train = pd.read_csv(f'{base}/pipeline/pw_m/train.csv')
-        #         df_test = pd.read_csv(f'{base}/pipeline/pw_m/test.csv')
-        #         label_1 = 'wpdoscc'
-        #         label_2 = 'mdoscc'
-        # if choice=='M1b':
-        #         df_train = pd.read_csv(f'{base}/pipeline/p_w/train.csv')
-        #         df_test = pd.read_csv(f'{base}/pipeline/p_w/test.csv')
-        #         label_1 = 'pdoscc'
-        #         label_2 = 'wdoscc'
-        if choice=='M2a':
-                choice_d = '2a'
-                # df_train = pd.read_csv(f'{base}/pipeline/wm_p/train.csv')
-                # df_test = pd.read_csv(f'{base}/pipeline/wm_p/test.csv')
-                label_1 = 'wmdoscc'
-                label_2 = 'pdoscc'
-                class_names = [label_1, label_2]
-        if choice=='M2b':
-                choice_d = '2b'
-                df_train = pd.read_csv(f'{base}/pipeline/w_m/train.csv')
-                df_test = pd.read_csv(f'{base}/pipeline/w_m/test.csv')
-                label_1 = 'wdoscc'
-                label_2 = 'mdoscc'
-                class_names = [label_1, label_2]
+        if choice=='1':
+                label_1 = 'normal'
+                label_2 = 'osmf'
+                label_3 = 'oscc'
+                class_names = [label_1, label_2, label_3]
 
         for i in range(5):
                 print("------------------------------------------------------------------------------------")
@@ -65,9 +46,8 @@ def phase(choice):
                 print("------------------------------------------")
                 print("------------------------------------------------------------------------------------")
                 
-                df_test = pd.read_csv(f'{data_src_path}/data_fold_{i}/master_internal_val_model_{choice_d}.csv')
-                df_train = pd.read_csv(f'{data_src_path}/data_fold_{i}/master_train_model_{choice_d}.csv')
-                master = pd.read_csv(f'{data_src_path}/data_fold_{i}/master_train.csv')
+                df_test = pd.read_csv(f'{data_src_path}/data_fold_{i}/internal_val.csv')
+                df_train = pd.read_csv(f'{data_src_path}/data_fold_{i}/train.csv')
                 print(df_train[df_train['filename'].isin(df_test['filename'])])
                 # Training Data
                 datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.25)
@@ -117,7 +97,7 @@ def phase(choice):
                 x = layers.Flatten()(inception.output)
                 x = layers.Dense(1024, activation = 'relu')(x)
                 x = layers.Dropout(0.2)(x)
-                x = layers.Dense(2, activation = 'softmax')(x)
+                x = layers.Dense(3, activation = 'softmax')(x)
                 model = Model(inception.input, x)
                 model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
@@ -203,7 +183,7 @@ def phase(choice):
                 labels = np.asarray(labels).reshape((2,2))
                 print(labels)
                 plt.figure(figsize=(3.5,3))
-                sns.heatmap(conf_percentages.reshape((2,2)), annot=labels, xticklabels=class_names, cmap=sns.color_palette("ch:s=-.2,r=.6", as_cmap=True), yticklabels=class_names, fmt='', cbar=True, annot_kws={"font":'Sans',"size": 9.5,"fontstyle":'italic' })
+                sns.heatmap(conf_percentages.reshape((3,3)), annot=labels, xticklabels=class_names, cmap=sns.color_palette("ch:s=-.2,r=.6", as_cmap=True), yticklabels=class_names, fmt='', cbar=True, annot_kws={"font":'Sans',"size": 9.5,"fontstyle":'italic' })
                 plt.xlabel('Predicted',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
                 plt.ylabel('Ground Truth',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
                 plt.title(f'Confusion Matrix for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
@@ -365,10 +345,10 @@ def phase(choice):
                 print(conf_percentages)
                 labels = [f"{v1}\n{v2}%" for v1, v2 in
                         zip(conf.flatten(),conf_percentages)]
-                labels = np.asarray(labels).reshape((2,2))
+                labels = np.asarray(labels).reshape((3,3))
                 print(labels)
                 plt.figure(figsize=(3.5,3))
-                sns.heatmap(conf_percentages.reshape((2,2)), annot=labels, xticklabels=class_names, cmap=sns.color_palette("ch:s=-.2,r=.6", as_cmap=True), yticklabels=class_names, fmt='', cbar=True, annot_kws={"font":'Sans',"size": 9.5,"fontstyle":'italic' })
+                sns.heatmap(conf_percentages.reshape((3,3)), annot=labels, xticklabels=class_names, cmap=sns.color_palette("ch:s=-.2,r=.6", as_cmap=True), yticklabels=class_names, fmt='', cbar=True, annot_kws={"font":'Sans',"size": 9.5,"fontstyle":'italic' })
                 plt.xlabel('Predicted',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
                 plt.ylabel('Ground Truth',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
                 plt.title(f'Confusion Matrix for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
