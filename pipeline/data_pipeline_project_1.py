@@ -69,38 +69,18 @@ def five_fold_datagen(i):
     combined_internal_val = combined_internal_val.append(oscc_internal_val, ignore_index=True)
     combined_internal_val = combined_internal_val.append(osmf_internal_val, ignore_index=True)
 
-    combined_train_df_model_2a = combined_train_df.copy()
-    combined_internal_val_model_2a = combined_internal_val.copy()
-
-    combined_train_df_model_2b = combined_train_df.copy()
-    combined_internal_val_model_2b = combined_internal_val.copy()
-
-    # filtering model 2b to include only normal and oscc
-    combined_train_df_model_2b = combined_train_df_model_2b[combined_train_df_model_2b['class'] != 'osmf']
-    combined_internal_val_model_2b = combined_internal_val_model_2b[combined_internal_val_model_2b['class'] != 'osmf']
-
-    # relabeling model class if normal and oscc to woscc
-    combined_train_df_model_2a['class'] = combined_train_df_model_2a['class'].replace('normal', 'woscc')
-    combined_train_df_model_2a['class'] = combined_train_df_model_2a['class'].replace('oscc', 'woscc')
-    
-    combined_internal_val_model_2a['class'] = combined_internal_val_model_2a['class'].replace('normal', 'woscc')
-    combined_internal_val_model_2a['class'] = combined_internal_val_model_2a['class'].replace('oscc', 'woscc')
-
     # dropping the internal validation files from the training set
-    internal_val_list_2a = combined_internal_val_model_2a['filename'].tolist()
-    todrop = combined_train_df['filename'].isin(internal_val_list_2a)
-    combined_train_df_model_2a = combined_train_df_model_2a[~todrop]
-    internal_val_list_2b = combined_internal_val_model_2b['filename'].tolist()
-    todrop = combined_train_df['filename'].isin(internal_val_list_2b)
-    combined_train_df_model_2b = combined_train_df_model_2b[~todrop]
+    internal_val_list = combined_internal_val['filename'].tolist()
+    todrop = combined_train_df['filename'].isin(internal_val_list)
+    combined_train_df = combined_train_df[~todrop]
+
+    # shuffling the dataframes
+    combined_train_df = combined_train_df.sample(frac=1).reset_index(drop=True)
+    combined_internal_val = combined_internal_val.sample(frac=1).reset_index(drop=True)
 
     # saving the dataframes to csvs
-    combined_train_df.to_csv(os.path.join(outpath, "master_train.csv"), index=False)
-    combined_internal_val.to_csv(os.path.join(outpath, "master_internal_val.csv"), index=False)
-    combined_train_df_model_2a.to_csv(os.path.join(outpath, "master_train_model_2a.csv"), index=False)
-    combined_internal_val_model_2a.to_csv(os.path.join(outpath, "master_internal_val_model_2a.csv"), index=False)
-    combined_train_df_model_2b.to_csv(os.path.join(outpath, "master_train_model_2b.csv"), index=False)
-    combined_internal_val_model_2b.to_csv(os.path.join(outpath, "master_internal_val_model_2b.csv"), index=False)
+    combined_train_df.to_csv(os.path.join(outpath, "train.csv"), index=False)
+    combined_internal_val.to_csv(os.path.join(outpath, "internal_val.csv"), index=False)
 
 
 if __name__ == "__main__":
