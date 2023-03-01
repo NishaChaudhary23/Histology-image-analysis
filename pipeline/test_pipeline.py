@@ -58,38 +58,33 @@ test_generator = datagen_test.flow_from_dataframe(
 print("Model 2a")
 y_pred_2a1 = model_2a1.predict(test_generator)
 confidence_2a = np.argmax(y_pred_2a1, axis=1)
+softmax_output_2a1 = np.max(y_pred_2a1, axis=1)
 y_pred_2a1 = np.argmax(y_pred_2a1, axis=1)
 y_pred_2a1 = [label_2a[i] for i in y_pred_2a1]
-softmax_output_2a1 = tf.nn.softmax(y_pred_2a1)
-class_confidence_2a1 = np.max(softmax_output_2a1, axis=1)
 # model 2a2
 y_pred_2a2 = model_2a2.predict(test_generator)
 confidence_2a = np.argmax(y_pred_2a2, axis=1)
+softmax_output_2a2 = np.max(y_pred_2a2, axis=1)
 y_pred_2a2 = np.argmax(y_pred_2a2, axis=1)
 y_pred_2a2 = [label_2a[i] for i in y_pred_2a2]
-softmax_output_2a2 = tf.nn.softmax(y_pred_2a2)
-class_confidence_2a2 = np.max(softmax_output_2a2, axis=1)
 # model 2a3
 y_pred_2a3 = model_2a3.predict(test_generator)
 confidence_2a = np.argmax(y_pred_2a3, axis=1)
+softmax_output_2a3 = np.max(y_pred_2a3, axis=1)
 y_pred_2a3 = np.argmax(y_pred_2a3, axis=1)
 y_pred_2a3 = [label_2a[i] for i in y_pred_2a3]
-softmax_output_2a3 = tf.nn.softmax(y_pred_2a3)
-class_confidence_2a3 = np.max(softmax_output_2a3, axis=1)
 # model 2a4
 y_pred_2a4 = model_2a4.predict(test_generator)
 confidence_2a = np.argmax(y_pred_2a4, axis=1)
+softmax_output_2a4 = np.max(y_pred_2a4, axis=1)
 y_pred_2a4 = np.argmax(y_pred_2a4, axis=1)
 y_pred_2a4 = [label_2a[i] for i in y_pred_2a4]
-softmax_output_2a4 = tf.nn.softmax(y_pred_2a4)
-class_confidence_2a4 = np.max(softmax_output_2a4, axis=1)
 # model 2a5
 y_pred_2a5 = model_2a5.predict(test_generator)
 confidence_2a = np.argmax(y_pred_2a5, axis=1)
+softmax_output_2a5 = np.max(y_pred_2a5, axis=1)
 y_pred_2a5 = np.argmax(y_pred_2a5, axis=1)
 y_pred_2a5 = [label_2a[i] for i in y_pred_2a5]
-softmax_output_2a5 = tf.nn.softmax(y_pred_2a5)
-class_confidence_2a5 = np.max(softmax_output_2a5, axis=1)
 # joint prediction
 y_pred_2a = [y_pred_2a1,y_pred_2a2,y_pred_2a3,y_pred_2a4,y_pred_2a5]
 y_pred_2a = np.array(y_pred_2a)
@@ -102,7 +97,7 @@ for i in y_pred_2a:
 y_pred_2a = np.array(y_pred)
 y_pred = []
 print(y_pred_2a.shape)
-y_pred_2a_confidence = [class_confidence_2a1,class_confidence_2a2,class_confidence_2a3,class_confidence_2a4,class_confidence_2a5]
+y_pred_2a_confidence = [softmax_output_2a1,softmax_output_2a2,softmax_output_2a3,softmax_output_2a4,softmax_output_2a5]
 y_pred_2a_confidence = np.array(y_pred_2a_confidence)
 y_pred_2a_confidence = np.transpose(y_pred_2a_confidence)
 print(y_pred_2a_confidence.shape)
@@ -114,38 +109,33 @@ y_pred_2a_confidence = np.mean(y_pred_2a_confidence, axis=1)
 print("Model 2b")
 y_pred_2b1 = model_2b1.predict(test_generator)
 confidence_2b1 = np.argmax(y_pred_2b1, axis=1)
+softmax_output_2b1 = np.max(y_pred_2b1, axis=1)
 y_pred_2b1 = np.argmax(y_pred_2b1, axis=1)
 y_pred_2b1 = [label_2b[i] for i in y_pred_2b1]
-class_confidence_2b1 = tf.nn.softmax(y_pred_2b1)
-class_confidence_2b1 = np.max(class_confidence_2b1, axis=1)
 # model 2b2
 y_pred_2b2 = model_2b2.predict(test_generator)
 confidence_2b2 = np.argmax(y_pred_2b2, axis=1)
+softmax_output_2b2 = np.max(y_pred_2b2, axis=1)
 y_pred_2b2 = np.argmax(y_pred_2b2, axis=1)
 y_pred_2b2 = [label_2b[i] for i in y_pred_2b2]
-class_confidence_2b2 = tf.nn.softmax(y_pred_2b2)
-class_confidence_2b2 = np.max(class_confidence_2b2, axis=1)
 # model 2b3
 y_pred_2b3 = model_2b3.predict(test_generator)
 confidence_2b3 = np.argmax(y_pred_2b3, axis=1)
+softmax_output_2b3 = np.max(y_pred_2b3, axis=1)
 y_pred_2b3 = np.argmax(y_pred_2b3, axis=1)
 y_pred_2b3 = [label_2b[i] for i in y_pred_2b3]
-class_confidence_2b3 = tf.nn.softmax(y_pred_2b3)
-class_confidence_2b3 = np.max(class_confidence_2b3, axis=1)
 # model 2b4
 y_pred_2b4 = model_2b4.predict(test_generator)
 confidence_2b4 = np.argmax(y_pred_2b4, axis=1)
+softmax_output_2b4 = np.max(y_pred_2b4, axis=1)
 y_pred_2b4 = np.argmax(y_pred_2b4, axis=1)
 y_pred_2b4 = [label_2b[i] for i in y_pred_2b4]
-class_confidence_2b4 = tf.nn.softmax(y_pred_2b4)
-class_confidence_2b4 = np.max(class_confidence_2b4, axis=1)
 # model 2b5
 y_pred_2b5 = model_2b5.predict(test_generator)
 confidence_2b5 = np.argmax(y_pred_2b5, axis=1)
+softmax_output_2b5 = np.max(y_pred_2b5, axis=1)
 y_pred_2b5 = np.argmax(y_pred_2b5, axis=1)
 y_pred_2b5 = [label_2b[i] for i in y_pred_2b5]
-class_confidence_2b5 = tf.nn.softmax(y_pred_2b5)
-class_confidence_2b5 = np.max(class_confidence_2b5, axis=1)
 # joint prediction
 y_pred_2b = [y_pred_2b1,y_pred_2b2,y_pred_2b3,y_pred_2b4,y_pred_2b5]
 y_pred_2b = np.array(y_pred_2b)
@@ -158,7 +148,7 @@ for i in y_pred_2b:
 y_pred_2b = np.array(y_pred)
 y_pred = []
 print(y_pred_2b.shape)
-y_pred_2b_confidence = [class_confidence_2b1,class_confidence_2b2,class_confidence_2b3,class_confidence_2b4,class_confidence_2b5]
+y_pred_2b_confidence = [softmax_output_2b1,softmax_output_2b2,softmax_output_2b3,softmax_output_2b4,softmax_output_2b5]
 y_pred_2b_confidence = np.array(y_pred_2b_confidence)
 y_pred_2b_confidence = np.transpose(y_pred_2b_confidence)
 print(y_pred_2b_confidence.shape)
