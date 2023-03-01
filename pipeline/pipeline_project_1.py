@@ -102,10 +102,10 @@ def phase(choice):
                 model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 
-                if not os.path.exists(f'{out_path}/{choice}'):
-                        os.makedirs(f'{out_path}/{choice}')
-                if not os.path.exists(f'{out_path}/{choice}/fold_{i+1}'):
-                        os.makedirs(f'{out_path}/{choice}/fold_{i+1}')
+                if not os.path.exists(f'{out_path}/model_1'):
+                        os.makedirs(f'{out_path}/model_1')
+                if not os.path.exists(f'{out_path}/model_1/fold_{i+1}'):
+                        os.makedirs(f'{out_path}/model_1/fold_{i+1}')
                 # Model Summary
 
 
@@ -123,7 +123,7 @@ def phase(choice):
                 # Creating a directory to save the model paths 
 
                 # Saving the model
-                model.save(f'{out_path}/{choice}/fold_{i+1}/{choice}.h5')
+                model.save(f'{out_path}/model_1/fold_{i+1}/{choice}.h5')
                 print("------------------------------------------")
                 print(f'Model saved')
                 print("------------------------------------------")
@@ -139,7 +139,7 @@ def phase(choice):
                 plt.xlabel('Epochs',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
                 plt.ylabel('Accuracy',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
                 plt.title(f'Accuracy for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
-                plt.savefig(f'{out_path}/{choice}/fold_{i+1}/Accuracy.jpg')
+                plt.savefig(f'{out_path}/model_1/fold_{i+1}/Accuracy.jpg')
                 plt.figure(figsize=(3.5,3))
                 plt.plot(history.history['loss'], label='Train Loss')
                 plt.plot(history.history['val_loss'], label='Val Loss')
@@ -148,30 +148,30 @@ def phase(choice):
                 plt.title(f'Loss for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
                 plt.legend(loc = 0)
                 plt.tight_layout()
-                plt.savefig(f'{out_path}/{choice}/fold_{i+1}/Loss.jpg')
+                plt.savefig(f'{out_path}/model_1/fold_{i+1}/Loss.jpg')
 
-                # np.save('{out_path}/{choice}/history1.npy',history.history)
+                # np.save('{out_path}/model_1/history1.npy',history.history)
 
                 hist_df = pd.DataFrame(history.history) 
 
                 # save to json:  
-                hist_json_file = f'{out_path}/{choice}/fold_{i+1}/history.json' 
+                hist_json_file = f'{out_path}/model_1/fold_{i+1}/history.json' 
                 with open(hist_json_file, mode='w') as f:
                         hist_df.to_json(f)
 
                 # or save to csv: 
-                hist_csv_file = f'{out_path}/{choice}/fold_{i+1}/history.csv'
+                hist_csv_file = f'{out_path}/model_1/fold_{i+1}/history.csv'
                 with open(hist_csv_file, mode='w') as f:
                         hist_df.to_csv(f)
 
-                loaded_model = load_model(f'{out_path}/{choice}/fold_{i+1}/{choice}.h5')
+                loaded_model = load_model(f'{out_path}/model_1/fold_{i+1}/{choice}.h5')
                 outcomes = loaded_model.predict(valid_generator)
                 y_pred = np.argmax(outcomes, axis=1)
                 # confusion matrix
                 confusion = confusion_matrix(valid_generator.classes, y_pred)
                 conf_df = pd.DataFrame(confusion)
-                conf_df.to_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix.csv')
-                conf = pd.read_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix.csv')
+                conf_df.to_csv(f'{out_path}/model_1/fold_{i+1}/train_time_test_confusion_matrix.csv')
+                conf = pd.read_csv(f'{out_path}/model_1/fold_{i+1}/train_time_test_confusion_matrix.csv')
                 conf = conf.values[:,1:]
                 conf = conf.astype(np.int32)
                 conf_percentages = conf / conf.sum(axis=1)[:, np.newaxis]
@@ -188,12 +188,12 @@ def phase(choice):
                 plt.ylabel('Ground Truth',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
                 plt.title(f'Confusion Matrix for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
                 plt.tight_layout()
-                plt.savefig(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix.jpg')
+                plt.savefig(f'{out_path}/model_1/fold_{i+1}/train_time_test_confusion_matrix.jpg')
 
                 # classification report
                 report = classification_report(valid_generator.classes, y_pred, output_dict=True)
                 df = pd.DataFrame(report).transpose()
-                df.to_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_classification_report.csv')
+                df.to_csv(f'{out_path}/model_1/fold_{i+1}/train_time_classification_report.csv')
 
                 print("------------------------------------------")
                 print(f'Supplimentary Data Saved')
@@ -220,16 +220,16 @@ def phase(choice):
                 plt.xlabel('Predicted Label')
                 plt.ylabel('True Label')
                 plt.tight_layout()
-                plt.savefig(f'{out_path}/{choice}/fold_{i+1}/internal_validation_confusion_matrix.jpg')
+                plt.savefig(f'{out_path}/model_1/fold_{i+1}/internal_validation_confusion_matrix.jpg')
 
                 conf_df = pd.DataFrame(confusion)
-                conf_df.to_csv(f'{out_path}/{choice}/fold_{i+1}/internal_validation_confusion_matrix.csv')
+                conf_df.to_csv(f'{out_path}/model_1/fold_{i+1}/internal_validation_confusion_matrix.csv')
 
                 # classification report
 
                 report = classification_report(test_generator.classes, y_pred, output_dict=True)
                 df = pd.DataFrame(report).transpose()
-                df.to_csv(f'{out_path}/{choice}/fold_{i+1}/internal_validation_classification_report.csv')
+                df.to_csv(f'{out_path}/model_1/fold_{i+1}/internal_validation_classification_report.csv')
 
                 print("------------------------------------------")
                 print(f'Supplimentary Testing Phase Data Saved')
@@ -251,7 +251,7 @@ def phase(choice):
                 # Creating a directory to save the model paths 
 
                 # Saving the model
-                model.save(f'{out_path}/{choice}/fold_{i+1}/{choice}_finetune.h5')
+                model.save(f'{out_path}/model_1/fold_{i+1}/{choice}_finetune.h5')
                 print("------------------------------------------")
                 print(f'Model saved')
                 print("------------------------------------------")
@@ -267,7 +267,7 @@ def phase(choice):
                 plt.xlabel('Epochs',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
                 plt.ylabel('Accuracy',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
                 plt.title(f'Accuracy for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
-                plt.savefig(f'{out_path}/{choice}/fold_{i+1}/Accuracy_finetune.jpg')
+                plt.savefig(f'{out_path}/model_1/fold_{i+1}/Accuracy_finetune.jpg')
                 plt.figure(figsize=(3.5,3))
                 plt.plot(history.history['loss'], label='Train Loss')
                 plt.plot(history.history['val_loss'], label='Val Loss')
@@ -276,23 +276,23 @@ def phase(choice):
                 plt.title(f'Loss for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
                 plt.legend(loc = 0)
                 plt.tight_layout()
-                plt.savefig(f'{out_path}/{choice}/fold_{i+1}/Loss_finetune.jpg')
+                plt.savefig(f'{out_path}/model_1/fold_{i+1}/Loss_finetune.jpg')
 
-                # np.save('{out_path}/{choice}/history1.npy',history.history)
+                # np.save('{out_path}/model_1/history1.npy',history.history)
 
                 hist_df = pd.DataFrame(history.history) 
 
                 # save to json:  
-                hist_json_file = f'{out_path}/{choice}/fold_{i+1}/history_finetune.json' 
+                hist_json_file = f'{out_path}/model_1/fold_{i+1}/history_finetune.json' 
                 with open(hist_json_file, mode='w') as f:
                         hist_df.to_json(f)
 
                 # or save to csv: 
-                hist_csv_file = f'{out_path}/{choice}/fold_{i+1}/history_finetune.csv'
+                hist_csv_file = f'{out_path}/model_1/fold_{i+1}/history_finetune.csv'
                 with open(hist_csv_file, mode='w') as f:
                         hist_df.to_csv(f)
 
-                loaded_model = load_model(f'{out_path}/{choice}/fold_{i+1}/{choice}.h5')
+                loaded_model = load_model(f'{out_path}/model_1/fold_{i+1}/{choice}.h5')
                 outcomes = loaded_model.predict(valid_generator)
                 test_fine_pred = np.argmax(outcomes, axis=1)
                 # confusion matrix
@@ -303,15 +303,15 @@ def phase(choice):
                 plt.xlabel('Predicted Label')
                 plt.ylabel('True Label')
                 plt.tight_layout()
-                plt.savefig(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix_finetune.jpg')
+                plt.savefig(f'{out_path}/model_1/fold_{i+1}/train_time_test_confusion_matrix_finetune.jpg')
 
                 conf_df = pd.DataFrame(confusion)
-                conf_df.to_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix_finetune.csv')
+                conf_df.to_csv(f'{out_path}/model_1/fold_{i+1}/train_time_test_confusion_matrix_finetune.csv')
 
                 # classification report
                 report = classification_report(valid_generator.classes, test_fine_pred, output_dict=True)
                 df = pd.DataFrame(report).transpose()
-                df.to_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_test_classification_report_finetune.csv')
+                df.to_csv(f'{out_path}/model_1/fold_{i+1}/train_time_test_classification_report_finetune.csv')
 
                 print("------------------------------------------")
                 print(f'Supplimentary Data Saved')
@@ -334,8 +334,8 @@ def phase(choice):
                 confusion = confusion_matrix(test_generator.classes, y_pred)
 
                 conf_df = pd.DataFrame(confusion)
-                conf_df.to_csv(f'{out_path}/{choice}/fold_{i+1}/internal_validation_confusion_matrix_finetune.csv')
-                conf = pd.read_csv(f'{out_path}/{choice}/fold_{i+1}/train_time_test_confusion_matrix.csv')
+                conf_df.to_csv(f'{out_path}/model_1/fold_{i+1}/internal_validation_confusion_matrix_finetune.csv')
+                conf = pd.read_csv(f'{out_path}/model_1/fold_{i+1}/train_time_test_confusion_matrix.csv')
                 conf = conf.values[:,1:]
                 conf = conf.astype(np.int32)
                 conf_percentages = conf / conf.sum(axis=1)[:, np.newaxis]
@@ -353,13 +353,13 @@ def phase(choice):
                 plt.ylabel('Ground Truth',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
                 plt.title(f'Confusion Matrix for {choice}',fontname="Sans", fontsize=11,fontweight='bold')
                 plt.tight_layout()
-                plt.savefig(f'{out_path}/{choice}/fold_{i+1}/internal_validation_confusion_matrix_finetune.jpg')
+                plt.savefig(f'{out_path}/model_1/fold_{i+1}/internal_validation_confusion_matrix_finetune.jpg')
 
                 # classification report
 
                 report = classification_report(test_generator.classes, y_pred, output_dict=True)
                 df = pd.DataFrame(report).transpose()
-                df.to_csv(f'{out_path}/{choice}/fold_{i+1}/internal_validation_classification_report_finetune.csv')
+                df.to_csv(f'{out_path}/model_1/fold_{i+1}/internal_validation_classification_report_finetune.csv')
 
                 print("------------------------------------------")
                 print(f'Supplimentary Testing Phase Data Saved locally')
