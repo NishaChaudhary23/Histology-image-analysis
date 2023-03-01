@@ -81,16 +81,16 @@ confidence_2a = np.argmax(y_pred_2a5, axis=1)
 y_pred_2a5 = np.argmax(y_pred_2a5, axis=1)
 y_pred_2a5 = [label_2a[i] for i in y_pred_2a5]
 y_pred_2a = [y_pred_2a1,y_pred_2a2,y_pred_2a3,y_pred_2a4,y_pred_2a5]
-
-# for every individual model, get the majority prediction
 y_pred_2a = np.array(y_pred_2a)
 y_pred_2a = np.transpose(y_pred_2a)
-y_pred_2a_majority = []
+# Counting the number of times each class is predicted
 for i in y_pred_2a:
-    y_pred_2a_majority.append(np.argmax(np.bincount(i)))
-y_pred_2a = [label_2a[i] for i in y_pred_2a_majority]
-print(y_pred_2a)
+    unique, counts = np.unique(i, return_counts=True)
+    y_pred.append(unique[np.argmax(counts)])
 
+y_pred_2a = y_pred
+y_pred = []
+print(y_pred_2a)
 
 
 
