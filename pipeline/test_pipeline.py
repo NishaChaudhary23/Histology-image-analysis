@@ -88,9 +88,9 @@ for i in y_pred_2a:
     unique, counts = np.unique(i, return_counts=True)
     y_pred.append(unique[np.argmax(counts)])
 
-y_pred_2a = y_pred
+y_pred_2a = np.array(y_pred)
 y_pred = []
-print(y_pred_2a)
+print(y_pred_2a.shape)
 
 
 
@@ -122,30 +122,37 @@ y_pred_2b5 = np.argmax(y_pred_2b5, axis=1)
 y_pred_2b5 = [label_2b[i] for i in y_pred_2b5]
 y_pred_2b = [y_pred_2b1,y_pred_2b2,y_pred_2b3,y_pred_2b4,y_pred_2b5]
 y_pred_2b = np.array(y_pred_2b)
-print(y_pred_2b)
+y_pred_2b = np.transpose(y_pred_2b)
+# Counting the number of times each class is predicted
+for i in y_pred_2b:
+    unique, counts = np.unique(i, return_counts=True)
+    y_pred.append(unique[np.argmax(counts)])
+
+y_pred_2b = np.array(y_pred)
+y_pred = []
+print(y_pred_2b.shape)
 
 
 
+# combined 3 column datatframe for model_2a, model_2b and final prediction
+df = pd.DataFrame({'model_2a':y_pred_2a, 'model_2b':y_pred_2b,'ground_truth':df_test['class'].values.tolist()})
+# final prediction 
+df['final_prediction'] = df.apply(lambda x: x['model_2a'] if x['model_2a'] == "pdoscc" else x['model_2b'], axis=1)
+df.to_csv(f'{out_path}/test_pipeline_output.csv', index=False)
 
-# # combined 3 column datatframe for model_2a, model_2b and final prediction
-# df = pd.DataFrame({'model_2a':y_pred_2a, 'model_2b':y_pred_2b,'ground_truth':df_test['class'].values.tolist()})
-# # final prediction 
-# df['final_prediction'] = df.apply(lambda x: x['model_2a'] if x['model_2a'] == "pdoscc" else x['model_2b'], axis=1)
-# df.to_csv(f'{out_path}/test_pipeline_output.csv', index=False)
-
-# # confusion matrix
-# print("Confusion Matrix")
-# print(confusion_matrix(df_test['class'].values.tolist(), df['final_prediction'].values.tolist()))
-# cm = confusion_matrix(df_test['class'].values.tolist(), df['final_prediction'].values.tolist())
-# df_cm = pd.DataFrame(cm, index = [i for i in ["pdoscc","wdoscc","mdoscc"]], columns = [i for i in ["pdoscc","wdoscc","mdoscc"]])
-# df_cm.to_csv(f'{out_path}/test_pipeline_output_cm.csv', index=True)
-# plt.figure(figsize = (10,7))
-# sns.heatmap(df_cm, annot=True, fmt='g')
-# plt.savefig(f'{out_path}/test_pipeline_output_cm.png')
+# confusion matrix
+print("Confusion Matrix")
+print(confusion_matrix(df_test['class'].values.tolist(), df['final_prediction'].values.tolist()))
+cm = confusion_matrix(df_test['class'].values.tolist(), df['final_prediction'].values.tolist())
+df_cm = pd.DataFrame(cm, index = [i for i in ["pdoscc","wdoscc","mdoscc"]], columns = [i for i in ["pdoscc","wdoscc","mdoscc"]])
+df_cm.to_csv(f'{out_path}/test_pipeline_output_cm.csv', index=True)
+plt.figure(figsize = (10,7))
+sns.heatmap(df_cm, annot=True, fmt='g')
+plt.savefig(f'{out_path}/test_pipeline_output_cm.png')
 
 
-# print("Classification Report")
-# print(classification_report(df_test['class'].values.tolist(), df['final_prediction'].values.tolist()))
-# report = classification_report(df_test['class'].values.tolist(), df['final_prediction'].values.tolist(), output_dict=True)
-# df = pd.DataFrame(report).transpose()
-# df.to_csv(f'{out_path}/test_pipeline_output_report.csv', index=True)
+print("Classification Report")
+print(classification_report(df_test['class'].values.tolist(), df['final_prediction'].values.tolist()))
+report = classification_report(df_test['class'].values.tolist(), df['final_prediction'].values.tolist(), output_dict=True)
+df = pd.DataFrame(report).transpose()
+df.to_csv(f'{out_path}/test_pipeline_output_report.csv', index=True)
