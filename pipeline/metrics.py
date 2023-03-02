@@ -21,7 +21,7 @@ print(metrics_2a[metrics_2a['ground_truth'] != metrics_2a['model_2a']])
 
 
 # Compute ROC curve and ROC area for each class
-fpr, tpr, _ = roc_curve(metrics_2a['ground_truth'].apply(lambda x: 1 if x == 'pdoscc' else 0), metrics_2a['confidence_2a'])
+fpr, tpr, _ = roc_curve(metrics_2a['model_2a'].apply(lambda x: 1 if x == 'pdoscc' else 0), metrics_2a['confidence_2a'], pos_label=0)
 roc_auc = auc(fpr, tpr)
 
 # Plot ROC curve
