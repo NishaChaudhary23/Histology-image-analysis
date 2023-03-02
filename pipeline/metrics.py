@@ -60,7 +60,7 @@ print(metrics.head(5))
 # # plt.show()
 
 
-metrics_final = metrics[['model_2a','confidence_2a','model_2b','confidence_2b','ground_truth']]
+metrics_final = metrics
 # inserting new column called final_confidence initialised to 0
 metrics_final.insert(0, 'final_confidence', 0)
 # calculating final confidence if model_2a is pdoscc then confidence_2a else confidence_2b
