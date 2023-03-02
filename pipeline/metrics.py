@@ -66,12 +66,19 @@ metrics_final.insert(0, 'final_confidence', 0)
 # calculating final confidence if model_2a is pdoscc then confidence_2a else confidence_2b
 metrics_final['final_confidence'] = metrics_final.apply(lambda x: x['confidence_2a'] if x['model_2a'] == 'pdoscc' else x['confidence_2b'], axis=1).astype(float)
 metrics_final = metrics_final[['final_prediction','final_confidence','ground_truth']]
+# converting final prediction to 0 if wdoscc, 1 if mdoscc, 2 if pdoscc
+metrics_final['final_prediction'] = metrics_final.apply(lambda x: 2 if x['final_prediction'] == 'pdoscc' else 1 if x['final_prediction'] == 'mdoscc' else 0, axis=1).astype(int)
 print(metrics_final.head(5))
-fpr, tpr, _ = roc_curve(metrics_final['final_prediction'].apply(lambda x: 2 if x == 'pdoscc' else 1 if x == 'mdoscc' else 0), metrics_final['final_confidence'], pos_label=0)
-roc_auc = auc(fpr, tpr)
+
+
+
+# for class 0
+metrics_final_0 = metrics_final[metrics_final['ground_truth'] != 'wdoscc']
+fpr_0, tpr_0, _ = roc_curve(metrics_final['final_prediction'], metrics_final['final_confidence'], pos_label=0)
+roc_auc_0 = auc(fpr_0, tpr_0)
 # Plot ROC curve
 plt.figure()
-plt.plot(fpr, tpr, color='darkorange', lw=2, label='ROC curve (area = %0.2f)' % roc_auc)
+plt.plot(fpr_0, tpr_0, color='darkorange', lw=2, label='ROC curve (area = %0.2f)' % roc_auc_0)
 plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
 plt.xlim([0.0, 1.0])
 plt.ylim([0.0, 1.05])
