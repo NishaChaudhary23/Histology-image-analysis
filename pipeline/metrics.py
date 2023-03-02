@@ -7,6 +7,7 @@ import numpy as np
 
 basepath = '/home/chs.rintu/Documents/office/researchxoscc/project_2/output'
 metrics = pd.read_csv(os.path.join(basepath, 'test_pipeline_output.csv'))
+print(metrics[metrics['ground_truth'] != metrics['model_2a'] or metrics['ground_truth'] != metrics['model_2b']])
 print(metrics.head(5))
 # setting confidence_2a if final_prediction is pdoscc or confidence_2a otherwis
 metrics_2a = metrics[['model_2a','confidence_2a','ground_truth']]
