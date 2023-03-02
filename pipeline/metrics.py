@@ -18,10 +18,11 @@ metrics_2b = metrics[['model_2b','confidence_2b','ground_truth']]
 metrics_2a['ground_truth'] = metrics_2a.apply(lambda x: 'wmdoscc' if x['ground_truth'] == 'mdoscc' or x['ground_truth'] == 'wdoscc' else x['ground_truth'], axis=1).astype(str)
 print (metrics_2a.head(5))
 print(metrics_2a[metrics_2a['ground_truth'] != metrics_2a['model_2a']])
+# filtering out all rows where ground truth is not pdoscc
 
-
+metrics_2a_0 = metrics_2a[~metrics_2a['ground_truth'] == 'pdoscc']
 # Compute ROC curve and ROC area for each class
-fpr, tpr, _ = roc_curve(metrics_2a['model_2a'].apply(lambda x: 1 if x == 'pdoscc' else 0), metrics_2a['confidence_2a'], pos_label=0)
+fpr, tpr, _ = roc_curve(metrics_2a_0['model_2a'].apply(lambda x: 1 if x == 'pdoscc' else 0), metrics_2a_0['confidence_2a'], pos_label=0)
 roc_auc = auc(fpr, tpr)
 
 # Plot ROC curve
