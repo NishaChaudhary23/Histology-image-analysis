@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.metrics import roc_curve, roc_auc_score
+from sklearn.metrics import roc_curve, auc
 from sklearn.metrics import RocCurveDisplay
 import numpy as np
 
@@ -21,14 +21,8 @@ metrics['ground_truth'] = metrics['ground_truth'].map({'wdoscc': 0, 'mdoscc': 1,
 print(metrics.head(5))
 
 #  calculating the accuracy
-accuracy = metrics[metrics['prediction'] == metrics['ground_truth']].shape[0] / metrics.shape[0]
-print(f'Accuracy: {accuracy}')
-# Calculating the AUC score based on the final confidence for all three classes present
-auc_score = roc_auc_score(pd.get_dummies(metrics['ground_truth']), pd.get_dummies(metrics['prediction']), multi_class='ovr')
-print(f'AUC score: {auc_score}')
-# calculating the ROC curve for all three classes present
-RocCurveDisplay.from_predictions(metrics['ground_truth'], pd.get_dummies(metrics['prediction']))
-plt.show()
+y_true = np.array(metrics['ground_truth'].values)
+y_scores = np.array(metrics['prediction'].values)
 
 fpr = dict()
 tpr = dict()
