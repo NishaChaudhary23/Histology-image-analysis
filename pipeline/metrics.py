@@ -20,6 +20,6 @@ print(metrics.head(5))
 #  calculating the accuracy
 accuracy = metrics[metrics['prediction'] == metrics['ground_truth']].shape[0] / metrics.shape[0]
 print(f'Accuracy: {accuracy}')
-# calculating the AUC score and curve
-fpr1, tpr1, thresholds1 = roc_curve(metrics['ground_truth'], metrics['confidence'])
-auc1 = roc_auc_score(metrics['ground_truth'], metrics['confidence'])
+# Calculating the AUC score based on the final confidence for all three classes present
+auc_score = roc_auc_score(pd.get_dummies(metrics['ground_truth']), pd.get_dummies(metrics['prediction']), multi_class='ovr')
+print(f'AUC score: {auc_score}')
