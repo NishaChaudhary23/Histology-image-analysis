@@ -30,6 +30,9 @@ roc_auc = dict()
 for i in range(3):
     fpr[i], tpr[i], _ = roc_curve(y_true[np.where(y_true==i)], y_scores[np.where(y_true==i)], pos_label=i)
     roc_auc[i] = auc(fpr[i], tpr[i])
+print(fpr)
+print(tpr)
+print(roc_auc)
 
 # plot ROC curves for each class and macro-average
 plt.figure()
