@@ -64,6 +64,7 @@ metrics_final = metrics[['model_2a','confidence_2a','model_2b','confidence_2b','
 # calculating final confidence if model_2a is pdoscc then confidence_2a else confidence_2b
 metrics_final['final_confidence'] = metrics_final.apply(lambda x: x['confidence_2a'] if x['model_2a'] == 'pdoscc' else x['confidence_2b'], axis=1).astype(float)
 metrics_final = metrics_final[['final_prediction','final_confidence','ground_truth']]
+print(metrics_final.head(5))
 fpr, tpr, _ = roc_curve(metrics_final['final_prediction'].apply(lambda x: 2 if x == 'pdoscc' else 1 if x == 'mdoscc' else 0), metrics_final['final_confidence'], pos_label=0)
 roc_auc = auc(fpr, tpr)
 # Plot ROC curve
