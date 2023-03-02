@@ -8,5 +8,11 @@ print(metrics.head(5))
 metrics.insert(0, 'final_confidence', 0)
 print(metrics.head(5))
 # setting confidence_2a if final_prediction is pdoscc or confidence_2a otherwise
-metrics['final_confidence'] = metrics.apply(lambda x: x['confidence_2a'] if x['final_prediction'] == 'pdoscc' else x['confidence_2b'], axis=1)
+metrics['final_confidence'] = metrics.apply(lambda x: x['confidence_2a'] if x['final_prediction'] == 'pdoscc' else x['confidence_2b'], axis=1).astype(float)
+print(metrics.head(5))
+# Chosing only final_prediction and final_confidence and ground_truth
+metrics = metrics[['final_prediction', 'final_confidence', 'ground_truth']]
+print(metrics.head(5))
+# renaming the columns
+metrics.columns = ['prediction', 'confidence', 'ground_truth']
 print(metrics.head(5))
