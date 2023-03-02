@@ -20,7 +20,7 @@ print (metrics_2a.head(5))
 # if ground truth doesnt equal to model_2a then confidence_2a is 1-confidence_2a
 metrics_2a['confidence_2a'] = metrics_2a.apply(lambda x: 1-x['confidence_2a'] if x['ground_truth'] != x['model_2a'] else x['confidence_2a'], axis=1).astype(float)
 print (metrics_2a.head(5))
-print(metrics_2a['ground_truth'] != metrics_2a['model_2a'])
+print(metrics_2a[metrics_2a['ground_truth'] != metrics_2a['model_2a']])
 
 
 # # Compute ROC curve and ROC area for each class
