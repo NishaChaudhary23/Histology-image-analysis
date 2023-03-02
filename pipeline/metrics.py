@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, roc_auc_score
+from sklearn.metrics import RocCurveDisplay
 import numpy as np
 
 basepath = '/home/chs.rintu/Documents/office/researchxoscc/project_2/output'
@@ -24,7 +25,5 @@ print(f'Accuracy: {accuracy}')
 auc_score = roc_auc_score(pd.get_dummies(metrics['ground_truth']), pd.get_dummies(metrics['prediction']), multi_class='ovr')
 print(f'AUC score: {auc_score}')
 # calculating the ROC curve for all three classes present
-fpr, tpr, thresholds = roc_curve(pd.get_dummies(metrics['ground_truth']), pd.get_dummies(metrics['prediction']), pos_label=2)
-print(f'FPR: {fpr}')
-print(f'TPR: {tpr}')
-print(f'Thresholds: {thresholds}')
+RocCurveDisplay.from_predictions(metrics['ground_truth'], pd.get_dummies(metrics['prediction']), n_classes=3).plot()
+plt.show()
