@@ -28,7 +28,7 @@ fpr = dict()
 tpr = dict()
 roc_auc = dict()
 for i in range(3):
-    fpr[i], tpr[i], _ = roc_curve(y_true[np.where(y_true==i)], y_scores[np.where(y_true==i)], pos_label=i)
+    fpr[i], tpr[i], _ = roc_curve(y_true[:]==i, y_scores[:], pos_label=i)
 
 for i in range(3):
     roc_auc[i] = auc(fpr[i], tpr[i])
