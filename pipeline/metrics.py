@@ -23,3 +23,8 @@ print(f'Accuracy: {accuracy}')
 # Calculating the AUC score based on the final confidence for all three classes present
 auc_score = roc_auc_score(pd.get_dummies(metrics['ground_truth']), pd.get_dummies(metrics['prediction']), multi_class='ovr')
 print(f'AUC score: {auc_score}')
+# calculating the ROC curve for all three classes present
+fpr, tpr, thresholds = roc_curve(pd.get_dummies(metrics['ground_truth']), pd.get_dummies(metrics['prediction']), pos_label=2)
+print(f'FPR: {fpr}')
+print(f'TPR: {tpr}')
+print(f'Thresholds: {thresholds}')
