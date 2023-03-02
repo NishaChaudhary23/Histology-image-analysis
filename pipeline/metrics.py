@@ -28,7 +28,7 @@ fpr = dict()
 tpr = dict()
 roc_auc = dict()
 for i in range(3):
-    fpr[i], tpr[i], _ = roc_curve(y_true==i, y_scores[np.where(y_true==i)])
+    fpr[i], tpr[i], _ = roc_curve(y_true==i, y_scores[:])
     roc_auc[i] = auc(fpr[i], tpr[i])
 
 # compute micro-average ROC curve and AUC
