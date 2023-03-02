@@ -20,17 +20,17 @@ print (metrics_2a.head(5))
 print(metrics_2a[metrics_2a['ground_truth'] != metrics_2a['model_2a']])
 
 
-# # Compute ROC curve and ROC area for each class
-# fpr, tpr, _ = roc_curve(metrics_2a['ground_truth'].apply(lambda x: 1 if x == 'pdoscc' else 0), metrics_2a['confidence_2a'])
-# roc_auc = auc(fpr, tpr)
+# Compute ROC curve and ROC area for each class
+fpr, tpr, _ = roc_curve(metrics_2a['ground_truth'].apply(lambda x: 1 if x == 'pdoscc' else 0), metrics_2a['confidence_2a'])
+roc_auc = auc(fpr, tpr)
 
-# # Plot ROC curve
-# plt.plot(fpr, tpr, color='darkorange', lw=2, label='ROC curve (area = %0.2f)' % roc_auc)
-# plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
-# plt.xlim([0.0, 1.0])
-# plt.ylim([0.0, 1.05])
-# plt.xlabel('False Positive Rate')
-# plt.ylabel('True Positive Rate')
-# plt.title('Receiver operating characteristic')
-# plt.legend(loc="lower right")
+# Plot ROC curve
+plt.plot(fpr, tpr, color='darkorange', lw=2, label='ROC curve (area = %0.2f)' % roc_auc)
+plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver operating characteristic')
+plt.legend(loc="lower right")
 # plt.show()
