@@ -63,30 +63,30 @@ y_pred_2a1 = np.argmax(y_pred_2a1, axis=1)
 y_pred_2a1 = [label_2a[i] for i in y_pred_2a1]
 # model 2a2
 y_pred_2a2 = model_2a2.predict(test_generator)
-confidence_2a = np.argmax(y_pred_2a2, axis=1)
+confidence_2a= np.argmax(y_pred_2a2, axis=1)
 softmax_output_2a2 = np.max(y_pred_2a2, axis=1)
 y_pred_2a2 = np.argmax(y_pred_2a2, axis=1)
 y_pred_2a2 = [label_2a[i] for i in y_pred_2a2]
 # model 2a3
 y_pred_2a3 = model_2a3.predict(test_generator)
-confidence_2a = np.argmax(y_pred_2a3, axis=1)
+confidence_2a= np.argmax(y_pred_2a3, axis=1)
 softmax_output_2a3 = np.max(y_pred_2a3, axis=1)
 y_pred_2a3 = np.argmax(y_pred_2a3, axis=1)
 y_pred_2a3 = [label_2a[i] for i in y_pred_2a3]
 # model 2a4
 y_pred_2a4 = model_2a4.predict(test_generator)
-confidence_2a = np.argmax(y_pred_2a4, axis=1)
+confidence_2a= np.argmax(y_pred_2a4, axis=1)
 softmax_output_2a4 = np.max(y_pred_2a4, axis=1)
 y_pred_2a4 = np.argmax(y_pred_2a4, axis=1)
 y_pred_2a4 = [label_2a[i] for i in y_pred_2a4]
 # model 2a5
 y_pred_2a5 = model_2a5.predict(test_generator)
-confidence_2a = np.argmax(y_pred_2a5, axis=1)
+confidence_2a= np.argmax(y_pred_2a5, axis=1)
 softmax_output_2a5 = np.max(y_pred_2a5, axis=1)
 y_pred_2a5 = np.argmax(y_pred_2a5, axis=1)
 y_pred_2a5 = [label_2a[i] for i in y_pred_2a5]
 # joint prediction
-y_pred_2a = [y_pred_2a1,y_pred_2a2,y_pred_2a3,y_pred_2a4,y_pred_2a5]
+y_pred_2a= [y_pred_2a1,y_pred_2a2,y_pred_2a3,y_pred_2a4,y_pred_2a5]
 y_pred_2a = np.array(y_pred_2a)
 y_pred_2a = np.transpose(y_pred_2a)
 # Counting the number of times each class is predicted
@@ -102,6 +102,7 @@ y_pred_2a_confidence = np.array(y_pred_2a_confidence)
 y_pred_2a_confidence = np.transpose(y_pred_2a_confidence)
 print(y_pred_2a_confidence.shape)
 y_pred_2a_confidence = np.mean(y_pred_2a_confidence, axis=1)
+
 
 
 
@@ -153,6 +154,7 @@ y_pred_2b_confidence = np.array(y_pred_2b_confidence)
 y_pred_2b_confidence = np.transpose(y_pred_2b_confidence)
 print(y_pred_2b_confidence.shape)
 y_pred_2b_confidence = np.mean(y_pred_2b_confidence, axis=1)
+
 
 
 

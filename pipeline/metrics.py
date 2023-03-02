@@ -16,6 +16,8 @@ metrics['final_confidence'] = metrics.apply(lambda x: x['confidence_2a'] if x['f
 metrics = metrics[['final_prediction', 'final_confidence', 'ground_truth']]
 # renaming the columns
 metrics.columns = ['prediction', 'confidence', 'ground_truth']
+# if prediction is not the same as ground truth then confidence is 1-confidence
+metrics['confidence'] = metrics.apply(lambda x: 1-x['confidence'] if x['prediction'] != x['ground_truth'] else x['confidence'], axis=1).astype(float)
 # encoding the ground_truth column
 metrics['ground_truth'] = metrics['ground_truth'].map({'wdoscc': 0, 'mdoscc': 1, 'pdoscc': 2})
 print(metrics.head(5))
