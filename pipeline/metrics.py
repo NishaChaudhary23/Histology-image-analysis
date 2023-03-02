@@ -31,10 +31,6 @@ for i in range(3):
     fpr[i], tpr[i], _ = roc_curve(y_true[np.where(y_true==i)], y_scores[np.where(y_true==i)], pos_label=i)
     roc_auc[i] = auc(fpr[i], tpr[i])
 
-# compute macro-average ROC curve and AUC
-fpr["macro"], tpr["macro"], _ = roc_curve(y_true.ravel(), y_scores.ravel())
-roc_auc["macro"] = auc(fpr["macro"], tpr["macro"])
-
 # plot ROC curves for each class and macro-average
 plt.figure()
 lw = 2
@@ -43,9 +39,6 @@ for i, color in zip(range(3), colors):
     plt.plot(fpr[i], tpr[i], color=color, lw=lw,
              label='ROC curve of class {0} (area = {1:0.2f})'
              ''.format(i, roc_auc[i]))
-plt.plot(fpr["macro"], tpr["macro"], color='gold', lw=lw,
-         label='macro-average ROC curve (area = {0:0.2f})'
-         ''.format(roc_auc["macro"]))
 plt.plot([0, 1], [0, 1], 'k--', lw=lw)
 plt.xlim([0.0, 1.0])
 plt.ylim([0.0, 1.05])
