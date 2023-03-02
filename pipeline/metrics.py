@@ -22,7 +22,7 @@ print(metrics.head(5))
 
 #  calculating the accuracy
 y_true = np.array(metrics['ground_truth'].values)
-y_scores = np.array(metrics['prediction'].values)
+y_scores = np.array(metrics['confidence'].values)
 
 fpr = dict()
 tpr = dict()
