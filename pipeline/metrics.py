@@ -74,7 +74,7 @@ print(metrics_final.head(5))
 
 # for class 0
 metrics_final_0 = metrics_final[metrics_final['ground_truth'] != 'wdoscc']
-fpr_0, tpr_0, _ = roc_curve(metrics_final['final_prediction'], metrics_final['final_confidence'], pos_label=0)
+fpr_0, tpr_0, _ = roc_curve(metrics_final_0['final_prediction'], metrics_final_0['final_confidence'], pos_label=0)
 roc_auc_0 = auc(fpr_0, tpr_0)
 # Plot ROC curve
 plt.figure()
