@@ -61,6 +61,8 @@ print(metrics.head(5))
 
 
 metrics_final = metrics[['model_2a','confidence_2a','model_2b','confidence_2b','ground_truth']]
+# inserting new column called final_confidence initialised to 0
+metrics_final.insert(0, 'final_prediction', 0)
 # calculating final confidence if model_2a is pdoscc then confidence_2a else confidence_2b
 metrics_final['final_confidence'] = metrics_final.apply(lambda x: x['confidence_2a'] if x['model_2a'] == 'pdoscc' else x['confidence_2b'], axis=1).astype(float)
 metrics_final = metrics_final[['final_prediction','final_confidence','ground_truth']]
