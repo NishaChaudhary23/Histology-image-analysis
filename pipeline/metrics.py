@@ -86,6 +86,7 @@ plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
 plt.title('Receiver operating characteristic')
 plt.legend(loc="lower right")
+plt.savefig(os.path.join(basepath, 'roc_curve_wdoscc.png')
 plt.show()
 
 
