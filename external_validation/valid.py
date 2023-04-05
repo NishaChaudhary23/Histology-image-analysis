@@ -68,7 +68,8 @@ eval = np.argmax(eval, axis=1)
 # converting the class to the original label
 eval = [classes[i] for i in eval]
 gt = np.array(test_generator.classes)
+gt = [classes[i] for i in gt]
 print(gt)
+print(eval)
 matrix = confusion_matrix(gt, eval)
 print(matrix)
-print(eval)
