@@ -62,5 +62,5 @@ test_generator = datagen_test.flow_from_dataframe(
 model = load_model('/home/chs.rintu/Documents/office/researchxoscc/project_1/InceptionV3-20230404T121058Z-001/InceptionV3/InceptionV3.h5')
 model.summary()
 
-eval = model.evaluate(test_generator)
+eval = model.predict(test_generator)
 print(eval)
