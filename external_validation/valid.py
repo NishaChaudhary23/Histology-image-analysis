@@ -24,7 +24,7 @@ print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 paths = ['/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/normal', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/osmf', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/oscc']
 datapath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/all'
 master_dataframe = pd.DataFrame()
-
+classes = ['normal', 'osmf', 'oscc']
 
 for i in paths:
     items = os.listdir(i)
@@ -63,4 +63,11 @@ model = load_model('/home/chs.rintu/Documents/office/researchxoscc/project_1/Inc
 model.summary()
 
 eval = model.predict(test_generator)
+# finding the class with the highest probability
+eval = np.argmax(eval, axis=1)
+# converting the class to the original label
+eval = [classes[i] for i in eval]
+gt = np.array(test_generator.classes)
+matrix = confusion_matrix(gt, eval)
+print(matrix)
 print(eval)
