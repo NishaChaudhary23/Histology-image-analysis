@@ -73,7 +73,7 @@ scores = eval
 eval = np.argmax(eval, axis=1)
 # converting the class to the original label
 eval = [conf_key[i] for i in eval]
-gt = np.array(test_generator.conf_key)
+gt = np.array(test_generator.classes)
 gt = [conf_key[i] for i in gt]
 print(gt)
 print(eval)
