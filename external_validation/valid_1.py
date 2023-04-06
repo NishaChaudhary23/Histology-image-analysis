@@ -9,7 +9,8 @@ from tensorflow.keras.models import load_model
 import os
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.metrics import confusion_matrix, roc_curve, auc, precision_recall_curve, average_precision_score
-from tensorflow.keras.metrics import AUC, PrecisionAtRecall
+from support import get_all_roc_coordinates, plot_roc_curve, calculate_tpr_fpr
+from sklearn.metrics import roc_auc_score
 
 os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 
@@ -89,15 +90,37 @@ plt.title(f'External Validation Confusion Matrix',fontname="Sans", fontsize=11,f
 plt.tight_layout()
 plt.savefig(f'{plotpath}project_1_exVal_cm.png', dpi = 300)
 
+gt = np.array(test_generator.classes)
+score_gt = np.array([scores[i][gt[i]] for i in range(len(gt))])
+gt = [conf_key[i] for i in gt]
 
-auc = AUC()(test_generator.classes, np.zeros(len(test_generator.classes)))
-print("AUC:", auc.numpy())
+X_test = pd.DataFrame(data={'class':gt, 'prob':score_gt})
 
-
-fpr, tpr, thresholds = roc_curve(test_generator.classes, np.zeros(len(test_generator.classes)))
-
-plt.plot(fpr, tpr)
-plt.xlabel("False Positive Rate")
-plt.ylabel("True Positive Rate")
-plt.title("ROC Curve")
-plt.show()
+plt.figure(figsize = (12, 8))
+bins = [i/20 for i in range(20)] + [1]
+classes = ['normal', 'osmf', 'oscc']
+roc_auc_ovr = {}
+for i in range(len(classes)):
+    # Gets the class
+    c = classes[i]
+    
+    # Prepares an auxiliar dataframe to help with the plots
+    df_aux = X_test.copy()
+    df_aux = df_aux.reset_index(drop = True)
+    
+    # Plots the probability distribution for the class and the rest
+    ax = plt.subplot(2, 3, i+1)
+    sns.histplot(x = "prob", data = df_aux, hue = 'class', color = 'b', ax = ax, bins = bins)
+    ax.set_title(c)
+    ax.legend([f"Class: {c}", "Rest"])
+    ax.set_xlabel(f"P(x = {c})")
+    
+    # Calculates the ROC Coordinates and plots the ROC Curves
+    ax_bottom = plt.subplot(2, 3, i+4)
+    tpr, fpr = get_all_roc_coordinates(df_aux['class'], df_aux['prob'])
+    plot_roc_curve(tpr, fpr, scatter = False, ax = ax_bottom)
+    ax_bottom.set_title("ROC Curve OvR")
+    
+    # Calculates the ROC AUC OvR
+    roc_auc_ovr[c] = roc_auc_score(df_aux['class'], df_aux['prob'])
+plt.tight_layout()
