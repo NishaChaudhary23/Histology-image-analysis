@@ -5,16 +5,11 @@ import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.models import Model
 from tensorflow.keras.models import load_model
-from tensorflow.keras.utils import to_categorical
-from sklearn.preprocessing import OneHotEncoder
 import os
-from tensorflow.keras.applications import InceptionV3
-from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from sklearn.metrics import classification_report, confusion_matrix
-from tensorflow.keras.optimizers import RMSprop
+from sklearn.metrics import confusion_matrix
+from tensorflow.keras.metrics import AUC
 
 os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 
@@ -101,3 +96,13 @@ plt.tight_layout()
 plt.savefig(f'{plotpath}project_1_exVal_cm.png', dpi = 300)
 
 
+auc = AUC()(test_generator.classes, np.zeros(len(test_generator.classes)))
+print("AUC:", auc.numpy())
+
+# Compute the ROC curve
+fpr, tpr, thresholds = tf.keras.metrics.ROC()(test_generator.classes, np.zeros(len(test_generator.classes)))
+plt.plot(fpr.numpy(), tpr.numpy())
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve")
+plt.show()
