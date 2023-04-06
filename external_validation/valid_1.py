@@ -193,16 +193,14 @@ for i in range(len(classes)):
     # Plots the probability distribution for the class and the rest
     ax = plt.subplot(2, 3, i+1)
     sns.histplot(x = "prob", data = df_aux, hue = 'class', color = 'b', ax = ax, bins = bins)
-    ax.set_title(c)
+    ax.set_title(class_keys[c])
     ax.legend([f"Class: {class_keys[c]}", "Rest"], loc = 'upper center')
     ax.set_xlabel(f"P(x = {class_keys[c]})")
-    plt.savefig(f'{plotpath}project_1_exVal_roc_{class_keys[c]}.png', dpi = 300)
     # Calculates the ROC Coordinates and plots the ROC Curves
     ax_bottom = plt.subplot(2, 3, i+4)
     tpr, fpr = get_all_roc_coordinates(df_aux['class'], df_aux['prob'])
     plot_roc_curve(tpr, fpr, scatter = False, ax = ax_bottom, class_keys = ['normal', 'osmf', 'oscc'])
     ax_bottom.set_title("ROC Curve OvR")
-    plt.savefig(f'{plotpath}project_1_exVal_rocOVR_{class_keys[c]}.png', dpi = 300)
     
     # Calculates the ROC AUC OvR
     roc_auc_ovr[c] = roc_auc_score(df_aux['class'], df_aux['prob'], multi_class = 'ovr')
