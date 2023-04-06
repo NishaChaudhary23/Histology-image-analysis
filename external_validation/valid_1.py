@@ -8,8 +8,8 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import load_model
 import os
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from sklearn.metrics import confusion_matrix
-from tensorflow.keras.metrics import AUC
+from sklearn.metrics import confusion_matrix, roc_curve, auc, precision_recall_curve, average_precision_score
+from tensorflow.keras.metrics import AUC, PrecisionAtRecall
 
 os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 
@@ -92,3 +92,12 @@ plt.savefig(f'{plotpath}project_1_exVal_cm.png', dpi = 300)
 
 auc = AUC()(test_generator.classes, np.zeros(len(test_generator.classes)))
 print("AUC:", auc.numpy())
+
+
+fpr, tpr, thresholds = roc_curve(test_generator.classes, np.zeros(len(test_generator.classes)))
+
+plt.plot(fpr, tpr)
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve")
+plt.show()
