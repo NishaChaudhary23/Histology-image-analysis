@@ -9,7 +9,7 @@ from tensorflow.keras.models import load_model
 import os
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.metrics import confusion_matrix
-from tensorflow.keras.metrics import AUC
+from tensorflow.keras.metrics import AUC, ROC
 
 os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 
@@ -100,7 +100,7 @@ auc = AUC()(test_generator.classes, np.zeros(len(test_generator.classes)))
 print("AUC:", auc.numpy())
 
 # Compute the ROC curve
-fpr, tpr, thresholds = tf.keras.metrics.ROC()(test_generator.classes, np.zeros(len(test_generator.classes)))
+fpr, tpr, thresholds = ROC()(test_generator.classes, np.zeros(len(test_generator.classes)))
 plt.plot(fpr.numpy(), tpr.numpy())
 plt.xlabel("False Positive Rate")
 plt.ylabel("True Positive Rate")
