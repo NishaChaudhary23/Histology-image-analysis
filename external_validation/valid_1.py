@@ -78,6 +78,7 @@ gt = [conf_key[i] for i in gt]
 print(gt)
 print(eval)
 conf = confusion_matrix(gt, eval)
+conf = pd.DataFrame(conf, columns=conf_key, index=conf_key)
 print(conf)
 
 conf = conf.values[:,1:]
