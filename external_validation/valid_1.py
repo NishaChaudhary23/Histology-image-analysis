@@ -97,6 +97,6 @@ plt.xlabel('Predicted',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold
 plt.ylabel('Ground Truth',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
 plt.title(f'External Validation Confusion Matrix',fontname="Sans", fontsize=11,fontweight='bold')
 plt.tight_layout()
-plt.savefig(f'project_1_exVal_cm.png', dpi = 300)
+plt.savefig(f'{plotpath}project_1_exVal_cm.png', dpi = 300)
 
 
