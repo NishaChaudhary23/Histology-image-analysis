@@ -172,13 +172,13 @@ plt.savefig(f'{plotpath}project_1_exVal_cm.png', dpi = 300)
 
 gt = np.array(test_generator.classes)
 score_gt = np.array([scores[i][gt[i]] for i in range(len(gt))])
-gt = [conf_key[i] for i in gt]
+# gt = [conf_key[i] for i in gt]
 
 X_test = pd.DataFrame(data={'class':gt, 'prob':score_gt})
 
 plt.figure(figsize = (12, 8))
 bins = [i/20 for i in range(20)] + [1]
-classes = ['normal', 'osmf', 'oscc']
+classes = test_generator.class_indices.keys()
 roc_auc_ovr = {}
 for i in range(len(classes)):
     # Gets the class
