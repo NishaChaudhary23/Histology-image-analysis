@@ -23,8 +23,13 @@ print(tf.__version__)
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 paths = ['/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/normal', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/osmf', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/oscc']
 datapath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/all'
+plotpath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/plots/project_1'
+
+if not os.path.exists(datapath):
+    os.makedirs(datapath)
+
 master_dataframe = pd.DataFrame()
-classes = ['normal', 'osmf', 'oscc']
+conf_key = ['normal', 'osmf', 'oscc']
 
 for i in paths:
     items = os.listdir(i)
@@ -64,12 +69,33 @@ model.summary()
 
 eval = model.predict(test_generator)
 # finding the class with the highest probability
+scores = eval
 eval = np.argmax(eval, axis=1)
 # converting the class to the original label
-eval = [classes[i] for i in eval]
-gt = np.array(test_generator.classes)
-gt = [classes[i] for i in gt]
+eval = [conf_key[i] for i in eval]
+gt = np.array(test_generator.conf_key)
+gt = [conf_key[i] for i in gt]
 print(gt)
 print(eval)
-matrix = confusion_matrix(gt, eval)
-print(matrix)
+conf = confusion_matrix(gt, eval)
+print(conf)
+
+conf = conf.values[:,1:]
+conf = conf.astype(np.int32)
+conf_percentages = conf / conf.sum(axis=1)[:, np.newaxis]
+conf_percentages = conf_percentages * 100
+conf_percentages = np.round(conf_percentages, 2).flatten()
+print(conf_percentages)
+labels = [f"{v1}\n{v2}%" for v1, v2 in
+        zip(conf.flatten(),conf_percentages)]
+labels = np.asarray(labels).reshape(3,3)
+print(labels)
+plt.figure(figsize=(3.5,3))
+sns.heatmap(conf_percentages.reshape((3,3)), annot=labels, xticklabels=conf_key, cmap=sns.color_palette("ch:s=-.2,r=.6", as_cmap=True), yticklabels=conf_key, fmt='', cbar=True, annot_kws={"font":'Sans',"size": 9.5,"fontstyle":'italic' })
+plt.xlabel('Predicted',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
+plt.ylabel('Ground Truth',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
+plt.title(f'External Validation Confusion Matrix',fontname="Sans", fontsize=11,fontweight='bold')
+plt.tight_layout()
+plt.savefig(f'project_1_exVal_cm.png', dpi = 300)
+
+
