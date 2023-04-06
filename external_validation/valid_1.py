@@ -205,3 +205,4 @@ for i in range(len(classes)):
     # Calculates the ROC AUC OvR
     roc_auc_ovr[c] = roc_auc_score(df_aux['class'], df_aux['prob'], multi_class = 'ovr')
 plt.tight_layout()
+plt.savefig(f'{plotpath}project_1_exVal_roc.png', dpi = 300)
