@@ -178,7 +178,7 @@ X_test = pd.DataFrame(data={'class':gt, 'prob':score_gt})
 
 plt.figure(figsize = (12, 8))
 bins = [i/20 for i in range(20)] + [1]
-classes = test_generator.class_indices.keys()
+classes = [0, 1, 2]
 roc_auc_ovr = {}
 for i in range(len(classes)):
     # Gets the class
