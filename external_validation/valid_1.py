@@ -194,7 +194,7 @@ for i in range(len(classes)):
     ax = plt.subplot(2, 3, i+1)
     sns.histplot(x = "prob", data = df_aux, hue = 'class', color = 'b', ax = ax, bins = bins)
     ax.set_title(c)
-    ax.legend([f"Class: {class_keys[c]}", "Rest"], loc = 'upper left')
+    ax.legend([f"Class: {class_keys[c]}", "Rest"], loc = 'upper middle')
     ax.set_xlabel(f"P(x = {class_keys[c]})")
     
     # Calculates the ROC Coordinates and plots the ROC Curves
