@@ -19,6 +19,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import roc_auc_score
 
+class_keys = ['normal', 'osmf', 'oscc']
 
 def calculate_tpr_fpr(y_real, y_pred):
     '''
@@ -68,7 +69,7 @@ def get_all_roc_coordinates(y_real, y_proba):
         fpr_list.append(fpr)
     return tpr_list, fpr_list
 
-def plot_roc_curve(tpr, fpr, scatter = True, ax = None):
+def plot_roc_curve(tpr, fpr, scatter = True, ax = None, class_keys = ['normal', 'osmf', 'oscc']]):
     '''
     Plots the ROC Curve by using the list of coordinates (tpr and fpr).
     
@@ -193,13 +194,13 @@ for i in range(len(classes)):
     ax = plt.subplot(2, 3, i+1)
     sns.histplot(x = "prob", data = df_aux, hue = 'class', color = 'b', ax = ax, bins = bins)
     ax.set_title(c)
-    ax.legend([f"Class: {c}", "Rest"])
-    ax.set_xlabel(f"P(x = {c})")
+    ax.legend([f"Class: {class_keys[c]}", "Rest"], loc = 'upper left')
+    ax.set_xlabel(f"P(x = {class_keys[c]})")
     
     # Calculates the ROC Coordinates and plots the ROC Curves
     ax_bottom = plt.subplot(2, 3, i+4)
     tpr, fpr = get_all_roc_coordinates(df_aux['class'], df_aux['prob'])
-    plot_roc_curve(tpr, fpr, scatter = False, ax = ax_bottom)
+    plot_roc_curve(tpr, fpr, scatter = False, ax = ax_bottom, class_keys = ['normal', 'osmf', 'oscc'])
     ax_bottom.set_title("ROC Curve OvR")
     
     # Calculates the ROC AUC OvR
