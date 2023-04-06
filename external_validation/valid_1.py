@@ -70,23 +70,17 @@ eval = np.argmax(eval, axis=1)
 eval = [conf_key[i] for i in eval]
 gt = np.array(test_generator.classes)
 gt = [conf_key[i] for i in gt]
-print(gt)
-print(eval)
 conf = confusion_matrix(gt, eval)
 # conf = pd.DataFrame(conf, columns=conf_key, index=conf_key)
-print(conf)
 
 # conf = conf.values[:,1:]
 conf = conf.astype(np.int32)
 conf_percentages = conf / conf.sum(axis=1)[:, np.newaxis]
 conf_percentages = conf_percentages * 100
 conf_percentages = np.round(conf_percentages, 2).flatten()
-print(conf_percentages)
 labels = [f"{v1}\n{v2}%" for v1, v2 in
         zip(conf.flatten(),conf_percentages)]
-print(labels)
 labels = np.asarray(labels).reshape(3,3)
-print(labels)
 plt.figure(figsize=(3.5,3))
 sns.heatmap(conf_percentages.reshape((3,3)), annot=labels, xticklabels=conf_key, cmap=sns.color_palette("ch:s=-.2,r=.6", as_cmap=True), yticklabels=conf_key, fmt='', cbar=True, annot_kws={"font":'Sans',"size": 9.5,"fontstyle":'italic' })
 plt.xlabel('Predicted',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
