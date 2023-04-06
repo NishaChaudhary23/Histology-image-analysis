@@ -202,5 +202,5 @@ for i in range(len(classes)):
     ax_bottom.set_title("ROC Curve OvR")
     
     # Calculates the ROC AUC OvR
-    roc_auc_ovr[c] = roc_auc_score(df_aux['class'], df_aux['prob'])
+    roc_auc_ovr[c] = roc_auc_score(df_aux['class'], df_aux['prob'], multi_class = 'ovr')
 plt.tight_layout()
