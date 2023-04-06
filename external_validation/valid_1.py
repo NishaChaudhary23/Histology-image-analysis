@@ -78,10 +78,10 @@ gt = [conf_key[i] for i in gt]
 print(gt)
 print(eval)
 conf = confusion_matrix(gt, eval)
-conf = pd.DataFrame(conf, columns=conf_key, index=conf_key)
+# conf = pd.DataFrame(conf, columns=conf_key, index=conf_key)
 print(conf)
 
-conf = conf.values[:,1:]
+# conf = conf.values[:,1:]
 conf = conf.astype(np.int32)
 conf_percentages = conf / conf.sum(axis=1)[:, np.newaxis]
 conf_percentages = conf_percentages * 100
@@ -89,6 +89,7 @@ conf_percentages = np.round(conf_percentages, 2).flatten()
 print(conf_percentages)
 labels = [f"{v1}\n{v2}%" for v1, v2 in
         zip(conf.flatten(),conf_percentages)]
+print(labels)
 labels = np.asarray(labels).reshape(3,3)
 print(labels)
 plt.figure(figsize=(3.5,3))
