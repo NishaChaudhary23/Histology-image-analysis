@@ -186,6 +186,7 @@ for i in range(len(classes)):
     
     # Prepares an auxiliar dataframe to help with the plots
     df_aux = X_test.copy()
+    df_aux['class'] = df_aux['class'].apply(lambda x: 1 if x == c else 0)
     df_aux = df_aux.reset_index(drop = True)
     
     # Plots the probability distribution for the class and the rest
