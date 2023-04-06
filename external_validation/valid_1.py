@@ -69,7 +69,7 @@ def get_all_roc_coordinates(y_real, y_proba):
         fpr_list.append(fpr)
     return tpr_list, fpr_list
 
-def plot_roc_curve(tpr, fpr, scatter = True, ax = None, class_keys = ['normal', 'osmf', 'oscc']]):
+def plot_roc_curve(tpr, fpr, scatter = True, ax = None, class_keys = ['normal', 'osmf', 'oscc']):
     '''
     Plots the ROC Curve by using the list of coordinates (tpr and fpr).
     
