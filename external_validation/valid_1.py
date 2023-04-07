@@ -96,8 +96,8 @@ os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 #checking tensorflow version
 print(tf.__version__)
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
-paths = ['/home/chs.rintu/Documents/office/researchxoscc/project_1/dataSet/train/normal', '/home/chs.rintu/Documents/office/researchxoscc/project_1/dataSet/train/osmf', '/home/chs.rintu/Documents/office/researchxoscc/project_1/dataSet/train/oscc']
-datapath = '/home/chs.rintu/Documents/office/researchxoscc/project_1/dataSet/train/all'
+paths = ['home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/normal', 'home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/osmf', 'home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/oscc']
+datapath = 'home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/all'
 plotpath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/plots/project_1/'
 
 if not os.path.exists(datapath):
@@ -142,7 +142,7 @@ conf_key = [*test_generator.class_indices.keys()]
 print(conf_key)
 
 # loading the model
-model = load_model('/home/chs.rintu/Documents/office/researchxoscc/Ensemble/models_available/M1/dense169_01.h5')
+model = load_model('/home/chs.rintu/Documents/office/researchxoscc/Ensemble/models_available/M1/InceptionV3.h5')
 # model.summary()
 
 eval = model.predict(test_generator)
