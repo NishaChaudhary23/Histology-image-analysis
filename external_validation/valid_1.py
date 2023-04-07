@@ -134,7 +134,7 @@ test_generator = datagen_test.flow_from_dataframe(
         folder=datapath,
         target_size=(300, 300),
         class_mode='categorical',
-        shuffle=True,
+        shuffle=False,
         validate_filenames=False,)
 
 
