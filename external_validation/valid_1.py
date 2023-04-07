@@ -177,7 +177,6 @@ score_gt = np.array([scores[i][gt[i]] for i in range(len(gt))])
 
 X_test = pd.DataFrame(data={'class':gt, 'prob':score_gt})
 
-plt.figure(figsize = (12, 8))
 bins = [i/20 for i in range(20)] + [1]
 classes = [0, 1, 2]
 roc_auc_ovr = {}
@@ -191,7 +190,8 @@ for i in range(len(classes)):
     df_aux = df_aux.reset_index(drop = True)
     
     # Plots the probability distribution for the class and the rest
-    ax = plt.subplot(2, 3, i+1)
+    plt.figure(figsize = (3.5,3))
+    ax = plt.subplot(1,1,1)
     sns.histplot(x = "prob", data = df_aux, hue = 'class', color = 'b', ax = ax, bins = bins)
     ax.set_title(class_keys[c])
     ax.legend([f"Class: {class_keys[c]}", "Rest"], loc = 'upper center')
@@ -201,8 +201,8 @@ for i in range(len(classes)):
     tpr, fpr = get_all_roc_coordinates(df_aux['class'], df_aux['prob'])
     plot_roc_curve(tpr, fpr, scatter = False, ax = ax_bottom, class_keys = ['normal', 'osmf', 'oscc'])
     ax_bottom.set_title("ROC Curve OvR")
+    plt.tight_layout()  
+    plt.savefig(f'{plotpath}project_1_exVal_roc_{class_keys[c]}.png', dpi = 300)
     
     # Calculates the ROC AUC OvR
     roc_auc_ovr[c] = roc_auc_score(df_aux['class'], df_aux['prob'], multi_class = 'ovr')
-plt.tight_layout()
-plt.savefig(f'{plotpath}project_1_exVal_roc.png', dpi = 300)
