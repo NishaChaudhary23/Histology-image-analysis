@@ -79,7 +79,7 @@ embeddings = tsne.fit_transform(y_pred)
 print(embeddings)
 
 # creating a dataframe
-df = pd.DataFrame(embeddings, columns=['x', 'y', 'class'])
+df = pd.DataFrame(embeddings, columns=['x', 'y'])
 df['class'] = test_generator.classes
 df['class'] = df['class'].map({0:'normal', 1:'oscc', 2:'osmf'})
 print(df.head())
