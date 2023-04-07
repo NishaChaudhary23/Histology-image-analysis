@@ -203,7 +203,7 @@ for i in range(len(classes)):
     plt.figure(figsize = (3.5,3))
     ax_bottom = plt.subplot(1, 1, 1)
     tpr, fpr = get_all_roc_coordinates(df_aux['class'], df_aux['prob'])
-    plot_roc_curve(tpr, fpr, scatter = False, ax = ax_bottom, class_key = ['normal', 'osmf', 'oscc'])
+    plot_roc_curve(tpr, fpr, scatter = False, ax = ax_bottom, conf_key = ['normal', 'osmf', 'oscc'])
     ax_bottom.set_title(f'ROC Curve OvR for {conf_key[c]}')
     plt.tight_layout()  
     plt.savefig(f'{plotpath}project_1_exVal_roc_ovr_curve_{conf_key[c]}.png', dpi = 300)
@@ -234,7 +234,7 @@ for i in range(len(classes)):
     # Calculates the ROC Coordinates and plots the ROC Curves
     ax_bottom = plt.subplot(2, 3, i+4)
     tpr, fpr = get_all_roc_coordinates(df_aux['class'], df_aux['prob'])
-    plot_roc_curve(tpr, fpr, scatter = False, ax = ax_bottom, class_key = ['normal', 'osmf', 'oscc'])
+    plot_roc_curve(tpr, fpr, scatter = False, ax = ax_bottom, conf_key = ['normal', 'osmf', 'oscc'])
     ax_bottom.set_title("ROC Curve OvR")
     
     # Calculates the ROC AUC OvR
