@@ -154,7 +154,6 @@ eval_2b = model_2b.predict(test_generator)
 # finding the class with the highest probability
 scores_2a = eval_2a
 scores_2b = eval_2b
-scores_2b = eval_2a[:,1]*eval_2b[:]
 
 # computing scaled down scores
 scores_2a = np.array(scores_2a)
