@@ -138,7 +138,8 @@ test_generator = datagen_test.flow_from_dataframe(
         target_size=(300, 300),
         class_mode='categorical',
         shuffle=True,
-        validate_filenames=False)
+        validate_filenames=False,
+        classes=conf_key)
 
 print(test_generator.class_indices)
 
