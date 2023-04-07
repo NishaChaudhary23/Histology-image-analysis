@@ -87,7 +87,7 @@ path = '/storage/bic/data/oscc/project_1/train/{}/'.format(a)
 
 # ImageDataGenerator
 # color images
-model_type = 'NASNetMobile'
+model_type = 'InceptionV3'
 # model_type = 'DenseNet121'
 print(f'Model Type: {model_type}')
 
@@ -348,7 +348,7 @@ if model_type == 'EfficientNetB7':
 	x = layers.Dropout(0.2)(x)
 	x = layers.Dense(3, activation = 'softmax')(x)
 	model = Model(effnet.input, x)
-	model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+	model.compile(optimizer = RMSprop(learning_rate = 0.000001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 # if model_type == 'EfficientNetV2B0':
 #         effnet = EfficientNetV2B0(
@@ -479,11 +479,10 @@ if model_type == 'InceptionV3':
 	for layer in inception.layers:
 			layer.trainable = True
 	x = layers.Flatten()(inception.output)
-	x = layers.Dense(1024, activation = 'relu')(x)
 	x = layers.Dropout(0.2)(x)
 	x = layers.Dense(3, activation = 'softmax')(x)
 	model = Model(inception.input, x)
-	model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+	model.compile(optimizer = RMSprop(learning_rate = 0.000001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 if model_type == 'MobileNetV2':
 	mobilenet = MobileNetV2(
