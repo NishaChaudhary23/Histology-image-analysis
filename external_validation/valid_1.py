@@ -115,7 +115,6 @@ for i in paths:
     # taking the first 1000 items
     items = items[:1000]
     print(len(items))
-    print(items)
     # adding the path to the items
     items = [os.path.join(datapath, item) for item in items]
     # creating a dataframe
