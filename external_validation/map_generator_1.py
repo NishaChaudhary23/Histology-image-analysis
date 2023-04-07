@@ -66,7 +66,6 @@ model.summary()
 
 dense_output = model.get_layer('dense_1').output
 model_dense = Model(inputs=model.input, outputs=dense_output)
-model_dense.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 model_dense.summary()
 
 # getting the predictions
