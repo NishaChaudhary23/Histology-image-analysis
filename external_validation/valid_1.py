@@ -19,8 +19,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import roc_auc_score
 
-class_keys = ['normal', 'osmf', 'oscc']
-
 def calculate_tpr_fpr(y_real, y_pred):
     '''
     Calculates the True Positive Rate (tpr) and the True Negative Rate (fpr) based on real and predicted observations
@@ -69,7 +67,7 @@ def get_all_roc_coordinates(y_real, y_proba):
         fpr_list.append(fpr)
     return tpr_list, fpr_list
 
-def plot_roc_curve(tpr, fpr, scatter = True, ax = None, class_keys = ['normal', 'osmf', 'oscc']):
+def plot_roc_curve(tpr, fpr, scatter = True, ax = None, conf_key = ['normal', 'osmf', 'oscc']):
     '''
     Plots the ROC Curve by using the list of coordinates (tpr and fpr).
     
@@ -106,7 +104,6 @@ if not os.path.exists(datapath):
     os.makedirs(datapath)
 
 master_dataframe = pd.DataFrame()
-conf_key = ['normal', 'osmf', 'oscc']
 
 for i in paths:
     items = os.listdir(i)
@@ -138,10 +135,10 @@ test_generator = datagen_test.flow_from_dataframe(
         target_size=(300, 300),
         class_mode='categorical',
         shuffle=True,
-        validate_filenames=False,
-        classes=conf_key)
+        validate_filenames=False,)
 
-print(test_generator.class_indices)
+
+conf_key = test_generator.class_indices.keys()
 
 # loading the model
 model = load_model('/home/chs.rintu/Documents/office/researchxoscc/project_1/InceptionV3-20230404T121058Z-001/InceptionV3/InceptionV3.h5')
@@ -196,19 +193,19 @@ for i in range(len(classes)):
     plt.figure(figsize = (3.5,3))
     ax = plt.subplot(1,1,1)
     sns.histplot(x = "prob", data = df_aux, hue = 'class', color = 'b', ax = ax, bins = bins)
-    ax.set_title(f'Probability Distribution for {class_keys[c]}')
-    ax.legend([f"Class: {class_keys[c]}", "Rest"], loc = 'upper center')
-    ax.set_xlabel(f"P(x = {class_keys[c]})")
+    ax.set_title(f'Probability Distribution for {conf_key[c]}')
+    ax.legend([f"Class: {conf_key[c]}", "Rest"], loc = 'upper center')
+    ax.set_xlabel(f"P(x = {conf_key[c]})")
     # Calculates the ROC Coordinates and plots the ROC Curves
     plt.tight_layout()  
-    plt.savefig(f'{plotpath}project_1_exVal_probability_distribution_{class_keys[c]}.png', dpi = 300)
+    plt.savefig(f'{plotpath}project_1_exVal_probability_distribution_{conf_key[c]}.png', dpi = 300)
     plt.figure(figsize = (3.5,3))
     ax_bottom = plt.subplot(1, 1, 1)
     tpr, fpr = get_all_roc_coordinates(df_aux['class'], df_aux['prob'])
-    plot_roc_curve(tpr, fpr, scatter = False, ax = ax_bottom, class_keys = ['normal', 'osmf', 'oscc'])
-    ax_bottom.set_title(f'ROC Curve OvR for {class_keys[c]}')
+    plot_roc_curve(tpr, fpr, scatter = False, ax = ax_bottom, class_key = ['normal', 'osmf', 'oscc'])
+    ax_bottom.set_title(f'ROC Curve OvR for {conf_key[c]}')
     plt.tight_layout()  
-    plt.savefig(f'{plotpath}project_1_exVal_roc_ovr_curve_{class_keys[c]}.png', dpi = 300)
+    plt.savefig(f'{plotpath}project_1_exVal_roc_ovr_curve_{conf_key[c]}.png', dpi = 300)
     # Calculates the ROC AUC OvR
     roc_auc_ovr[c] = roc_auc_score(df_aux['class'], df_aux['prob'], multi_class = 'ovr')
 
@@ -230,13 +227,13 @@ for i in range(len(classes)):
     # Plots the probability distribution for the class and the rest
     ax = plt.subplot(2, 3, i+1)
     sns.histplot(x = "prob", data = df_aux, hue = 'class', color = 'b', ax = ax, bins = bins)
-    ax.set_title(f'Figures for {class_keys[c]}')
-    ax.legend([f"Class: {class_keys[c]}", "Rest"], loc = 'upper center')
-    ax.set_xlabel(f"P(x = {class_keys[c]})")
+    ax.set_title(f'Figures for {conf_key[c]}')
+    ax.legend([f"Class: {conf_key[c]}", "Rest"], loc = 'upper center')
+    ax.set_xlabel(f"P(x = {conf_key[c]})")
     # Calculates the ROC Coordinates and plots the ROC Curves
     ax_bottom = plt.subplot(2, 3, i+4)
     tpr, fpr = get_all_roc_coordinates(df_aux['class'], df_aux['prob'])
-    plot_roc_curve(tpr, fpr, scatter = False, ax = ax_bottom, class_keys = ['normal', 'osmf', 'oscc'])
+    plot_roc_curve(tpr, fpr, scatter = False, ax = ax_bottom, class_key = ['normal', 'osmf', 'oscc'])
     ax_bottom.set_title("ROC Curve OvR")
     
     # Calculates the ROC AUC OvR
