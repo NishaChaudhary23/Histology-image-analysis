@@ -155,6 +155,7 @@ gt = np.array(test_generator.classes)
 gt = [conf_key[i] for i in gt]
 conf = confusion_matrix(gt, eval)
 # conf = pd.DataFrame(conf, columns=conf_key, index=conf_key)
+print(test_generator.class_indices)
 
 # conf = conf.values[:,1:]
 conf = conf.astype(np.int32)
