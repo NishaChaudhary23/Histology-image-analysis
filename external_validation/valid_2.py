@@ -166,8 +166,7 @@ for i in range(len(scores_2a_1)):
     ai = np.hstack((scores_2a_1[i], scores_2b_mult[i]))
     pred_array = np.vstack((pred_array, ai)) if pred_array.size else ai
 scores = pred_array
-
-eval = np.argmax(eval, axis=1)
+eval = np.argmax(scores, axis=1)
 # converting the class to the original label
 eval = [conf_key[i] for i in eval]
 gt = np.array(test_generator.classes)
