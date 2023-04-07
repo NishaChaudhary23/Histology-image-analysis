@@ -96,8 +96,8 @@ os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 #checking tensorflow version
 print(tf.__version__)
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
-paths = ['home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/normal', 'home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/osmf', 'home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/oscc']
-datapath = 'home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/all'
+paths = ['/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/normal', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/osmf', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/oscc']
+datapath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/all'
 plotpath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/plots/project_1/'
 
 if not os.path.exists(datapath):
@@ -121,10 +121,10 @@ for i in paths:
     # appending the dataframe to the master dataframe
     master_dataframe = master_dataframe.append(df)
 
-print(master_dataframe)
+# print(master_dataframe)
 # shuffling the master dataframe
 # master_dataframe = master_dataframe.sample(frac=1).reset_index(drop=True)
-print(master_dataframe)
+# print(master_dataframe)
 
 
 datagen_test = ImageDataGenerator(rescale = 1.0/255.0)
