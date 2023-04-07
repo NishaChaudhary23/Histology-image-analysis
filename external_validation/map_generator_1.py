@@ -9,6 +9,7 @@ from tensorflow.keras.models import load_model
 import os
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Model
+from sklearn.manifold import TSNE
 
 os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 
@@ -72,3 +73,12 @@ model_dense.summary()
 y_pred = model_dense.predict(test_generator)
 print(y_pred)
 print(y_pred.shape)
+
+tsne = TSNE(n_components=2, verbose=1)
+embeddings = tsne.fit_transform(y_pred)
+print(embeddings)
+
+# creating a dataframe
+df = pd.DataFrame(embeddings, columns=['x', 'y', 'class'])
+df['class'] = test_generator.classes
+df['class'] = df['class'].map({0:'normal', 1:'oscc', 2:'osmf'})
