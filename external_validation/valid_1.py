@@ -136,7 +136,7 @@ test_generator = datagen_test.flow_from_dataframe(
         class_mode='categorical',
         shuffle=True,
         validate_filenames=False,
-        classes=['normal', 'oscc', 'osmf'],)
+        classes=['osmf', 'normal', 'oscc'],)
 
 
 # conf_key = [*test_generator.class_indices.keys()]
