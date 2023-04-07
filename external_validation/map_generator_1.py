@@ -85,5 +85,7 @@ df['class'] = df['class'].map({0:'normal', 1:'oscc', 2:'osmf'})
 print(df.head())
 
 # plotting the t-sne plot
-sns.scatterplot(x='x', y='y', hue='class', data=df)
+sns.scatterplot(x='x', y='y', hue='class', data=df, palette=['green', 'orange', 'red'])
+# declaring specific colours for each class
+# saving the plot
 plt.savefig(os.path.join(plotpath, 'tsne_plot.png'))
