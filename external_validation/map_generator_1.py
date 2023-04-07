@@ -83,3 +83,7 @@ df = pd.DataFrame(embeddings, columns=['x', 'y'])
 df['class'] = test_generator.classes
 df['class'] = df['class'].map({0:'normal', 1:'oscc', 2:'osmf'})
 print(df.head())
+
+# plotting the t-sne plot
+sns.scatterplot(x='x', y='y', hue='class', data=df)
+plt.savefig(os.path.join(plotpath, 'tsne_plot.png'))
