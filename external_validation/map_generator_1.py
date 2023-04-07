@@ -18,7 +18,7 @@ print(tf.__version__)
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 paths = ['/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/normal', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/osmf', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/oscc']
 datapath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/all'
-plotpath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/plots/project_1'
+plotpath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/plots'
 
 if not os.path.exists(datapath):
     os.makedirs(datapath)
