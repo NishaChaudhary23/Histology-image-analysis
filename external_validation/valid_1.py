@@ -208,3 +208,36 @@ for i in range(len(classes)):
     plt.savefig(f'{plotpath}project_1_exVal_roc_ovr_curve_{class_keys[c]}.png', dpi = 300)
     # Calculates the ROC AUC OvR
     roc_auc_ovr[c] = roc_auc_score(df_aux['class'], df_aux['prob'], multi_class = 'ovr')
+
+print("Individual Figures Plot Complete")
+
+plt.figure(figsize = (12, 8))
+bins = [i/20 for i in range(20)] + [1]
+classes = [0, 1, 2]
+roc_auc_ovr = {}
+for i in range(len(classes)):
+    # Gets the class
+    c = classes[i]
+    
+    # Prepares an auxiliar dataframe to help with the plots
+    df_aux = X_test.copy()
+    df_aux['class'] = df_aux['class'].apply(lambda x: 1 if x == c else 0)
+    df_aux = df_aux.reset_index(drop = True)
+    
+    # Plots the probability distribution for the class and the rest
+    ax = plt.subplot(2, 3, i+1)
+    sns.histplot(x = "prob", data = df_aux, hue = 'class', color = 'b', ax = ax, bins = bins)
+    ax.set_title(f'Figures for {class_keys[c]}')
+    ax.legend([f"Class: {class_keys[c]}", "Rest"], loc = 'upper center')
+    ax.set_xlabel(f"P(x = {class_keys[c]})")
+    # Calculates the ROC Coordinates and plots the ROC Curves
+    ax_bottom = plt.subplot(2, 3, i+4)
+    tpr, fpr = get_all_roc_coordinates(df_aux['class'], df_aux['prob'])
+    plot_roc_curve(tpr, fpr, scatter = False, ax = ax_bottom, class_keys = ['normal', 'osmf', 'oscc'])
+    ax_bottom.set_title("ROC Curve OvR")
+    
+    # Calculates the ROC AUC OvR
+    roc_auc_ovr[c] = roc_auc_score(df_aux['class'], df_aux['prob'], multi_class = 'ovr')
+plt.tight_layout()
+plt.savefig(f'{plotpath}project_1_exVal_roc.png', dpi = 300)
+print("Composite Figure Plot Complete")
