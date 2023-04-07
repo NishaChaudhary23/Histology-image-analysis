@@ -126,7 +126,7 @@ for i in paths:
 
 print(master_dataframe)
 # shuffling the master dataframe
-master_dataframe = master_dataframe.sample(frac=1).reset_index(drop=True)
+# master_dataframe = master_dataframe.sample(frac=1).reset_index(drop=True)
 print(master_dataframe)
 
 
