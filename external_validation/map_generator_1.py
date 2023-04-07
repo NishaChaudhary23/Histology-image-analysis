@@ -65,7 +65,7 @@ print(conf_key)
 model = load_model('/home/chs.rintu/Documents/office/researchxoscc/project_1/InceptionV3-20230404T121058Z-001/InceptionV3/InceptionV3.h5')
 model.summary()
 
-dense_output = model.get_layer('flatten').output
+dense_output = model.get_layer('average_pooling2d_8').output
 model_dense = Model(inputs=model.input, outputs=dense_output)
 model_dense.summary()
 
@@ -73,6 +73,7 @@ model_dense.summary()
 y_pred = model_dense.predict(test_generator)
 print(y_pred)
 print(y_pred.shape)
+y_pred = y_pred.reshape(y_pred.shape[0], y_pred.shape[1]*y_pred.shape[2]*y_pred.shape[3])
 
 tsne = TSNE(n_components=2, verbose=1)
 embeddings = tsne.fit_transform(y_pred)
