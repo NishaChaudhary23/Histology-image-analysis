@@ -97,7 +97,7 @@ os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 print(tf.__version__)
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 paths = ['/home/chs.rintu/Documents/office/researchxoscc/project_1/dataSet/train/normal', '/home/chs.rintu/Documents/office/researchxoscc/project_1/dataSet/train/osmf', '/home/chs.rintu/Documents/office/researchxoscc/project_1/dataSet/train/oscc']
-datapath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/all'
+datapath = '/home/chs.rintu/Documents/office/researchxoscc/project_1/dataSet/train/all'
 plotpath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/plots/project_1/'
 
 if not os.path.exists(datapath):
@@ -110,7 +110,7 @@ for i in paths:
     # shuffling the list
     np.random.shuffle(items)
     # taking the first 1000 items
-    items = items[:12000]
+    items = items[:1000]
     print(len(items))
     # adding the path to the items
     items = [os.path.join(datapath, item) for item in items]
