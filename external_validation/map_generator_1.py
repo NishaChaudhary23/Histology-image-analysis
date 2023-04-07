@@ -65,7 +65,7 @@ print(conf_key)
 model = load_model('/home/chs.rintu/Documents/office/researchxoscc/project_1/InceptionV3-20230404T121058Z-001/InceptionV3/InceptionV3.h5')
 model.summary()
 
-dense_output = model.get_layer('dense').output
+dense_output = model.get_layer('dense_1').output
 model_dense = Model(inputs=model.input, outputs=dense_output)
 model_dense.summary()
 
