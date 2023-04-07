@@ -85,6 +85,7 @@ df['class'] = df['class'].map({0:'normal', 1:'oscc', 2:'osmf'})
 print(df.head())
 
 # plotting the t-sne plot
+plt.figure(figsize=(7, 5))
 sns.scatterplot(x='x', y='y', hue='class', data=df, palette=['green', 'orange', 'red'])
 # plot titles and other text
 plt.title('t-SNE plot of the embeddings from dense layer')
