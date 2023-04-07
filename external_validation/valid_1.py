@@ -138,7 +138,7 @@ test_generator = datagen_test.flow_from_dataframe(
         validate_filenames=False,)
 
 
-conf_key = test_generator.class_indices.keys().tolist()
+conf_key = test_generator.class_indices.keys()
 print(conf_key)
 
 # loading the model
