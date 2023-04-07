@@ -71,3 +71,4 @@ model_dense.summary()
 # getting the predictions
 y_pred = model_dense.predict(test_generator)
 print(y_pred)
+print(y_pred.shape)
