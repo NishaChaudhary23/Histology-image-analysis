@@ -142,7 +142,7 @@ conf_key = [*test_generator.class_indices.keys()]
 print(conf_key)
 
 # loading the model
-model = load_model('/home/chs.rintu/Documents/office/researchxoscc/project_1/InceptionV3-20230404T121058Z-001/InceptionV3')
+model = load_model('/home/chs.rintu/Documents/office/researchxoscc/project_1/InceptionV3-20230404T121058Z-001/InceptionV3/InceptionV3.h5')
 # model.summary()
 
 eval = model.predict(test_generator)
