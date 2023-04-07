@@ -136,7 +136,8 @@ test_generator = datagen_test.flow_from_dataframe(
         target_size=(300, 300),
         class_mode='categorical',
         shuffle=False,
-        validate_filenames=False,)
+        validate_filenames=False,
+        classes=['pdoscc', 'mdoscc', 'wdoscc'],)
 
 
 conf_key = [*test_generator.class_indices.keys()]
