@@ -41,10 +41,10 @@ for i in paths:
     # appending the dataframe to the master dataframe
     master_dataframe = master_dataframe.append(df)
 
-print(master_dataframe)
+# print(master_dataframe)
 # shuffling the master dataframe
 # master_dataframe = master_dataframe.sample(frac=1).reset_index(drop=True)
-print(master_dataframe)
+# print(master_dataframe)
 
 
 datagen_test = ImageDataGenerator(rescale = 1.0/255.0)
@@ -59,7 +59,7 @@ test_generator = datagen_test.flow_from_dataframe(
 
 
 conf_key = [*test_generator.class_indices.keys()]
-print(conf_key)
+# print(conf_key)
 
 # loading the model
 model = load_model('/home/chs.rintu/Documents/office/researchxoscc/Ensemble/models_available/M1/dense169_01.h5')
@@ -71,19 +71,19 @@ model_dense.summary()
 
 # getting the predictions
 y_pred = model_dense.predict(test_generator)
-print(y_pred)
+# print(y_pred)
 print(y_pred.shape)
 y_pred = y_pred.reshape(y_pred.shape[0], y_pred.shape[1]*y_pred.shape[2]*y_pred.shape[3])
 
 tsne = TSNE(n_components=2, verbose=1)
 embeddings = tsne.fit_transform(y_pred)
-print(embeddings)
+# print(embeddings)
 
 # creating a dataframe
 df = pd.DataFrame(embeddings, columns=['x', 'y'])
 df['class'] = test_generator.classes
 df['class'] = df['class'].map({0:'normal', 1:'oscc', 2:'osmf'})
-print(df.head())
+# print(df.head())
 
 # plotting the t-sne plot
 plt.figure(figsize=(7, 5))
