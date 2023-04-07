@@ -156,24 +156,15 @@ eval_2b = model_2b.predict(test_generator)
 scores_2a = eval_2a
 scores_2b = eval_2b
 
-# computing scaled down scores
-scores_2a = np.array(scores_2a)
-scores_2a_1 = scores_2a[:,0]
-scores_2a_2 = scores_2a[:,1]
-scores_2b = np.array(scores_2b)
-scores_2b_mult = np.array([scores_2b[i]*scores_2a_2[i] for i in range(len(scores_2a_2))])
-pred_array = np.array([])
-for i in range(len(scores_2a_1)):
-    ai = np.hstack((scores_2a_1[i], scores_2b_mult[i]))
-    pred_array = np.vstack((pred_array, ai)) if pred_array.size else ai
-scores = pred_array
-eval = np.argmax(scores, axis=1)
-# converting the class to the original label
-eval = [conf_key[i] for i in eval]
-gt = np.array(test_generator.classes)
-gt = [conf_key[i] for i in gt]
-conf = confusion_matrix(gt, eval)
-# conf = pd.DataFrame(conf, columns=conf_key, index=conf_key)
+eval  = np.zeros((len(scores_2a), 3))
+for i in range(len(eval)):
+    eval[i][0] =scores_2a[i][0]
+    eval[i][1] =scores_2a[i][1]*eval_2b[i][1]
+    eval[i][2] =scores_2a[i][2]*eval_2b[i][2]
+    print(eval[i])
+    print(np.sum(eval[i]))
+
+conf = confusion_matrix(test_generator.classes, np.argmax(eval, axis=1))
 
 # conf = conf.values[:,1:]
 conf = conf.astype(np.int32)
@@ -192,7 +183,7 @@ plt.tight_layout()
 plt.savefig(f'{plotpath}project_1_exVal_cm.png', dpi = 300)
 
 gt = np.array(test_generator.classes)
-score_gt = np.array([scores[i][gt[i]] for i in range(len(gt))])
+score_gt = np.array([eval[i][gt[i]] for i in range(len(gt))])
 # gt = [conf_key[i] for i in gt]
 
 X_test = pd.DataFrame(data={'class':gt, 'prob':score_gt})
