@@ -89,7 +89,7 @@ print(df.head())
 plt.figure(figsize=(7, 5))
 sns.scatterplot(x='x', y='y', hue='class', data=df, palette=['green', 'orange', 'red'])
 # plot titles and other text
-plt.title('t-SNE plot of the embeddings from dense layer')
+plt.title('t-SNE plot of the embeddings from final pooling layer')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.legend(loc='upper left')
