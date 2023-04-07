@@ -159,8 +159,8 @@ scores_2b = eval_2b
 eval  = np.zeros((len(scores_2a), 3))
 for i in range(len(eval)):
     eval[i][0] =scores_2a[i][0]
-    eval[i][1] =scores_2a[i][1]*eval_2b[i][1]
-    eval[i][2] =scores_2a[i][2]*eval_2b[i][2]
+    eval[i][1] =scores_2a[i][1]*eval_2b[i][0]
+    eval[i][2] =scores_2a[i][2]*eval_2b[i][1]
     print(eval[i])
     print(np.sum(eval[i]))
 
