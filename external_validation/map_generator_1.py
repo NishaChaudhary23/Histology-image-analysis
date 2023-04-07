@@ -86,6 +86,10 @@ print(df.head())
 
 # plotting the t-sne plot
 sns.scatterplot(x='x', y='y', hue='class', data=df, palette=['green', 'orange', 'red'])
-# declaring specific colours for each class
+# plot titles and other text
+plt.title('t-SNE plot of the embeddings from dense layer')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.legend(loc='upper left')
 # saving the plot
 plt.savefig(os.path.join(plotpath, 'tsne_plot.png'))
