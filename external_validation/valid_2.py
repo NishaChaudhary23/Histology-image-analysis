@@ -111,7 +111,7 @@ for i in paths:
     # shuffling the list
     np.random.shuffle(items)
     # taking the first 1000 items
-    items = items[:6000]
+    items = items[:100]
     print(len(items))
     # adding the path to the items
     items = [os.path.join(datapath, item) for item in items]
