@@ -65,7 +65,7 @@ print(conf_key)
 model = load_model('/home/chs.rintu/Documents/office/researchxoscc/Ensemble/models_available/M1/dense169_01.h5')
 model.summary()
 
-dense_output = model.get_layer('average_pooling2d_8').output
+dense_output = model.get_layer('bn').output
 model_dense = Model(inputs=model.input, outputs=dense_output)
 model_dense.summary()
 
