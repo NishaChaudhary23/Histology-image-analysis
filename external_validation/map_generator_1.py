@@ -82,3 +82,4 @@ print(embeddings)
 df = pd.DataFrame(embeddings, columns=['x', 'y', 'class'])
 df['class'] = test_generator.classes
 df['class'] = df['class'].map({0:'normal', 1:'oscc', 2:'osmf'})
+print(df.head())
