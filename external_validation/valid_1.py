@@ -140,10 +140,11 @@ test_generator = datagen_test.flow_from_dataframe(
         shuffle=True,
         validate_filenames=False)
 
+print(test_generator.class_indices)
 
 # loading the model
 model = load_model('/home/chs.rintu/Documents/office/researchxoscc/project_1/InceptionV3-20230404T121058Z-001/InceptionV3/InceptionV3.h5')
-model.summary()
+# model.summary()
 
 eval = model.predict(test_generator)
 # finding the class with the highest probability
@@ -155,7 +156,6 @@ gt = np.array(test_generator.classes)
 gt = [conf_key[i] for i in gt]
 conf = confusion_matrix(gt, eval)
 # conf = pd.DataFrame(conf, columns=conf_key, index=conf_key)
-print(test_generator.class_indices)
 
 # conf = conf.values[:,1:]
 conf = conf.astype(np.int32)
