@@ -126,7 +126,7 @@ print(master_dataframe)
 # shuffling the master dataframe
 # master_dataframe = master_dataframe.sample(frac=1).reset_index(drop=True)
 print(master_dataframe)
-
+    
 
 datagen_test = ImageDataGenerator(rescale = 1.0/255.0)
 # Test Data
@@ -135,7 +135,7 @@ test_generator = datagen_test.flow_from_dataframe(
         folder=datapath,
         target_size=(300, 300),
         class_mode='categorical',
-        shuffle=True,
+        shuffle=False,
         validate_filenames=False,)
 
 

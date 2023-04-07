@@ -95,3 +95,7 @@ plt.ylabel('y')
 plt.legend(loc='upper left')
 # saving the plot
 plt.savefig(os.path.join(plotpath, 'tsne_plot.png'))
+
+
+
+
