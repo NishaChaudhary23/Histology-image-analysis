@@ -65,9 +65,10 @@ model = load_model('/home/chs.rintu/Documents/office/researchxoscc/project_1/Inc
 model.summary()
 
 dense_output = model.get_layer('dense_1').output
-model = Model(inputs=model.input, outputs=dense_output)
-model.summary()
+model_dense = Model(inputs=model.input, outputs=dense_output)
+model_dense.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+model_dense.summary()
 
 # getting the predictions
-y_pred = model.predict(test_generator)
+y_pred = model_dense.predict(test_generator)
 print(y_pred)
