@@ -108,6 +108,13 @@ valid_generator = datagen_train.flow_from_directory(
 	subset = 'validation',
 	shuffle=False)
 
+# finding class keys
+class_keys = train_generator.class_indices.keys()
+print(class_keys)
+class_keys = valid_generator.class_indices.keys()
+print(class_keys)
+
+
 
 # Creating the model
 if model_type == 'DenseNet121':
@@ -698,79 +705,79 @@ if not os.path.exists(f'/storage/bic/data/oscc/project_1/models/{model_type}'):
 # Model Summary
 
 
-#TF_CPP_MIN_LOG_LEVEL=2
-# Training the model
+# #TF_CPP_MIN_LOG_LEVEL=2
+# # Training the model
 
-print("------------------------------------------")
-print(f'Training the model {model_type}')
-print("------------------------------------------")
-filepath = f'/storage/bic/data/oscc/project_1/models/{model_type}/model_log'
-if os.path.exists(filepath):
-        os.makedirs(filepath)
-filepath = filepath + "/model-{epoch:02d}-{val_acc:.2f}.h5"
-callbacks = ModelCheckpoint(filepath, monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=1)
-history = model.fit(train_generator, validation_data = valid_generator, verbose=1, epochs=20, callbacks=callbacks)
+# print("------------------------------------------")
+# print(f'Training the model {model_type}')
+# print("------------------------------------------")
+# filepath = f'/storage/bic/data/oscc/project_1/models/{model_type}/model_log'
+# if os.path.exists(filepath):
+#         os.makedirs(filepath)
+# filepath = filepath + "/model-{epoch:02d}-{val_acc:.2f}.h5"
+# callbacks = ModelCheckpoint(filepath, monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=1)
+# history = model.fit(train_generator, validation_data = valid_generator, verbose=1, epochs=20, callbacks=callbacks)
 
-print("------------------------------------------")
-print(f'Training Complete')
-print("------------------------------------------")
-# Creating a directory to save the model paths 
+# print("------------------------------------------")
+# print(f'Training Complete')
+# print("------------------------------------------")
+# # Creating a directory to save the model paths 
 
-# Saving the model
-model.save(f'/storage/bic/data/oscc/project_1/models/{model_type}/{model_type}.h5')
-print("------------------------------------------")
-print(f'Model saved')
-print("------------------------------------------")
+# # Saving the model
+# model.save(f'/storage/bic/data/oscc/project_1/models/{model_type}/{model_type}.h5')
+# print("------------------------------------------")
+# print(f'Model saved')
+# print("------------------------------------------")
 
 
-#plotting the accuracy and loss
-print("------------------------------------------")
-print(f'Plotting and supplimentary data')
-print("------------------------------------------")
-plt.figure(figsize=(10, 10))
-plt.plot(history.history['acc'], label='Training Accuracy')
-plt.plot(history.history['val_acc'], label='Validation Accuracy')
-plt.title('Training and Validation Accuracy')
-plt.legend(['train', 'test'], loc='upper left')
-plt.tight_layout()
-plt.savefig(f'/storage/bic/data/oscc/project_1/models/{model_type}/Accuracy.jpg')
+# #plotting the accuracy and loss
+# print("------------------------------------------")
+# print(f'Plotting and supplimentary data')
+# print("------------------------------------------")
+# plt.figure(figsize=(10, 10))
+# plt.plot(history.history['acc'], label='Training Accuracy')
+# plt.plot(history.history['val_acc'], label='Validation Accuracy')
+# plt.title('Training and Validation Accuracy')
+# plt.legend(['train', 'test'], loc='upper left')
+# plt.tight_layout()
+# plt.savefig(f'/storage/bic/data/oscc/project_1/models/{model_type}/Accuracy.jpg')
 
-#np.save('/storage/bic/data/oscc/project_1/models/{model_type}/history1.npy',history.history)
+# #np.save('/storage/bic/data/oscc/project_1/models/{model_type}/history1.npy',history.history)
 
-hist_df = pd.DataFrame(history.history) 
+# hist_df = pd.DataFrame(history.history) 
 
-# save to json:  
-hist_json_file = f'/storage/bic/data/oscc/project_1/models/{model_type}/history.json' 
-with open(hist_json_file, mode='w') as f:
-	hist_df.to_json(f)
+# # save to json:  
+# hist_json_file = f'/storage/bic/data/oscc/project_1/models/{model_type}/history.json' 
+# with open(hist_json_file, mode='w') as f:
+# 	hist_df.to_json(f)
 
-# or save to csv: 
-hist_csv_file = f'/storage/bic/data/oscc/project_1/models/{model_type}/history.csv'
-with open(hist_csv_file, mode='w') as f:
-	hist_df.to_csv(f)
+# # or save to csv: 
+# hist_csv_file = f'/storage/bic/data/oscc/project_1/models/{model_type}/history.csv'
+# with open(hist_csv_file, mode='w') as f:
+# 	hist_df.to_csv(f)
 	
-loaded_model = load_model(f'/storage/bic/data/oscc/project_1/models/{model_type}/{model_type}.h5')
-outcomes = loaded_model.predict(valid_generator)
-y_pred = np.argmax(outcomes, axis=1)
-# confusion matrix
-confusion = confusion_matrix(valid_generator.classes, y_pred)
-plt.figure(figsize=(10, 10))
-sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
-plt.title('Confusion Matrix')
-plt.xlabel('Predicted Label')
-plt.ylabel('True Label')
-plt.tight_layout()
-plt.savefig(f'/storage/bic/data/oscc/project_1/models/{model_type}/Confusion_matrix.jpg')
+# loaded_model = load_model(f'/storage/bic/data/oscc/project_1/models/{model_type}/{model_type}.h5')
+# outcomes = loaded_model.predict(valid_generator)
+# y_pred = np.argmax(outcomes, axis=1)
+# # confusion matrix
+# confusion = confusion_matrix(valid_generator.classes, y_pred)
+# plt.figure(figsize=(10, 10))
+# sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues')
+# plt.title('Confusion Matrix')
+# plt.xlabel('Predicted Label')
+# plt.ylabel('True Label')
+# plt.tight_layout()
+# plt.savefig(f'/storage/bic/data/oscc/project_1/models/{model_type}/Confusion_matrix.jpg')
 
-conf_df = pd.DataFrame(confusion, index = ['normal','osmf','oscc'], columns = ['normal','osmf','oscc'])
-conf_df.to_csv(f'/storage/bic/data/oscc/project_1/models/{model_type}/Confusion_matrix.csv')
+# conf_df = pd.DataFrame(confusion, index = ['normal','osmf','oscc'], columns = ['normal','osmf','oscc'])
+# conf_df.to_csv(f'/storage/bic/data/oscc/project_1/models/{model_type}/Confusion_matrix.csv')
 
-# classification report
-target_names = ['normal','osmf','oscc']
-report = classification_report(valid_generator.classes, y_pred, target_names=target_names, output_dict=True)
-df = pd.DataFrame(report).transpose()
-df.to_csv(f'/storage/bic/data/oscc/project_1/models/{model_type}/Classification_report.csv')
+# # classification report
+# target_names = ['normal','osmf','oscc']
+# report = classification_report(valid_generator.classes, y_pred, target_names=target_names, output_dict=True)
+# df = pd.DataFrame(report).transpose()
+# df.to_csv(f'/storage/bic/data/oscc/project_1/models/{model_type}/Classification_report.csv')
 
-print("------------------------------------------")
-print(f'Supplimentary Data Saved')
-print("------------------------------------------")
+# print("------------------------------------------")
+# print(f'Supplimentary Data Saved')
+# print("------------------------------------------")
