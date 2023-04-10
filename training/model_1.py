@@ -22,11 +22,6 @@ from tensorflow.keras.applications import DenseNet169
 from tensorflow.keras.applications import DenseNet201
 from tensorflow.keras.applications import MobileNetV3Large
 from tensorflow.keras.applications import MobileNetV3Small
-# from tensorflow.keras.applications import ConvNeXtBase
-# from tensorflow.keras.applications import ConvNeXtLarge
-# from tensorflow.keras.applications import ConvNeXtSmall
-# from tensorflow.keras.applications import ConvNeXtTiny
-# from tensorflow.keras.applications import ConvNeXtXLarge
 from tensorflow.keras.applications import EfficientNetB0
 from tensorflow.keras.applications import EfficientNetB1
 from tensorflow.keras.applications import EfficientNetB2
@@ -35,14 +30,6 @@ from tensorflow.keras.applications import EfficientNetB4
 from tensorflow.keras.applications import EfficientNetB5
 from tensorflow.keras.applications import EfficientNetB6
 from tensorflow.keras.applications import EfficientNetB7
-# from tensorflow.keras.applications import efficientnet_v2
-# from tensorflow.keras.applications import EfficientNetV2B0
-# from tensorflow.keras.applications import EfficientNetV2B1
-# from tensorflow.keras.applications import EfficientNetV2B2
-# from tensorflow.keras.applications import EfficientNetV2B3
-# from tensorflow.keras.applications import EfficientNetV2L
-# from tensorflow.keras.applications import EfficientNetV2M
-# from tensorflow.keras.applications import EfficientNetV2S
 from tensorflow.keras.applications import InceptionResNetV2
 from tensorflow.keras.applications import InceptionV3
 from tensorflow.keras.applications import MobileNetV2
@@ -68,6 +55,7 @@ from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.metrics import kl_divergence
 from tensorflow.keras.metrics import mean_squared_error
 from tensorflow.keras.metrics import poisson
+from tensorflow.keras.regularizers import l2, l1
 
 os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 
@@ -485,9 +473,9 @@ if model_type == 'InceptionV3':
 			)
 	for layer in inception.layers:
 			layer.trainable = True
-	x = layers.Flatten()(inception.output)
-	x = layers.Dropout(0.2)(x)
-	x = layers.Dense(3, activation = 'softmax')(x)
+	x = layers.Flatten(kernel_regularizer=l2(0.01))(inception.output)
+	x = layers.Dropout(0.2,kernel_regularizer=l2(0.01))(x)
+	x = layers.Dense(3, activation = 'softmax',kernel_regularizer=l2(0.01))(x)
 	model = Model(inception.input, x)
 	model.compile(optimizer = RMSprop(learning_rate = 0.000001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
