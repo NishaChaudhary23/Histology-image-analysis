@@ -704,7 +704,12 @@ if not os.path.exists(f'/storage/bic/data/oscc/project_1/models/{model_type}'):
 print("------------------------------------------")
 print(f'Training the model {model_type}')
 print("------------------------------------------")
-history = model.fit(train_generator, validation_data = valid_generator, epochs=20)
+filepath = f'/storage/bic/data/oscc/project_1/models/{model_type}/model_log'
+if os.path.exists(filepath):
+        os.makedirs(filepath)
+filepath = filepath + "/model-{epoch:02d}-{val_acc:.2f}.h5"
+callbacks = ModelCheckpoint(filepath, monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=1)
+history = model.fit(train_generator, validation_data = valid_generator, verbose=1, epochs=20, callbacks=callbacks)
 
 print("------------------------------------------")
 print(f'Training Complete')
