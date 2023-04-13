@@ -44,16 +44,18 @@ if not os.path.exists(datapath):
 master_dataframe = pd.read_csv(os.path.join(outpath, 'master_dataframe.csv'))
 print(master_dataframe.head())
 
-with Bar('Processing', max=len(master_dataframe)) as bar:
+with Bar('Comparing', max=len(master_dataframe)) as bar:
     # iterating throuhg every row of the dataframe
-    for index_1, row_1 in master_dataframe.iterrows():
-        # opening the base image for comparison
-        image_base = cv2.imread(row_1['filename'])
-        # iterating through every row of the dataframe
-        for index_2, row_2 in master_dataframe.iterrows():
-            if index_1 != index_2:
-                image_test = cv2.imread(row_2['filename'])
-                print(row_1['filename'], row_2['filename'])
-            bar.next()
-            pass
-    
+    with Bar('Comparing', max=len(master_dataframe)) as bar_1:
+
+        for index_1, row_1 in master_dataframe.iterrows():
+            # opening the base image for comparison
+            image_base = cv2.imread(row_1['filename'])
+            # iterating through every row of the dataframe
+            for index_2, row_2 in master_dataframe.iterrows():
+                if index_1 != index_2:
+                    image_test = cv2.imread(row_2['filename'])
+                    # print(row_1['filename'], row_2['filename'])
+                bar_1.next()
+                pass
+        bar.next()
