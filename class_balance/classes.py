@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import cv2
+from progress.bar import Bar
 
 
 paths = ['/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/normal', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/osmf', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/oscc']
@@ -43,14 +44,16 @@ if not os.path.exists(datapath):
 master_dataframe = pd.read_csv(os.path.join(outpath, 'master_dataframe.csv'))
 print(master_dataframe.head())
 
-
-# iterating throuhg every row of the dataframe
-for index_1, row_1 in master_dataframe.iterrows():
-    # opening the base image for comparison
-    image_base = cv2.imread(row_1['filename'])
-    # iterating through every row of the dataframe
-    for index_2, row_2 in master_dataframe.iterrows():
-        if index_1 != index_2:
-            image_test = cv2.imread(row_2['filename'])
-            print(row_1['filename'], row_2['filename'])
-        pass
+with Bar('Processing', max=len(master_dataframe)) as bar:
+    # iterating throuhg every row of the dataframe
+    for index_1, row_1 in master_dataframe.iterrows():
+        # opening the base image for comparison
+        image_base = cv2.imread(row_1['filename'])
+        # iterating through every row of the dataframe
+        for index_2, row_2 in master_dataframe.iterrows():
+            if index_1 != index_2:
+                image_test = cv2.imread(row_2['filename'])
+                print(row_1['filename'], row_2['filename'])
+            bar.next()
+            pass
+    
