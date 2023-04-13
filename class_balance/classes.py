@@ -44,6 +44,8 @@ if not os.path.exists(datapath):
 
 master_dataframe = pd.read_csv(os.path.join(outpath, 'master_dataframe.csv'))
 print(master_dataframe.head())
+# array to save 3000*3000 matrix
+matrix = np.zeros((len(master_dataframe), len(master_dataframe)))
 
 with Bar('Comparing', max=len(master_dataframe)*len(master_dataframe)) as bar:
     # iterating throuhg every row of the dataframe
@@ -57,5 +59,7 @@ with Bar('Comparing', max=len(master_dataframe)*len(master_dataframe)) as bar:
                     # print(row_1['filename'], row_2['filename'])
                     # computing the Frobenius norm of the difference between the two images
                     normal = norm(image_base.flatten() - image_test.flatten())
+                    # saving the value in the matrix
+                    matrix[index_1][index_2] = normal
                     print(normal)
                 bar.next()
