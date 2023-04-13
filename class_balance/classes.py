@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import cv2
 from progress.bar import Bar
+from numpy.linalg import norm
 
 
 paths = ['/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/normal', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/osmf', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/oscc']
@@ -54,4 +55,7 @@ with Bar('Comparing', max=len(master_dataframe)*len(master_dataframe)) as bar:
                 if index_1 != index_2:
                     image_test = cv2.imread(row_2['filename'])
                     # print(row_1['filename'], row_2['filename'])
+                    # computing the Frobenius norm of the difference between the two images
+                    norm = np.linalg.norm(image_base - image_test, ord='fro')
+                    print(norm)
                 bar.next()
