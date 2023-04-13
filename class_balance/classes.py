@@ -54,5 +54,4 @@ with Bar('Comparing', max=len(master_dataframe)*len(master_dataframe)) as bar:
                 if index_1 != index_2:
                     image_test = cv2.imread(row_2['filename'])
                     # print(row_1['filename'], row_2['filename'])
-                pass
-        bar.next()
+                bar.next()
