@@ -61,5 +61,7 @@ with Bar('Comparing', max=len(master_dataframe)*len(master_dataframe)) as bar:
                     normal = norm(image_base.flatten() - image_test.flatten())
                     # saving the value in the matrix
                     matrix[index_1][index_2] = normal
-                    print(normal)
+                    # print(normal)
                 bar.next()
+
+# saving the matrix in a csv file for future use
