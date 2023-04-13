@@ -56,6 +56,6 @@ with Bar('Comparing', max=len(master_dataframe)*len(master_dataframe)) as bar:
                     image_test = cv2.imread(row_2['filename'])
                     # print(row_1['filename'], row_2['filename'])
                     # computing the Frobenius norm of the difference between the two images
-                    norm = np.linalg.norm(image_base - image_test, ord='fro')
+                    norm = np.linalg.norm(image_base.flatten() - image_test.flatten(), ord='fro')
                     print(norm)
                 bar.next()
