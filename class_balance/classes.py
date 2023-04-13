@@ -8,6 +8,7 @@ import seaborn as sns
 paths = ['/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/normal', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/osmf', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/oscc']
 datapath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/all'
 plotpath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/plots/project_1/'
+outpath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/'
 
 if not os.path.exists(datapath):
     os.makedirs(datapath)
@@ -34,3 +35,6 @@ for i in paths:
 # shuffling the master dataframe
 # master_dataframe = master_dataframe.sample(frac=1).reset_index(drop=True)
 print(master_dataframe.head())
+
+# saving the master dataframe
+master_dataframe.to_csv(os.path.join(outpath, 'master_dataframe.csv'), index=False)
