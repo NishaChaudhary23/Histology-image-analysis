@@ -44,7 +44,7 @@ if not os.path.exists(datapath):
 master_dataframe = pd.read_csv(os.path.join(outpath, 'master_dataframe.csv'))
 print(master_dataframe.head())
 
-with Bar('Comparing', max=len(master_dataframe)*len(master_dataframe),suffix='%(percent).1f%% - %(eta)ds') as bar:
+with Bar('Comparing', max=len(master_dataframe)*len(master_dataframe)) as bar:
     # iterating throuhg every row of the dataframe
         for index_1, row_1 in master_dataframe.iterrows():
             # opening the base image for comparison
