@@ -70,7 +70,7 @@ for model_name in model_list:
     # print(conf_key)
 
     # loading the model
-    model = load_model('/home/chs.rintu/Documents/office/researchxoscc/project_1/InceptionV3-20230404T121058Z-001/InceptionV3/InceptionV3.h5')
+    model = load_model(os.path.join(model_path, model_name))
     model.summary()
 
     dense_output = model.get_layer('bn').output

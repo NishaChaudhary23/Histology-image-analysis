@@ -178,7 +178,7 @@ for model_name in model_list:
     plt.ylabel('Ground Truth',fontname="Sans", fontsize=9, labelpad=10,fontweight='bold')
     plt.title(f'External Validation Confusion Matrix',fontname="Sans", fontsize=11,fontweight='bold')
     plt.tight_layout()
-    plt.savefig(f'{plotpath}project_1_exVal_cm.png', dpi = 300)
+    plt.savefig(f'{plotpath}/project_1_exVal_cm.png', dpi = 300)
 
     gt = np.array(test_generator.classes)
     score_gt = np.array([scores[i][gt[i]] for i in range(len(gt))])
@@ -208,7 +208,7 @@ for model_name in model_list:
             ax.set_xlabel(f"P(x = {conf_key[c]})")
             # Calculates the ROC Coordinates and plots the ROC Curves
             plt.tight_layout()  
-            plt.savefig(f'{plotpath}project_1_exVal_probability_distribution_{conf_key[c]}.png', dpi = 300)
+            plt.savefig(f'{plotpath}/project_1_exVal_probability_distribution_{conf_key[c]}.png', dpi = 300)
         except:
             print(f"Error in Probability Distribution for {conf_key[c]}")
             pass
@@ -220,7 +220,7 @@ for model_name in model_list:
             plot_roc_curve(tpr, fpr, scatter = False, ax = ax_bottom, conf_key = ['normal', 'osmf', 'oscc'])
             ax_bottom.set_title(f'ROC Curve OvR for {conf_key[c]}')
             plt.tight_layout()  
-            plt.savefig(f'{plotpath}project_1_exVal_roc_ovr_curve_{conf_key[c]}.png', dpi = 300)
+            plt.savefig(f'{plotpath}/project_1_exVal_roc_ovr_curve_{conf_key[c]}.png', dpi = 300)
         except:
             print(f"Error in ROC Curve for {conf_key[c]}")
             pass
@@ -258,7 +258,7 @@ for model_name in model_list:
             # Calculates the ROC AUC OvR
             roc_auc_ovr[c] = roc_auc_score(df_aux['class'], df_aux['prob'], multi_class = 'ovr')
         plt.tight_layout()
-        plt.savefig(f'{plotpath}project_1_exVal_roc.png', dpi = 300)
+        plt.savefig(f'{plotpath}/project_1_exVal_roc.png', dpi = 300)
         print("Composite Figure Plot Complete")
     except:
         print("Error in Composite Figure Plot")
