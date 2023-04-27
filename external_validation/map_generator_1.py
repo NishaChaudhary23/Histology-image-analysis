@@ -18,7 +18,9 @@ print(tf.__version__)
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 paths = ['/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/normal', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/osmf', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/oscc']
 datapath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/all'
-plotpath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/plots/project_1'
+model_path = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/models_available/M1/InceptionV3_1/model_log'
+plotpath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/plots/project_1/'
+model_list = os.listdir(model_path)
 
 if not os.path.exists(datapath):
     os.makedirs(datapath)
@@ -57,44 +59,50 @@ test_generator = datagen_test.flow_from_dataframe(
         shuffle=False,
         validate_filenames=False,)
 
+for model_name in model_list:
+    outpath = os.path.join(plotpath, model_name)
+    plotpath = os.path.join(plotpath, model_name)
+    if not os.path.exists(outpath):
+        os.makedirs(outpath)
+    if not os.path.exists(plotpath):
+        os.makedirs(plotpath)
+    conf_key = [*test_generator.class_indices.keys()]
+    # print(conf_key)
 
-conf_key = [*test_generator.class_indices.keys()]
-# print(conf_key)
+    # loading the model
+    model = load_model('/home/chs.rintu/Documents/office/researchxoscc/project_1/InceptionV3-20230404T121058Z-001/InceptionV3/InceptionV3.h5')
+    model.summary()
 
-# loading the model
-model = load_model('/home/chs.rintu/Documents/office/researchxoscc/project_1/InceptionV3-20230404T121058Z-001/InceptionV3/InceptionV3.h5')
-model.summary()
+    dense_output = model.get_layer('bn').output
+    model_dense = Model(inputs=model.input, outputs=dense_output)
+    model_dense.summary()
 
-dense_output = model.get_layer('bn').output
-model_dense = Model(inputs=model.input, outputs=dense_output)
-model_dense.summary()
+    # getting the predictions
+    y_pred = model_dense.predict(test_generator)
+    # print(y_pred)
+    print(y_pred.shape)
+    y_pred = y_pred.reshape(y_pred.shape[0], y_pred.shape[1]*y_pred.shape[2]*y_pred.shape[3])
 
-# getting the predictions
-y_pred = model_dense.predict(test_generator)
-# print(y_pred)
-print(y_pred.shape)
-y_pred = y_pred.reshape(y_pred.shape[0], y_pred.shape[1]*y_pred.shape[2]*y_pred.shape[3])
+    tsne = TSNE(n_components=2, verbose=1)
+    embeddings = tsne.fit_transform(y_pred)
+    # print(embeddings)
 
-tsne = TSNE(n_components=2, verbose=1)
-embeddings = tsne.fit_transform(y_pred)
-# print(embeddings)
+    # creating a dataframe
+    df = pd.DataFrame(embeddings, columns=['x', 'y'])
+    df['class'] = test_generator.classes
+    df['class'] = df['class'].map({0:'normal', 1:'oscc', 2:'osmf'})
+    # print(df.head())
 
-# creating a dataframe
-df = pd.DataFrame(embeddings, columns=['x', 'y'])
-df['class'] = test_generator.classes
-df['class'] = df['class'].map({0:'normal', 1:'oscc', 2:'osmf'})
-# print(df.head())
-
-# plotting the t-sne plot
-plt.figure(figsize=(7, 5))
-sns.scatterplot(x='x', y='y', hue='class', data=df, palette=['green', 'orange', 'red'])
-# plot titles and other text
-plt.title('t-SNE plot of the embeddings from final pooling layer')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.legend(loc='upper left')
-# saving the plot
-plt.savefig(os.path.join(plotpath, 'tsne_plot.png'))
+    # plotting the t-sne plot
+    plt.figure(figsize=(7, 5))
+    sns.scatterplot(x='x', y='y', hue='class', data=df, palette=['green', 'orange', 'red'])
+    # plot titles and other text
+    plt.title('t-SNE plot of the embeddings from final pooling layer')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.legend(loc='upper left')
+    # saving the plot
+    plt.savefig(os.path.join(plotpath, 'tsne_plot.png'))
 
 
 
