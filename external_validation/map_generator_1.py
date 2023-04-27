@@ -60,8 +60,8 @@ test_generator = datagen_test.flow_from_dataframe(
         validate_filenames=False,)
 
 for model_name in model_list:
-    outpath = os.path.join(plotpath, model_name)
-    plotpath = os.path.join(plotpath, model_name)
+    outpath = os.path.join(plotpath, model_name.split('.')[0])
+    plotpath = os.path.join('/home/chs.rintu/Documents/office/researchxoscc/Ensemble/plots/project_1', model_name.split('.')[0])
     if not os.path.exists(outpath):
         os.makedirs(outpath)
     if not os.path.exists(plotpath):
