@@ -1,5 +1,5 @@
 #! /bin/bash
-#PBS -N FINAL_test
+#PBS -N FINAL_tes
 #PBS -l host=compute3
 #PBS -o /storage/bic/data/oscc/data/Histology-image-analysis/training/model_testout.log
 #PBS -e /storage/bic/data/oscc/data/Histology-image-analysis/training/model_testerr.log
