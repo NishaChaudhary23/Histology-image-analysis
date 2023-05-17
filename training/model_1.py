@@ -475,7 +475,7 @@ if model_type == 'InceptionV3':
 			layer.trainable = True
 	x = layers.Flatten()(inception.output)
 	x = layers.Dropout(0.5)(x)
-	x = layers.Dense(10240, activation = 'relu', kernel_regularizer=l2(0.01))(x)
+	x = layers.Dense(5000, activation = 'relu', kernel_regularizer=l2(0.01))(x)
 	x = layers.Dense(1024, activation = 'relu', kernel_regularizer=l2(0.01))(x)
 	x = layers.Dense(3, activation = 'softmax', kernel_regularizer=l2(0.01))(x)
 	model = Model(inception.input, x)
