@@ -1,8 +1,8 @@
 #! /bin/bash
 #PBS -N FINAL_tes
-#PBS -l host=compute3
-#PBS -o /storage/bic/data/oscc/data/Histology-image-analysis/training/model_testout.log
-#PBS -e /storage/bic/data/oscc/data/Histology-image-analysis/training/model_testerr.log
+#PBS -l host=compute4
+#PBS -o /storage/bic/data/oscc/data/Histology-image-analysis/training/model_testout_1.log
+#PBS -e /storage/bic/data/oscc/data/Histology-image-analysis/training/model_testerr_1.log
 #PBS -q gpu
 
 module load compiler/anaconda3
