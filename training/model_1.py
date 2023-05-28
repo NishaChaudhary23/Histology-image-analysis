@@ -77,7 +77,7 @@ path = '/storage/bic/data/oscc/project_1/train/{}/'.format(a)
 # color images
 model_type = 'InceptionV3'
 # model_type = 'DenseNet121'
-print(f'Model Type: {model_type}_2_1')
+print(f'Model Type: {model_type}_2_pool_dense_dense')
 
 datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.2)
 # Training Data
@@ -690,8 +690,8 @@ if model_type == 'Xception':
 	model = Model(xception.input, x)
 	model.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-if not os.path.exists(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_1'):
-	os.makedirs(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_1')
+if not os.path.exists(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense'):
+	os.makedirs(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense')
 # Model Summary
 
 
@@ -699,9 +699,9 @@ if not os.path.exists(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_1
 # Training the model
 
 print("------------------------------------------")
-print(f'Training the model {model_type}_2_1')
+print(f'Training the model {model_type}_2_pool_dense_dense')
 print("------------------------------------------")
-filepath = f'/storage/bic/data/oscc/project_1/models/{model_type}_2_1/model_log'
+filepath = f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense/model_log'
 if os.path.exists(filepath):
         os.makedirs(filepath)
 filepath = filepath + "/model-{epoch:02d}-{val_acc:.2f}.h5"
@@ -714,7 +714,7 @@ print("------------------------------------------")
 # Creating a directory to save the model paths 
 
 # Saving the model
-model.save(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_1/{model_type}_2_1.h5')
+model.save(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense/{model_type}_2_pool_dense_dense.h5')
 print("------------------------------------------")
 print(f'Model saved')
 print("------------------------------------------")
@@ -730,23 +730,23 @@ plt.plot(history.history['val_acc'], label='Validation Accuracy')
 plt.title('Training and Validation Accuracy')
 plt.legend(['train', 'test'], loc='upper left')
 plt.tight_layout()
-plt.savefig(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_1/Accuracy.jpg')
+plt.savefig(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense/Accuracy.jpg')
 
-#np.save('/storage/bic/data/oscc/project_1/models/{model_type}_2_1/history1.npy',history.history)
+#np.save('/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense/history1.npy',history.history)
 
 hist_df = pd.DataFrame(history.history) 
 
 # save to json:  
-hist_json_file = f'/storage/bic/data/oscc/project_1/models/{model_type}_2_1/history.json' 
+hist_json_file = f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense/history.json' 
 with open(hist_json_file, mode='w') as f:
 	hist_df.to_json(f)
 
 # or save to csv: 
-hist_csv_file = f'/storage/bic/data/oscc/project_1/models/{model_type}_2_1/history.csv'
+hist_csv_file = f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense/history.csv'
 with open(hist_csv_file, mode='w') as f:
 	hist_df.to_csv(f)
 	
-loaded_model = load_model(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_1/{model_type}_2_1.h5')
+loaded_model = load_model(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense/{model_type}_2_pool_dense_dense.h5')
 outcomes = loaded_model.predict(valid_generator)
 y_pred = np.argmax(outcomes, axis=1)
 # confusion matrix
@@ -757,16 +757,16 @@ plt.title('Confusion Matrix')
 plt.xlabel('Predicted Label')
 plt.ylabel('True Label')
 plt.tight_layout()
-plt.savefig(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_1/Confusion_matrix.jpg')
+plt.savefig(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense/Confusion_matrix.jpg')
 
 conf_df = pd.DataFrame(confusion, index = ['normal','osmf','oscc'], columns = ['normal','osmf','oscc'])
-conf_df.to_csv(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_1/Confusion_matrix.csv')
+conf_df.to_csv(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense/Confusion_matrix.csv')
 
 # classification report
 target_names = ['normal','osmf','oscc']
 report = classification_report(valid_generator.classes, y_pred, target_names=target_names, output_dict=True)
 df = pd.DataFrame(report).transpose()
-df.to_csv(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_1/Classification_report.csv')
+df.to_csv(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense/Classification_report.csv')
 
 print("------------------------------------------")
 print(f'Supplimentary Data Saved')
