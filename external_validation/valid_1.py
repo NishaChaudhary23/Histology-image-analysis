@@ -98,7 +98,7 @@ print(tf.__version__)
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 paths = ['/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/normal', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/osmf', '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/oscc']
 datapath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/external_validation_data/images/external validation-P1/all'
-model_path = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/models_available/M1/InceptionV3_1/model_log'
+model_path = 'home/chs.rintu/Documents/office/researchxoscc/Ensemble/models_available/M1/InceptionV3_2_pool_dense_dense/model_log'
 plotpath = '/home/chs.rintu/Documents/office/researchxoscc/Ensemble/plots/project_1/'
 model_list = os.listdir(model_path)
 
