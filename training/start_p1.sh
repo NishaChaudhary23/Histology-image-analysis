@@ -1,8 +1,8 @@
 #! /bin/bash
 #PBS -N FINAL_tes
 #PBS -l host=compute4
-#PBS -o /storage/bic/data/oscc/data/Histology-image-analysis/training/model_pool_dense_dense.log
-#PBS -e /storage/bic/data/oscc/data/Histology-image-analysis/training/model_pool_dense_dense.log
+#PBS -o /storage/bic/data/oscc/data/Histology-image-analysis/training/model_pool_dense_dense_1.log
+#PBS -e /storage/bic/data/oscc/data/Histology-image-analysis/training/model_pool_dense_dense_1.log
 #PBS -q gpu
 
 module load compiler/anaconda3
