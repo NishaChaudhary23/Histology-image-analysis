@@ -1,8 +1,8 @@
 #! /bin/bash
-#PBS -N P2_DN121
+#PBS -N DATA_HISTOIMGAN
 #PBS -l host=compute3
-#PBS -o model_DenseNet121_out.log
-#PBS -e model_DenseNet121_err.log
+#PBS -o model_DATA_HISTOIMGAN_out.log
+#PBS -e model_DATA_HISTOIMGAN_err.log
 #PBS -q gpu
 
 module load compiler/anaconda3
