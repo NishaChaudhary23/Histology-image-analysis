@@ -89,7 +89,7 @@ save_path = '/storage/bic/data/oscc/data/Histology-image-analysis/final_pr0/'
 # ImageDataGenerator
 # color images
 
-model_type = 'DenseNet121'
+model_type = 'InceptionV3'
 
 datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.2)
 # Training Data
