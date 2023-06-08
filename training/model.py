@@ -123,6 +123,7 @@ if model_type == 'InceptionV3':
         x = layers.Dropout(0.2)(x)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(inception.input, x)
+        model.compile(optimizer = RMSprop(learning_rate = 0.0000001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 
 if not os.path.exists(f'{save_path}{model_type}'):
@@ -136,7 +137,7 @@ if not os.path.exists(f'{save_path}{model_type}'):
 print("------------------------------------------")
 print(f'Training the model {model_type}')
 print("------------------------------------------")
-history = model.fit(train_generator, validation_data = valid_generator, epochs=30, learning_rate=0.0000001)
+history = model.fit(train_generator, validation_data = valid_generator, epochs=30)
 
 print("------------------------------------------")
 print(f'Training Complete')
