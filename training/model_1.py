@@ -39,7 +39,7 @@ path = '/storage/bic/data/oscc/project_1/train/{}/'.format(a)
 # color images
 model_type = 'InceptionV3'
 # model_type = 'DenseNet121'
-print(f'Model Type: {model_type}_2_pool_dense_dense_100ep')
+print(f'Model Type: {model_type}_release')
 
 datagen_train = ImageDataGenerator(rescale = 1.0/255.0,validation_split=0.2,shear_range=0.2,zoom_range=0.2,horizontal_flip=True,vertical_flip=True)
 # Training Data with Augmentation
@@ -65,38 +65,54 @@ class_keys = valid_generator.class_indices.keys()
 print(class_keys)
 
 
-if model_type == 'InceptionV3':
-	inception = InceptionV3(
-			weights='imagenet',
-			include_top=False,
-			input_shape=(300,300,3)
-			)
-	for layer in inception.layers:
-			layer.trainable = True
-	x = layers.Flatten()(inception.output)
-	# adding avgpool layer
-	x = layers.GlobalAveragePooling2D()(inception.output)
-	x = layers.Dense(1024, activation = 'relu', kernel_regularizer=l2(0.01))(x)
-	x = layers.Dense(3, activation = 'softmax', kernel_regularizer=l2(0.01))(x)
-	model = Model(inception.input, x)
-	model.compile(optimizer = RMSprop(learning_rate = 0.0000001), loss = 'categorical_crossentropy', metrics = ['acc'])
+# if model_type == 'InceptionV3':
+# 	inception = InceptionV3(
+# 			weights='imagenet',
+# 			include_top=False,
+# 			input_shape=(300,300,3)
+# 			)
+# 	for layer in inception.layers:
+# 			layer.trainable = True
+# 	x = layers.Flatten()(inception.output)
+# 	# adding avgpool layer
+# 	x = layers.GlobalAveragePooling2D()(inception.output)
+# 	x = layers.Dense(1024, activation = 'relu', kernel_regularizer=l2(0.01))(x)
+# 	x = layers.Dense(3, activation = 'softmax', kernel_regularizer=l2(0.01))(x)
+# 	model = Model(inception.input, x)
+# 	model.compile(optimizer = RMSprop(learning_rate = 0.0000001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-if not os.path.exists(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense_100ep'):
-	os.makedirs(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense_100ep')
+# Creating the model
+if model_type == 'InceptionV3':
+        inception = InceptionV3(
+                weights='imagenet',
+                include_top=False,
+                input_shape=(300,300,3)
+                )
+        for layer in inception.layers:
+                layer.trainable = True
+        x = layers.Flatten()(inception.output)
+        x = layers.Dense(1024, activation = 'relu')(x)
+        x = layers.Dropout(0.2)(x)
+        x = layers.Dense(3, activation = 'softmax')(x)
+        model = Model(inception.input, x)
+        model.compile(optimizer = RMSprop(learning_rate = 0.0000001), loss = 'categorical_crossentropy', metrics = ['acc'])
+
+if not os.path.exists(f'/storage/bic/data/oscc/project_1/models/{model_type}_release'):
+	os.makedirs(f'/storage/bic/data/oscc/project_1/models/{model_type}_release')
 
 
 #TF_CPP_MIN_LOG_LEVEL=2
 # Training the model
 
 print("------------------------------------------")
-print(f'Training the model {model_type}_2_pool_dense_dense_100ep')
+print(f'Training the model {model_type}_release')
 print("------------------------------------------")
-filepath = f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense_100ep/model_log'
+filepath = f'/storage/bic/data/oscc/project_1/models/{model_type}_release/model_log'
 if os.path.exists(filepath):
         os.makedirs(filepath)
 filepath = filepath + "/model-{epoch:02d}-{val_acc:.2f}.h5"
 callbacks = ModelCheckpoint(filepath, monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=1)
-history = model.fit(train_generator, validation_data = valid_generator, verbose=1, epochs=100, callbacks=callbacks)
+history = model.fit(train_generator, validation_data = valid_generator, verbose=1, epochs=30, callbacks=callbacks)
 
 print("------------------------------------------")
 print(f'Training Complete')
@@ -104,7 +120,7 @@ print("------------------------------------------")
 # Creating a directory to save the model paths 
 
 # Saving the model
-model.save(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense_100ep/{model_type}_2_pool_dense_dense_100ep.h5')
+model.save(f'/storage/bic/data/oscc/project_1/models/{model_type}_release/{model_type}_release.h5')
 print("------------------------------------------")
 print(f'Model saved')
 print("------------------------------------------")
@@ -120,23 +136,23 @@ plt.plot(history.history['val_acc'], label='Validation Accuracy')
 plt.title('Training and Validation Accuracy')
 plt.legend(['train', 'test'], loc='upper left')
 plt.tight_layout()
-plt.savefig(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense_100ep/Accuracy.jpg')
+plt.savefig(f'/storage/bic/data/oscc/project_1/models/{model_type}_release/Accuracy.jpg')
 
-#np.save('/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense_100ep/history1.npy',history.history)
+#np.save('/storage/bic/data/oscc/project_1/models/{model_type}_release/history1.npy',history.history)
 
 hist_df = pd.DataFrame(history.history) 
 
 # save to json:  
-hist_json_file = f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense_100ep/history.json' 
+hist_json_file = f'/storage/bic/data/oscc/project_1/models/{model_type}_release/history.json' 
 with open(hist_json_file, mode='w') as f:
 	hist_df.to_json(f)
 
 # or save to csv: 
-hist_csv_file = f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense_100ep/history.csv'
+hist_csv_file = f'/storage/bic/data/oscc/project_1/models/{model_type}_release/history.csv'
 with open(hist_csv_file, mode='w') as f:
 	hist_df.to_csv(f)
 	
-loaded_model = load_model(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense_100ep/{model_type}_2_pool_dense_dense_100ep.h5')
+loaded_model = load_model(f'/storage/bic/data/oscc/project_1/models/{model_type}_release/{model_type}_release.h5')
 outcomes = loaded_model.predict(valid_generator)
 y_pred = np.argmax(outcomes, axis=1)
 # confusion matrix
@@ -147,16 +163,16 @@ plt.title('Confusion Matrix')
 plt.xlabel('Predicted Label')
 plt.ylabel('True Label')
 plt.tight_layout()
-plt.savefig(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense_100ep/Confusion_matrix.jpg')
+plt.savefig(f'/storage/bic/data/oscc/project_1/models/{model_type}_release/Confusion_matrix.jpg')
 
 conf_df = pd.DataFrame(confusion, index = ['normal','osmf','oscc'], columns = ['normal','osmf','oscc'])
-conf_df.to_csv(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense_100ep/Confusion_matrix.csv')
+conf_df.to_csv(f'/storage/bic/data/oscc/project_1/models/{model_type}_release/Confusion_matrix.csv')
 
 # classification report
 target_names = ['normal','osmf','oscc']
 report = classification_report(valid_generator.classes, y_pred, target_names=target_names, output_dict=True)
 df = pd.DataFrame(report).transpose()
-df.to_csv(f'/storage/bic/data/oscc/project_1/models/{model_type}_2_pool_dense_dense_100ep/Classification_report.csv')
+df.to_csv(f'/storage/bic/data/oscc/project_1/models/{model_type}_release/Classification_report.csv')
 
 print("------------------------------------------")
 print(f'Supplimentary Data Saved')
