@@ -25,7 +25,8 @@ os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 print(tf.__version__)
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
-train_large = '/storage/bic/data/oscc/project_1/train'
+train_large = '/mnt/7243ca17-eb52-4684-acd8-25975c897691/data-extra/oral-cancer/data/model_1/train'
+savepath = '/mnt/7243ca17-eb52-4684-acd8-25975c897691/data-extra/oral-cancer/data/model_1/results'
 
 
 #reading & displaying an image
@@ -97,8 +98,8 @@ if model_type == 'InceptionV3':
         model = Model(inception.input, x)
         model.compile(optimizer = RMSprop(learning_rate = 0.0000001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-if not os.path.exists(f'/storage/bic/data/oscc/project_1/models/{model_type}_release'):
-	os.makedirs(f'/storage/bic/data/oscc/project_1/models/{model_type}_release')
+if not os.path.exists(f'{savepath}/{model_type}_release'):
+	os.makedirs(f'{savepath}/{model_type}_release')
 
 
 #TF_CPP_MIN_LOG_LEVEL=2
@@ -107,7 +108,7 @@ if not os.path.exists(f'/storage/bic/data/oscc/project_1/models/{model_type}_rel
 print("------------------------------------------")
 print(f'Training the model {model_type}_release')
 print("------------------------------------------")
-filepath = f'/storage/bic/data/oscc/project_1/models/{model_type}_release/model_log'
+filepath = f'{savepath}/{model_type}_release/model_log'
 if os.path.exists(filepath):
         os.makedirs(filepath)
 filepath = filepath + "/model-{epoch:02d}-{val_acc:.2f}.h5"
@@ -120,7 +121,7 @@ print("------------------------------------------")
 # Creating a directory to save the model paths 
 
 # Saving the model
-model.save(f'/storage/bic/data/oscc/project_1/models/{model_type}_release/{model_type}_release.h5')
+model.save(f'{savepath}/{model_type}_release/{model_type}_release.h5')
 print("------------------------------------------")
 print(f'Model saved')
 print("------------------------------------------")
@@ -136,23 +137,23 @@ plt.plot(history.history['val_acc'], label='Validation Accuracy')
 plt.title('Training and Validation Accuracy')
 plt.legend(['train', 'test'], loc='upper left')
 plt.tight_layout()
-plt.savefig(f'/storage/bic/data/oscc/project_1/models/{model_type}_release/Accuracy.jpg')
+plt.savefig(f'{savepath}/{model_type}_release/Accuracy.jpg')
 
-#np.save('/storage/bic/data/oscc/project_1/models/{model_type}_release/history1.npy',history.history)
+#np.save('{savepath}/{model_type}_release/history1.npy',history.history)
 
 hist_df = pd.DataFrame(history.history) 
 
 # save to json:  
-hist_json_file = f'/storage/bic/data/oscc/project_1/models/{model_type}_release/history.json' 
+hist_json_file = f'{savepath}/{model_type}_release/history.json' 
 with open(hist_json_file, mode='w') as f:
 	hist_df.to_json(f)
 
 # or save to csv: 
-hist_csv_file = f'/storage/bic/data/oscc/project_1/models/{model_type}_release/history.csv'
+hist_csv_file = f'{savepath}/{model_type}_release/history.csv'
 with open(hist_csv_file, mode='w') as f:
 	hist_df.to_csv(f)
 	
-loaded_model = load_model(f'/storage/bic/data/oscc/project_1/models/{model_type}_release/{model_type}_release.h5')
+loaded_model = load_model(f'{savepath}/{model_type}_release/{model_type}_release.h5')
 outcomes = loaded_model.predict(valid_generator)
 y_pred = np.argmax(outcomes, axis=1)
 # confusion matrix
@@ -163,16 +164,16 @@ plt.title('Confusion Matrix')
 plt.xlabel('Predicted Label')
 plt.ylabel('True Label')
 plt.tight_layout()
-plt.savefig(f'/storage/bic/data/oscc/project_1/models/{model_type}_release/Confusion_matrix.jpg')
+plt.savefig(f'{savepath}/{model_type}_release/Confusion_matrix.jpg')
 
 conf_df = pd.DataFrame(confusion, index = ['normal','osmf','oscc'], columns = ['normal','osmf','oscc'])
-conf_df.to_csv(f'/storage/bic/data/oscc/project_1/models/{model_type}_release/Confusion_matrix.csv')
+conf_df.to_csv(f'{savepath}/{model_type}_release/Confusion_matrix.csv')
 
 # classification report
 target_names = ['normal','osmf','oscc']
 report = classification_report(valid_generator.classes, y_pred, target_names=target_names, output_dict=True)
 df = pd.DataFrame(report).transpose()
-df.to_csv(f'/storage/bic/data/oscc/project_1/models/{model_type}_release/Classification_report.csv')
+df.to_csv(f'{savepath}/{model_type}_release/Classification_report.csv')
 
 print("------------------------------------------")
 print(f'Supplimentary Data Saved')
