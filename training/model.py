@@ -116,9 +116,9 @@ if model_type == 'InceptionV3':
                 )
         for layer in inception.layers:
                 layer.trainable = True
-        x = layers.Flatten()(inception.output)
-        x = layers.Dense(1024, activation = 'relu')(x)
-        x = layers.Dropout(0.2)(x)
+        # x = layers.Flatten()(inception.output)
+        # adding average pooling layer
+        x = layers.GlobalAveragePooling2D()(inception.output)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(inception.input, x)
         model.compile(optimizer = RMSprop(learning_rate = 0.0000001), loss = 'categorical_crossentropy', metrics = ['acc'])
