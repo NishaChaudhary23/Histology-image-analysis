@@ -75,11 +75,11 @@ os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 print(tf.__version__)
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
-train_large = '//mnt/7243ca17-eb52-4684-acd8-25975c897691/data-extra/oral-cancer/data/model_2/train'
+train_large = '/mnt/7243ca17-eb52-4684-acd8-25975c897691/data-extra/oral-cancer/data/model_2/train/'
 
 
 #reading & displaying an image
-save_path = '/mnt/7243ca17-eb52-4684-acd8-25975c897691/data-extra/oral-cancer/data/model_2/results' 
+save_path = '/mnt/7243ca17-eb52-4684-acd8-25975c897691/data-extra/oral-cancer/data/model_2/results/' 
 
 #(trainX, testX, trainY, testY) = train_test_split(data, train_large.target, test_size=0.25)
 
