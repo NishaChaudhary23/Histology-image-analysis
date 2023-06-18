@@ -118,6 +118,7 @@ if model_type == 'InceptionV3':
                 layer.trainable = True
         # x = layers.Flatten()(inception.output)
         # adding average pooling layer
+        x  = layers.Flatten()(inception.output)
         x = layers.GlobalAveragePooling2D()(inception.output)
         x = layers.Dense(3, activation = 'softmax')(x)
         model = Model(inception.input, x)
