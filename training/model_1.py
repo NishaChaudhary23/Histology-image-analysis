@@ -112,8 +112,8 @@ filepath = f'{savepath}/{model_type}_release/model_log'
 if os.path.exists(filepath):
         os.makedirs(filepath)
 filepath = filepath + "/model-{epoch:02d}-{val_acc:.2f}.h5"
-callbacks = ModelCheckpoint(filepath, monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=1)
-history = model.fit(train_generator, validation_data = valid_generator, verbose=1, epochs=30, callbacks=callbacks)
+callbacks = ModelCheckpoint(filepath, monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=10)
+history = model.fit(train_generator, validation_data = valid_generator, verbose=1, epochs=100, callbacks=callbacks)
 
 print("------------------------------------------")
 print(f'Training Complete')

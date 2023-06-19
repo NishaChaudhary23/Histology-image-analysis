@@ -79,7 +79,7 @@ train_large = '/mnt/7243ca17-eb52-4684-acd8-25975c897691/data-extra/oral-cancer/
 
 
 #reading & displaying an image
-save_path = '/mnt/7243ca17-eb52-4684-acd8-25975c897691/data-extra/oral-cancer/data/model_2/results/' 
+savepath = '/mnt/7243ca17-eb52-4684-acd8-25975c897691/data-extra/oral-cancer/data/model_2/results/' 
 
 #(trainX, testX, trainY, testY) = train_test_split(data, train_large.target, test_size=0.25)
 
@@ -125,8 +125,8 @@ if model_type == 'InceptionV3':
         model.compile(optimizer = RMSprop(learning_rate = 0.0000001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 
-if not os.path.exists(f'{save_path}{model_type}'):
-        os.makedirs(f'{save_path}{model_type}')
+if not os.path.exists(f'{savepath}{model_type}'):
+        os.makedirs(f'{savepath}{model_type}')
 # Model Summary
 
 
@@ -136,7 +136,12 @@ if not os.path.exists(f'{save_path}{model_type}'):
 print("------------------------------------------")
 print(f'Training the model {model_type}')
 print("------------------------------------------")
-history = model.fit(train_generator, validation_data = valid_generator, epochs=30)
+filepath = f'{savepath}{model_type}/model_log'
+if os.path.exists(filepath):
+        os.makedirs(filepath)
+filepath = filepath + "/model-{epoch:02d}-{val_acc:.2f}.h5"
+callbacks = ModelCheckpoint(filepath, monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=10)
+history = model.fit(train_generator, validation_data = valid_generator, verbose=1, epochs=100, callbacks=callbacks)
 
 print("------------------------------------------")
 print(f'Training Complete')
@@ -144,7 +149,7 @@ print("------------------------------------------")
 # Creating a directory to save the model paths 
 
 # Saving the model
-model.save(f'{save_path}{model_type}/{model_type}.h5')
+model.save(f'{savepath}{model_type}/{model_type}.h5')
 print("------------------------------------------")
 print(f'Model saved')
 print("------------------------------------------")
@@ -160,23 +165,23 @@ plt.plot(history.history['val_acc'], label='Validation Accuracy')
 plt.title('Training and Validation Accuracy')
 plt.legend(['train', 'test'], loc='upper left')
 plt.tight_layout()
-plt.savefig(f'{save_path}{model_type}/Accuracy.jpg')
+plt.savefig(f'{savepath}{model_type}/Accuracy.jpg')
 
-# np.save('{save_path}{model_type}/history1.npy',history.history)
+# np.save('{savepath}{model_type}/history1.npy',history.history)
 
 hist_df = pd.DataFrame(history.history) 
 
 # save to json:  
-hist_json_file = f'{save_path}{model_type}/history.json' 
+hist_json_file = f'{savepath}{model_type}/history.json' 
 with open(hist_json_file, mode='w') as f:
     hist_df.to_json(f)
 
 # or save to csv: 
-hist_csv_file = f'{save_path}{model_type}/history.csv'
+hist_csv_file = f'{savepath}{model_type}/history.csv'
 with open(hist_csv_file, mode='w') as f:
     hist_df.to_csv(f)
 
-loaded_model = load_model(f'{save_path}{model_type}/{model_type}.h5')
+loaded_model = load_model(f'{savepath}{model_type}/{model_type}.h5')
 outcomes = loaded_model.predict(valid_generator)
 y_pred = np.argmax(outcomes, axis=1)
 # confusion matrix
@@ -187,16 +192,16 @@ plt.title('Confusion Matrix')
 plt.xlabel('Predicted Label')
 plt.ylabel('True Label')
 plt.tight_layout()
-plt.savefig(f'{save_path}{model_type}/Confusion_matrix.jpg')
+plt.savefig(f'{savepath}{model_type}/Confusion_matrix.jpg')
 
 conf_df = pd.DataFrame(confusion, index = ['wdoscc','mdoscc','pdoscc'], columns = ['wdoscc','mdoscc','pdoscc'])
-conf_df.to_csv(f'{save_path}{model_type}/Confusion_matrix.csv')
+conf_df.to_csv(f'{savepath}{model_type}/Confusion_matrix.csv')
 
 # classification report
 target_names = ['wdoscc','mdoscc','pdoscc']
 report = classification_report(valid_generator.classes, y_pred, target_names=target_names, output_dict=True)
 df = pd.DataFrame(report).transpose()
-df.to_csv(f'{save_path}{model_type}/Classification_report.csv')
+df.to_csv(f'{savepath}{model_type}/Classification_report.csv')
 
 print("------------------------------------------")
 print(f'Supplimentary Data Saved')
