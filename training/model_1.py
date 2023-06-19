@@ -13,7 +13,7 @@ from tensorflow.keras.models import load_model
 import os
 from tensorflow.keras.applications import InceptionV3
 from tensorflow.keras import layers
-from tensorflow.keras.callbacks import Callback, ModelCheckpoint
+from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.metrics import classification_report, confusion_matrix
 from tensorflow.keras.optimizers import RMSprop
@@ -91,10 +91,10 @@ if model_type == 'InceptionV3':
                 )
         for layer in inception.layers:
                 layer.trainable = True
-        x = layers.Flatten()(inception.output)
-        x = layers.Dense(1024, activation = 'relu')(x)
-        x = layers.Dropout(0.2)(x)
-        x = layers.Dense(3, activation = 'softmax')(x)
+        # x = layers.Flatten()(inception.output)
+        x = layers.GlobalAveragePooling2D()(inception.output)
+        x = layers.Dense(128, activation = 'relu', kernel_regularizer=l2(0.01))(x)
+        x = layers.Dense(3, activation = 'softmax',kernel_regularizer=l2(0.01), bias_regularizer=l2(0.01))(x)
         model = Model(inception.input, x)
         model.compile(optimizer = RMSprop(learning_rate = 0.0000001), loss = 'categorical_crossentropy', metrics = ['acc'])
 

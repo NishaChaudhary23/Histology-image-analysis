@@ -1,74 +1,19 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-#Importing necessary packages
 import pandas as pd
 import tensorflow as tf
 import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
+from tensorflow.keras.regularizers import l2
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.preprocessing.image import load_img
-from tensorflow.keras.preprocessing.image import img_to_array
-from tensorflow.keras.layers import Conv2D,Dense,Flatten,GlobalAveragePooling2D,MaxPooling2D
-from tensorflow.keras.models import Sequential,Model
+from tensorflow.keras.models import Model
 from tensorflow.keras.models import load_model
 import os
-import cv2
-import keras.backend as K
-from sklearn.model_selection import train_test_split
-from tensorflow.keras.applications import DenseNet121
-from tensorflow.keras.applications import DenseNet169
-from tensorflow.keras.applications import DenseNet201
-from tensorflow.keras.applications import MobileNetV3Large
-from tensorflow.keras.applications import MobileNetV3Small
-# from tensorflow.keras.applications import ConvNeXtBase
-# from tensorflow.keras.applications import ConvNeXtLarge
-# from tensorflow.keras.applications import ConvNeXtSmall
-# from tensorflow.keras.applications import ConvNeXtTiny
-# from tensorflow.keras.applications import ConvNeXtXLarge
-from tensorflow.keras.applications import EfficientNetB0
-from tensorflow.keras.applications import EfficientNetB1
-from tensorflow.keras.applications import EfficientNetB2
-from tensorflow.keras.applications import EfficientNetB3
-from tensorflow.keras.applications import EfficientNetB4
-from tensorflow.keras.applications import EfficientNetB5
-from tensorflow.keras.applications import EfficientNetB6
-from tensorflow.keras.applications import EfficientNetB7
-# from tensorflow.keras.applications import efficientnet_v2
-# from tensorflow.keras.applications import EfficientNetV2B0
-# from tensorflow.keras.applications import EfficientNetV2B1
-# from tensorflow.keras.applications import EfficientNetV2B2
-# from tensorflow.keras.applications import EfficientNetV2B3
-# from tensorflow.keras.applications import EfficientNetV2L
-# from tensorflow.keras.applications import EfficientNetV2M
-# from tensorflow.keras.applications import EfficientNetV2S
-from tensorflow.keras.applications import InceptionResNetV2
 from tensorflow.keras.applications import InceptionV3
-from tensorflow.keras.applications import MobileNetV2
-from tensorflow.keras.applications import NASNetLarge
-from tensorflow.keras.applications import NASNetMobile
-from tensorflow.keras.applications import ResNet101
-from tensorflow.keras.applications import ResNet101V2
-from tensorflow.keras.applications import ResNet152
-from tensorflow.keras.applications import ResNet152V2
-from tensorflow.keras.applications import ResNet50
-from tensorflow.keras.applications import ResNet50V2
-from tensorflow.keras.applications import VGG16
-from tensorflow.keras.applications import VGG19
-from tensorflow.keras.applications import Xception
 from tensorflow.keras import layers
-from tensorflow.keras.callbacks import Callback, ModelCheckpoint
+from tensorflow.keras.callbacks import  ModelCheckpoint
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
-from tensorflow.keras.layers import Conv2D, MaxPooling2D
-from tensorflow.keras.models import Sequential
 from sklearn.metrics import classification_report, confusion_matrix
 from tensorflow.keras.optimizers import RMSprop
-from tensorflow.keras.metrics import kl_divergence
-from tensorflow.keras.metrics import mean_squared_error
-from tensorflow.keras.metrics import poisson
-
 os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 
 #checking tensorflow version
@@ -118,9 +63,10 @@ if model_type == 'InceptionV3':
                 layer.trainable = True
         # x = layers.Flatten()(inception.output)
         # adding average pooling layer
-        x  = layers.Flatten()(inception.output)
+        # x = layers.Flatten()(inception.output)
         x = layers.GlobalAveragePooling2D()(inception.output)
-        x = layers.Dense(3, activation = 'softmax')(x)
+        x = layers.Dense(128, activation = 'relu', kernel_regularizer=l2(0.01))(x)
+        x = layers.Dense(3, activation = 'softmax',kernel_regularizer=l2(0.01), bias_regularizer=l2(0.01))(x)
         model = Model(inception.input, x)
         model.compile(optimizer = RMSprop(learning_rate = 0.0000001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
